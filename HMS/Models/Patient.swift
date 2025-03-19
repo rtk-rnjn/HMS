@@ -24,4 +24,3 @@ struct Patient: Codable, Equatable {
     let password: String
     let role: Role = .patient
 }
-
