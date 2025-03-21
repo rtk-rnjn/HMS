@@ -14,5 +14,3 @@ class SignInViewController: UIViewController {
         navigationItem.hidesBackButton = true
     }
 }
-
-
