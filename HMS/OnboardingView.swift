@@ -76,6 +76,7 @@ struct OnboardingView: View {
             Button(action: {
                 if isLastPage {
                     isOnboardingComplete = true
+                    delegate?.onboardingComplete()
                 } else {
                     withAnimation {
                         currentPageIndex += 1
@@ -104,9 +105,6 @@ struct OnboardingView: View {
                         .foregroundColor(.blue)
                 }
             }
-        }
-        .navigationDestination(isPresented: $isOnboardingComplete) {
-       //     HelloScreen()
         }
     }
 }
