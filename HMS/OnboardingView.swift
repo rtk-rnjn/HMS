@@ -1,5 +1,5 @@
 //
-//  PatientOnboardingWalkthroughView.swift
+//  OnboardingView.swift
 //  HMS
 //
 //  Created by Dhruvi on 20/03/25.
@@ -13,7 +13,9 @@ struct PatientOnboardingItem {
     var description: String
 }
 
-struct PatientOnboardingWalkthroughView: View {
+struct OnboardingView: View {
+    weak var delegate: OnBoardingHostingController?
+
     private let onboardingData: [PatientOnboardingItem] = [
         .init(imageName: "patientWelcomeImage", title: "Your Health Simplified!", description: "Book appointments, track your medical records, and get health tips!"),
         .init(imageName: "patientDoctorSearchImage", title: nil, description: "Match Symptoms to Specialists!"),
@@ -96,6 +98,7 @@ struct PatientOnboardingWalkthroughView: View {
             ToolbarItem(placement: .topBarTrailing) {
                 Button(action: {
                     isOnboardingComplete = true
+                    delegate?.onboardingComplete()
                 }) {
                     Text("Skip")
                         .foregroundColor(.blue)
