@@ -13,4 +13,7 @@ class SignInViewController: UIViewController {
         super.viewDidLoad()
         navigationItem.hidesBackButton = true
     }
+    @IBAction func signInButtonTapped(_ sender: UIButton) {
+        performSegue(withIdentifier: "segueShowInitialTabBarController", sender: nil)
+    }
 }
