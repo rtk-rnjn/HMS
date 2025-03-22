@@ -883,7 +883,7 @@
                         <outlet property="emergencyContactName" destination="eMS-J1-RQc" id="1Qi-lg-dlG"/>
                         <outlet property="emergencyContactNumber" destination="eiG-OB-5dS" id="efM-82-C9u"/>
                         <outlet property="emergencyContactRelationship" destination="pJo-w7-3BY" id="J7Z-Sw-FZw"/>
-                        <segue destination="9BT-J2-7Pp" kind="show" identifier="segueShowInitialTabBarController" id="Egb-5Y-RzP"/>
+                        <segue destination="9BT-J2-7Pp" kind="show" identifier="segueShowInitialTabBarViewController" id="Egb-5Y-RzP"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bZV-kK-I8u" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -956,7 +956,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="39O-hB-NkO"/>
+        <segue reference="Egb-5Y-RzP"/>
         <segue reference="RSv-YS-tTm"/>
     </inferredMetricsTieBreakers>
     <resources>
