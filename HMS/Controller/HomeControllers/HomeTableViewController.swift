@@ -37,10 +37,18 @@ class HomeTableViewController: UITableViewController, UISearchResultsUpdating, U
         performSegue(withIdentifier: "segueShowDoctorProfileTableViewController", sender: doctor)
     }
 
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "segueShowDoctorProfileTableViewController", let doctorProfileTableViewController = segue.destination as? DoctorProfileTableViewController, let doctor = sender as? Staff {
+            doctorProfileTableViewController.doctor = doctor
+        }
+    }
+
     // MARK: Private
 
     private var searchController: UISearchController = .init()
-    private var doctors: [Staff] = []
+    private var doctors: [Staff] = [
+        Staff(firstName: "Ritik Ranjan", emailAddress: "ritikranjan@gmail.com", specializations: ["Heart Specialist"], department: "", licenseId: "")
+    ]
 }
 
 extension HomeTableViewController {

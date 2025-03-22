@@ -13,7 +13,6 @@ class ProfileTableViewController: UITableViewController {
         if segue.identifier == "segueShowChangePasswordTableViewController", let destination = segue.destination as? UINavigationController, let _ = destination.topViewController as? ChangePasswordTableViewController, let presentationController = segue.destination.presentationController as? UISheetPresentationController {
             presentationController.detents = [.medium()]
         }
-
     }
 
     @IBAction func changePasswordButtonTapped(_ sender: UIButton) {

@@ -9,6 +9,12 @@ import UIKit
 
 class SignInViewController: UIViewController {
 
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        navigationItem.hidesBackButton = true
+    }
+
     @IBAction func signInButtonTapped(_ sender: UIButton) {
         performSegue(withIdentifier: "segueShowInitialTabBarController", sender: nil)
     }
@@ -16,4 +22,9 @@ class SignInViewController: UIViewController {
     @IBAction func createAccountTapped(_ sender: UIButton) {
         performSegue(withIdentifier: "segueShowPersonalInformationTableViewController", sender: nil)
     }
+
+    @IBAction func forgetPasswordTapped(_ sender: UIButton) {
+        performSegue(withIdentifier: "segueShowResetPasswordViewController", sender: nil)
+    }
+
 }
