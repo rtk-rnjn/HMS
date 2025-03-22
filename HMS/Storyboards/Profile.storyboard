@@ -320,7 +320,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5Ix-uq-2Ur" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="881.67938931297704" y="95.774647887323951"/>
+            <point key="canvasLocation" x="1808.3969465648854" y="95.774647887323951"/>
         </scene>
         <!--Table View Controller-->
         <scene sceneID="hYr-eQ-VA1">
@@ -414,12 +414,13 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OYA-zb-YMr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2869.4656488549617" y="95.774647887323951"/>
+            <point key="canvasLocation" x="3796.1832061068699" y="95.774647887323951"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Profile-->
         <scene sceneID="u7V-s2-MeL">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Ozl-6Q-30Q" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Profile" image="person.fill" catalog="system" id="AW3-dw-ake"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="wht-OW-gh5">
                         <rect key="frame" x="0.0" y="59" width="393" height="44"/>
@@ -432,7 +433,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WQt-n6-764" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-45.038167938931295" y="95.774647887323951"/>
+            <point key="canvasLocation" x="881.67938931297704" y="95.774647887323951"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="12G-s4-mRM">
@@ -450,7 +451,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pMc-cr-B0S" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1942.7480916030534" y="95.774647887323951"/>
+            <point key="canvasLocation" x="2869.4656488549617" y="95.774647887323951"/>
         </scene>
     </scenes>
     <resources>
@@ -460,10 +461,11 @@
         <image name="figure.stand" catalog="system" width="74" height="128"/>
         <image name="lines.measurement.horizontal" catalog="system" width="128" height="93"/>
         <image name="person.and.background.striped.horizontal" catalog="system" width="128" height="99"/>
+        <image name="person.fill" catalog="system" width="128" height="120"/>
         <image name="scale.3d" catalog="system" width="128" height="109"/>
         <image name="zipper.page" catalog="system" width="111" height="128"/>
         <systemColor name="systemPinkColor">
-            <color red="1" green="0.1764705882" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="1" green="0.17647058823529413" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
