@@ -1,3 +1,10 @@
+//
+//  PickerViewController.swift
+//  HMS
+//
+//  Created by RITIK RANJAN on 22/03/25.
+//
+
 import UIKit
 
 class PickerViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
@@ -7,7 +14,7 @@ class PickerViewController: UIViewController, UIPickerViewDelegate, UIPickerView
     @IBOutlet var pickerView: UIPickerView!
 
     // Value: Display Name
-    var options: [String: String] = [:]
+    var options: [String: String] = ["": ""]
     var completionHandler: ((String, String) -> Void)?
 
     override func viewDidLoad() {
@@ -15,10 +22,6 @@ class PickerViewController: UIViewController, UIPickerViewDelegate, UIPickerView
 
         pickerView.delegate = self
         pickerView.dataSource = self
-
-        if options.isEmpty {
-            fatalError("Options not set")
-        }
 
         let sortedOptions = options.sorted {
             if let firstNumber = Int($0.key), let secondNumber = Int($1.key) {
@@ -50,11 +53,21 @@ class PickerViewController: UIViewController, UIPickerViewDelegate, UIPickerView
         let selectedOption = sortedOptionsByAlphabet[row]
 
         self.selectedOption = selectedOption
+    }
 
-        completionHandler?(selectedOption.key, selectedOption.value)
+    @IBAction func doneButtonTapped(_ sender: UIBarButtonItem) {
+        dismiss(animated: true) {
+            guard let selectedOption = self.selectedOption else { return }
+            self.completionHandler?(selectedOption.key, selectedOption.value)
+        }
+    }
+
+    @IBAction func cancelButtonTapped(_ sender: UIBarButtonItem) {
+        dismiss(animated: true, completion: nil)
     }
 
     // MARK: Private
 
     private var selectedOption: (key: String, value: String)?
+
 }

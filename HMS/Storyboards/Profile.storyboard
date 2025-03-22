@@ -16,10 +16,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <sections>
-                            <tableViewSection headerTitle="Personal Info" id="rt8-uv-Kjc">
+                            <tableViewSection headerTitle="Personal Information" id="rt8-uv-Kjc">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" textLabel="Y9c-Jj-p6k" detailTextLabel="ikr-bS-dv6" imageView="jaH-hO-DLB" style="IBUITableViewCellStyleSubtitle" id="gDa-uM-yRC">
-                                        <rect key="frame" x="20" y="55.333332061767578" width="353" height="50"/>
+                                        <rect key="frame" x="20" y="38" width="353" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="gDa-uM-yRC" id="SGj-He-NLl">
                                             <rect key="frame" x="0.0" y="0.0" width="353" height="50"/>
@@ -48,7 +48,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" textLabel="giZ-If-fM3" detailTextLabel="tb0-iX-MOa" imageView="nfj-Eh-Lu2" style="IBUITableViewCellStyleSubtitle" id="pGF-U5-1mi">
-                                        <rect key="frame" x="20" y="105.33333206176758" width="353" height="50"/>
+                                        <rect key="frame" x="20" y="88" width="353" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="pGF-U5-1mi" id="vUk-F7-CzV">
                                             <rect key="frame" x="0.0" y="0.0" width="353" height="50"/>
@@ -77,7 +77,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" textLabel="d1z-7D-fxK" detailTextLabel="VO0-2W-3d2" imageView="Fq6-Rh-y5k" style="IBUITableViewCellStyleSubtitle" id="KZX-aX-toG">
-                                        <rect key="frame" x="20" y="155.33333206176758" width="353" height="50"/>
+                                        <rect key="frame" x="20" y="138" width="353" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="KZX-aX-toG" id="tvE-0W-wpZ">
                                             <rect key="frame" x="0.0" y="0.0" width="353" height="50"/>
@@ -106,7 +106,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" textLabel="iU2-tB-FP7" detailTextLabel="hT4-gv-mdm" imageView="nK9-n9-rxu" style="IBUITableViewCellStyleSubtitle" id="CwX-0J-yxJ">
-                                        <rect key="frame" x="20" y="205.33333206176758" width="353" height="50"/>
+                                        <rect key="frame" x="20" y="188" width="353" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="CwX-0J-yxJ" id="Ygf-e6-bGP">
                                             <rect key="frame" x="0.0" y="0.0" width="353" height="50"/>
@@ -135,7 +135,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" textLabel="d75-hJ-zql" detailTextLabel="NWE-DQ-usu" imageView="ULA-Xo-7Zd" style="IBUITableViewCellStyleSubtitle" id="X6E-Z6-zbG">
-                                        <rect key="frame" x="20" y="255.33333206176758" width="353" height="50"/>
+                                        <rect key="frame" x="20" y="238" width="353" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="X6E-Z6-zbG" id="CMT-Mz-BC2">
                                             <rect key="frame" x="0.0" y="0.0" width="353" height="50"/>
@@ -164,7 +164,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" textLabel="ifR-T2-zvb" detailTextLabel="LNC-Ip-j41" imageView="wi5-y7-K1B" style="IBUITableViewCellStyleSubtitle" id="wvd-II-IBF">
-                                        <rect key="frame" x="20" y="305.33333206176758" width="353" height="50"/>
+                                        <rect key="frame" x="20" y="288" width="353" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="wvd-II-IBF" id="pPH-21-kcb">
                                             <rect key="frame" x="0.0" y="0.0" width="353" height="50"/>
@@ -193,7 +193,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" textLabel="DxQ-MQ-L7m" detailTextLabel="fV3-w1-pPB" imageView="3CQ-eM-vVa" style="IBUITableViewCellStyleSubtitle" id="gtF-iC-goW">
-                                        <rect key="frame" x="20" y="355.33333206176758" width="353" height="50"/>
+                                        <rect key="frame" x="20" y="338" width="353" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="gtF-iC-goW" id="iac-Fl-qEV">
                                             <rect key="frame" x="0.0" y="0.0" width="353" height="50"/>
@@ -222,7 +222,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" textLabel="bDd-gr-uwi" detailTextLabel="ysR-cw-ABh" imageView="deE-7W-LkL" style="IBUITableViewCellStyleSubtitle" id="cA0-Tw-6m0">
-                                        <rect key="frame" x="20" y="405.33333206176758" width="353" height="50"/>
+                                        <rect key="frame" x="20" y="388" width="353" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="cA0-Tw-6m0" id="pY4-un-fuh">
                                             <rect key="frame" x="0.0" y="0.0" width="353" height="50"/>
@@ -255,7 +255,7 @@
                             <tableViewSection id="lC4-9F-GoD">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="XFs-Jx-kyu">
-                                        <rect key="frame" x="20" y="491.33333015441895" width="353" height="50"/>
+                                        <rect key="frame" x="20" y="474" width="353" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="XFs-Jx-kyu" id="VxJ-gO-gga">
                                             <rect key="frame" x="0.0" y="0.0" width="353" height="50"/>
@@ -264,11 +264,11 @@
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xgQ-i0-u0e">
                                                     <rect key="frame" x="0.0" y="0.0" width="353" height="50"/>
                                                     <state key="normal" title="Button"/>
-                                                    <buttonConfiguration key="configuration" style="filled" title="Change Password">
+                                                    <buttonConfiguration key="configuration" style="plain" title="Change Password">
                                                         <fontDescription key="titleFontDescription" style="UICTFontTextStyleBody"/>
                                                     </buttonConfiguration>
                                                     <connections>
-                                                        <segue destination="Avn-eR-LsK" kind="presentation" id="77E-r5-RI0"/>
+                                                        <action selector="changePasswordButtonTapped:" destination="aME-u9-7VD" eventType="touchUpInside" id="Sea-Oa-JHe"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -285,7 +285,7 @@
                             <tableViewSection id="M6x-E3-T4S">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="Ed4-CX-zfs">
-                                        <rect key="frame" x="20" y="577.33333015441895" width="353" height="50"/>
+                                        <rect key="frame" x="20" y="560" width="353" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Ed4-CX-zfs" id="XJ6-LB-7Ic">
                                             <rect key="frame" x="0.0" y="0.0" width="353" height="50"/>
@@ -293,11 +293,10 @@
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ciE-ai-a9I">
                                                     <rect key="frame" x="0.0" y="0.0" width="353" height="50"/>
+                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                     <color key="tintColor" systemColor="systemPinkColor"/>
-                                                    <state key="normal" title="Button"/>
-                                                    <buttonConfiguration key="configuration" style="filled" title="Log Out">
-                                                        <fontDescription key="titleFontDescription" style="UICTFontTextStyleBody"/>
-                                                    </buttonConfiguration>
+                                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                    <state key="normal" title="Log Out"/>
                                                 </button>
                                             </subviews>
                                             <constraints>
@@ -316,16 +315,33 @@
                             <outlet property="delegate" destination="aME-u9-7VD" id="6qL-qE-XgU"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Anish Ranjan" id="d3G-k7-dbX"/>
+                    <navigationItem key="navigationItem" title="Anish Ranjan" id="d3G-k7-dbX">
+                        <barButtonItem key="rightBarButtonItem" image="bell.fill" catalog="system" style="done" id="1Yb-2Z-rbo">
+                            <connections>
+                                <segue destination="en8-Dp-T4b" kind="presentation" id="ka7-HL-jaB"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <segue destination="Avn-eR-LsK" kind="presentation" identifier="segueShowChangePasswordTableViewController" id="qFW-QC-zek"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5Ix-uq-2Ur" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1808.3969465648854" y="95.774647887323951"/>
         </scene>
-        <!--Table View Controller-->
+        <!--Notifications-->
+        <scene sceneID="opY-Bs-kfW">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Notifications" id="en8-Dp-T4b" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vCK-BK-J8T" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1808" y="485"/>
+        </scene>
+        <!--Change Password-->
         <scene sceneID="hYr-eQ-VA1">
             <objects>
-                <tableViewController id="ggd-0h-67a" sceneMemberID="viewController">
+                <tableViewController id="ggd-0h-67a" customClass="ChangePasswordTableViewController" customModule="HMS" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="insetGrouped" separatorStyle="default" rowHeight="50" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" id="slI-4P-Gri">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -407,10 +423,23 @@
                             <outlet property="delegate" destination="ggd-0h-67a" id="msE-7j-mDm"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="HWq-ad-ddS">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="nvS-lE-AIX"/>
-                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="done" id="se4-DX-DNP"/>
+                    <navigationItem key="navigationItem" title="Change Password" id="HWq-ad-ddS">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="nvS-lE-AIX">
+                            <connections>
+                                <action selector="cancelButtonTapped:" destination="ggd-0h-67a" id="c83-Cd-5qR"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="done" id="se4-DX-DNP">
+                            <connections>
+                                <action selector="doneButtonTapped:" destination="ggd-0h-67a" id="qyI-wy-7kn"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="confirmPasswordTextField" destination="XIU-Ri-ayd" id="sUj-s3-z4M"/>
+                        <outlet property="newPasswordTextField" destination="Yiu-fW-Gt6" id="2fu-cV-lq3"/>
+                        <outlet property="oldPasswordTextField" destination="sTG-eV-2At" id="lIK-hX-sql"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OYA-zb-YMr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -422,8 +451,8 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Ozl-6Q-30Q" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Profile" image="person.fill" catalog="system" id="AW3-dw-ake"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="wht-OW-gh5">
-                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="wht-OW-gh5">
+                        <rect key="frame" x="0.0" y="59" width="393" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -438,6 +467,7 @@
         <!--Navigation Controller-->
         <scene sceneID="12G-s4-mRM">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pMc-cr-B0S" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Avn-eR-LsK" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="m7P-Is-JME">
@@ -449,13 +479,13 @@
                         <segue destination="ggd-0h-67a" kind="relationship" relationship="rootViewController" id="mdx-2p-8D7"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="pMc-cr-B0S" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2869.4656488549617" y="95.774647887323951"/>
         </scene>
     </scenes>
     <resources>
         <image name="allergens" catalog="system" width="128" height="117"/>
+        <image name="bell.fill" catalog="system" width="123" height="128"/>
         <image name="birthday.cake" catalog="system" width="128" height="115"/>
         <image name="drop.fill" catalog="system" width="96" height="128"/>
         <image name="figure.stand" catalog="system" width="74" height="128"/>

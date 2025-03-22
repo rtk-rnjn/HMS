@@ -9,11 +9,11 @@ import UIKit
 
 class SignInViewController: UIViewController {
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
-
     @IBAction func signInButtonTapped(_ sender: UIButton) {
         performSegue(withIdentifier: "segueShowInitialTabBarController", sender: nil)
+    }
+
+    @IBAction func createAccountTapped(_ sender: UIButton) {
+        performSegue(withIdentifier: "segueShowPersonalInformationTableViewController", sender: nil)
     }
 }
