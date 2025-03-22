@@ -133,7 +133,7 @@
         <!--Personal Information-->
         <scene sceneID="wp0-5f-0og">
             <objects>
-                <tableViewController id="k9D-sL-MQ2" sceneMemberID="viewController">
+                <tableViewController id="k9D-sL-MQ2" customClass="PersonalInformationTableViewController" customModule="HMS" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="insetGrouped" separatorStyle="default" rowHeight="50" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" id="qOV-Bx-ndc">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -370,7 +370,7 @@
         <!--Medical Information-->
         <scene sceneID="bnZ-OG-lzs">
             <objects>
-                <tableViewController id="FYz-8R-KHJ" sceneMemberID="viewController">
+                <tableViewController id="FYz-8R-KHJ" customClass="MedicalInformationTableViewController" customModule="HMS" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="insetGrouped" separatorStyle="default" rowHeight="50" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" id="nAv-Wn-1dH">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -563,7 +563,7 @@
         <!--Emergency Contact-->
         <scene sceneID="tyE-zF-3sB">
             <objects>
-                <tableViewController id="QJs-dA-fdU" sceneMemberID="viewController">
+                <tableViewController id="QJs-dA-fdU" customClass="EmergencyContactTableViewController" customModule="HMS" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="insetGrouped" separatorStyle="default" rowHeight="50" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" id="b6h-ry-Z6a">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
