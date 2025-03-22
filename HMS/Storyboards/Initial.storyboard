@@ -6,11 +6,11 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Initial Tab Bar Controller View Controller-->
+        <!--Initial Tab Bar View Controller-->
         <scene sceneID="4Lw-74-s5p">
             <objects>
-                <tabBarController storyboardIdentifier="InitialTabBarControllerViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="hs2-HR-BAc" customClass="InitialTabBarControllerViewController" customModule="HMS" customModuleProvider="target" sceneMemberID="viewController">
-                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="QgO-HA-v5M">
+                <tabBarController storyboardIdentifier="InitialTabBarControllerViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="hs2-HR-BAc" customClass="InitialTabBarViewController" customModule="HMS" customModuleProvider="target" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="QgO-HA-v5M">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

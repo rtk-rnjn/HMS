@@ -7,13 +7,14 @@
 
 import UIKit
 
-class HomeViewController: UITabBarController {
+class HomeViewController: UIViewController {
 
     @IBOutlet var searchBar: UISearchBar!
     override func viewDidLoad() {
         super.viewDidLoad()
 
         searchBar.backgroundImage = UIImage()
+
     }
 
 }

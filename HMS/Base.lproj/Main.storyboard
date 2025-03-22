@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="AEe-Ta-yRH">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="3DQ-TZ-z5D">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
@@ -19,7 +19,7 @@
                 </hostingController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2gw-1a-oOY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1020.6106870229007" y="-59.154929577464792"/>
+            <point key="canvasLocation" x="1947.3282442748091" y="-59.154929577464792"/>
         </scene>
         <!--Sign In View Controller-->
         <scene sceneID="3nd-f2-2nP">
@@ -95,6 +95,9 @@
                                         <buttonConfiguration key="configuration" style="plain" title="Create Account">
                                             <fontDescription key="titleFontDescription" style="UICTFontTextStyleCallout"/>
                                         </buttonConfiguration>
+                                        <connections>
+                                            <segue destination="k9D-sL-MQ2" kind="show" id="zHo-Ka-5tE"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                             </stackView>
@@ -113,12 +116,11 @@
                     <navigationItem key="navigationItem" id="OXI-E5-oE3"/>
                     <connections>
                         <segue destination="9BT-J2-7Pp" kind="show" identifier="segueShowInitialTabBarController" id="39O-hB-NkO"/>
-                        <segue destination="k9D-sL-MQ2" kind="show" id="n97-2B-6Ih"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8Sd-U1-VLV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2044" y="-59"/>
+            <point key="canvasLocation" x="2970.2290076335876" y="-59.154929577464792"/>
         </scene>
         <!--Initial-->
         <scene sceneID="Fcb-kK-mAe">
@@ -128,7 +130,7 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lTZ-fO-kD6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3679" y="480"/>
+            <point key="canvasLocation" x="4328" y="565"/>
         </scene>
         <!--Personal Information-->
         <scene sceneID="wp0-5f-0og">
@@ -340,6 +342,9 @@
                                                     <buttonConfiguration key="configuration" style="filled" title="Next">
                                                         <fontDescription key="titleFontDescription" style="UICTFontTextStyleBody"/>
                                                     </buttonConfiguration>
+                                                    <connections>
+                                                        <segue destination="FYz-8R-KHJ" kind="show" id="fwb-sb-Vst"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                             <constraints>
@@ -359,9 +364,6 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Personal Information" id="TxC-qh-P1I"/>
-                    <connections>
-                        <segue destination="FYz-8R-KHJ" kind="show" id="lv5-wk-Pyc"/>
-                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Cls-FJ-pmS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -515,6 +517,9 @@
                                                     <buttonConfiguration key="configuration" style="filled" title="Next">
                                                         <fontDescription key="titleFontDescription" style="UICTFontTextStyleBody"/>
                                                     </buttonConfiguration>
+                                                    <connections>
+                                                        <segue destination="QJs-dA-fdU" kind="show" id="UhL-Gh-HEm"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                             <constraints>
@@ -534,31 +539,10 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Medical Information" id="uil-nC-af3"/>
-                    <connections>
-                        <segue destination="QJs-dA-fdU" kind="show" id="e3o-HS-vZT"/>
-                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kQ1-a6-toZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2331" y="830"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="QQj-3n-hNI">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="AEe-Ta-yRH" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="6hg-4I-gZI">
-                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="iru-gv-Ceh" kind="relationship" relationship="rootViewController" id="ZfL-Mf-m4h"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="aAt-ss-6YW" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="93.89312977099236" y="-59.154929577464792"/>
         </scene>
         <!--Emergency Contact-->
         <scene sceneID="tyE-zF-3sB">
@@ -658,6 +642,9 @@
                                                     <buttonConfiguration key="configuration" style="filled" title="Complete">
                                                         <fontDescription key="titleFontDescription" style="UICTFontTextStyleBody"/>
                                                     </buttonConfiguration>
+                                                    <connections>
+                                                        <segue destination="9BT-J2-7Pp" kind="show" id="rXL-zm-tAG"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                             <constraints>
@@ -677,13 +664,31 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Emergency Contact" id="BXr-EL-IEF"/>
-                    <connections>
-                        <segue destination="9BT-J2-7Pp" kind="show" id="Egb-5Y-RzP"/>
-                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bZV-kK-I8u" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3047" y="830"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="cZX-id-pxo">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="3DQ-TZ-z5D" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="2Jl-UQ-hK2">
+                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="MrS-fv-c3O">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </toolbar>
+                    <connections>
+                        <segue destination="iru-gv-Ceh" kind="relationship" relationship="rootViewController" id="QKS-sY-rWC"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pEm-6q-9YX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1020.6106870229007" y="-59.154929577464792"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>

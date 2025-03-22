@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Uon-SQ-ZLo">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="9nK-A2-ilp">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
@@ -11,56 +11,58 @@
         <!--Ritik Ranjan-->
         <scene sceneID="s0d-6b-0kx">
             <objects>
-                <viewController storyboardIdentifier="HomeViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Y6W-OH-hqX" customClass="HomeViewController" customModule="HMS" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="Y6W-OH-hqX" customClass="HomeViewController" customModule="HMS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="ifu-ig-8gZ">
+                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="IPI-oU-0Ve">
                                 <rect key="frame" x="0.0" y="155" width="393" height="56"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
-                                    <outlet property="delegate" destination="Y6W-OH-hqX" id="f62-P1-fdk"/>
+                                    <outlet property="delegate" destination="Y6W-OH-hqX" id="3VF-lb-sKP"/>
                                 </connections>
                             </searchBar>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="ifu-ig-8gZ" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="OZd-tQ-dwP"/>
-                            <constraint firstItem="ifu-ig-8gZ" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="WlP-nG-4av"/>
-                            <constraint firstItem="ifu-ig-8gZ" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="qCM-Bd-4g3"/>
+                            <constraint firstItem="IPI-oU-0Ve" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="LUX-7I-4qx"/>
+                            <constraint firstItem="IPI-oU-0Ve" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="ahx-af-gtr"/>
+                            <constraint firstItem="IPI-oU-0Ve" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="lnF-dZ-axG"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Ritik Ranjan" style="editor" id="gcN-Sl-vxr"/>
                     <connections>
-                        <outlet property="searchBar" destination="ifu-ig-8gZ" id="79K-HA-YQy"/>
+                        <outlet property="searchBar" destination="IPI-oU-0Ve" id="laY-RW-No4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1051.145038167939" y="-34.507042253521128"/>
+            <point key="canvasLocation" x="3831.2977099236641" y="-34.507042253521128"/>
         </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="5Xp-yc-kWn">
+        <!--Home-->
+        <scene sceneID="0E3-dF-ETf">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Uon-SQ-ZLo" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="9nK-A2-ilp" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Home" image="house" catalog="system" id="jlZ-te-xbj"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="xoa-Z1-t3P">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="lr4-Qu-2ap">
                         <rect key="frame" x="0.0" y="59" width="393" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="Y6W-OH-hqX" kind="relationship" relationship="rootViewController" id="6Dy-w3-ht8"/>
+                        <segue destination="Y6W-OH-hqX" kind="relationship" relationship="rootViewController" id="cCL-sx-0Uv"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="3Pz-P3-JBX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Qdb-VD-TXg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="124.42748091603053" y="-34.507042253521128"/>
+            <point key="canvasLocation" x="2904.5801526717555" y="-34.507042253521128"/>
         </scene>
     </scenes>
     <resources>
+        <image name="house" catalog="system" width="128" height="104"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
