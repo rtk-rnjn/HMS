@@ -13,6 +13,12 @@ class DoctorTableViewCell: UITableViewCell {
 
     func updateElements(with doctor: Staff) {
         fullNameLabel.text = doctor.fullName
-        specializationLabel.text = doctor.specializations.joined(separator: ", ")
+
+        let specializarionsText = doctor.specializations.joined(separator: ", ")
+        if !specializarionsText.isEmpty {
+            specializationLabel.text = doctor.specializations.joined(separator: ", ")
+        } else {
+            specializationLabel.isHidden = true
+        }
     }
 }
