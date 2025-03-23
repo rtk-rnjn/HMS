@@ -31,7 +31,9 @@ extension String {
     }
 
     func isValidPassword() -> Bool {
-        return count >= 8
+        let passwordRegex = #"^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$"#
+        return NSPredicate(format: "SELF MATCHES %@", passwordRegex).evaluate(with: self)
+//      return count >= 8
     }
 
     func isPhoneNumber() -> Bool {

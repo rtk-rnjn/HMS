@@ -16,7 +16,7 @@ class ResetPasswordViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        navigationItem.hidesBackButton = true
+        navigationItem.hidesBackButton = false
     }
 
     @IBAction func requestOTPButtonTapped(_ sender: UIButton) {
