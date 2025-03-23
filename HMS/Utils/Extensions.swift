@@ -35,8 +35,7 @@ extension String {
     }
 
     func isPhoneNumber() -> Bool {
-        let phoneRegex = "^[0-9]{10}$"
-        return NSPredicate(format: "SELF MATCHES %@", phoneRegex).evaluate(with: self)
+        return Int(self) != nil && count == 10
     }
 
     func isNumeric() -> Bool {
@@ -61,6 +60,13 @@ extension Date {
         } else {
             return "just now"
         }
+    }
+
+    func humanReadableString() -> String {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .short
+        return formatter.string(from: self)
     }
 
     func relativeInterval(from date: Date?) -> TimeInterval {

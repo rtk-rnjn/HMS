@@ -19,23 +19,30 @@ class PersonalInformationTableViewController: UITableViewController {
     @IBOutlet var newPasswordTextField: UITextField!
     @IBOutlet var confirmPasswordTextField: UITextField!
 
-    var selectedGender: String?
+    var selectedGender: String = "Male"
+    var patient: Patient?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         dateOfBirthPicker.maximumDate = Date()
     }
 
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "segueShowMedicalInformationTableViewController", let medicalInformationTableViewController = segue.destination as? MedicalInformationTableViewController {
+            medicalInformationTableViewController.patient = sender as? Patient
+        }
+    }
+
     @IBAction func nextButtonTapped(_ sender: UIButton) {
         if validateFields() {
-            performSegue(withIdentifier: "segueShowEmergencyContactTableViewController", sender: nil)
+            performSegue(withIdentifier: "segueShowMedicalInformationTableViewController", sender: patient)
         } else {
             showAlert(message: "Please fill all the fields")
         }
     }
 
     @IBAction func genderSegmentedControlTapped(_ sender: UISegmentedControl) {
-        selectedGender = sender.titleForSegment(at: sender.selectedSegmentIndex)
+        selectedGender = sender.titleForSegment(at: sender.selectedSegmentIndex) ?? "Other"
     }
 
     // MARK: Private
@@ -75,6 +82,10 @@ class PersonalInformationTableViewController: UITableViewController {
             showAlert(message: "Invalid password. Password must be at least 8 characters long & alphanumeric")
             return false
         }
+
+        let gender = Gender(rawValue: selectedGender) ?? .other
+
+        patient = Patient(firstName: firstName, emailAddress: email, password: newPassword, dateOfBirth: dateOfBirthPicker.date, gender: gender, bloodGroup: .aNegative, height: 0, weight: 0, allergies: [], medications: [], emergencyContactName: "", emergencyContactNumber: "", emergencyContactRelationship: "")
 
         return true
     }

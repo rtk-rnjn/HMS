@@ -15,10 +15,26 @@ class EmergencyContactTableViewController: UITableViewController {
     @IBOutlet var emergencyContactNumber: UITextField!
     @IBOutlet var emergencyContactRelationship: UITextField!
 
+    var patient: Patient?
+
     @IBAction func completeButtonTapped(_ sender: UIButton) {
         guard validateFields() else { return }
 
-        performSegue(withIdentifier: "segueShowInitialTabBarViewController", sender: nil)
+        patient?.emergencyContactName = emergencyContactName.text!
+        patient?.emergencyContactNumber = emergencyContactNumber.text!
+        patient?.emergencyContactRelationship = emergencyContactRelationship.text!
+
+        Task {
+            guard let patient else { return }
+            let created = await DataController.shared.createPatient(patient: patient)
+            DispatchQueue.main.async {
+                if created {
+                    self.performSegue(withIdentifier: "segueShowInitialTabBarViewController", sender: nil)
+                } else {
+                    self.showAlert(message: "Failed to create patient")
+                }
+            }
+        }
     }
 
     // MARK: Private
@@ -29,7 +45,7 @@ class EmergencyContactTableViewController: UITableViewController {
             return false
         }
 
-        guard let number = emergencyContactNumber.text, !number.isEmpty, !number.isPhoneNumber() else {
+        guard let number = emergencyContactNumber.text, !number.isEmpty else {
             showAlert(message: "Emergency Contact Number is required")
             return false
         }

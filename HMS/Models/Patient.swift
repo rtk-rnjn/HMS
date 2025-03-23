@@ -12,7 +12,7 @@ enum Role: String, Codable {
     case doctor
 }
 
-enum BloodGroup: String, Codable {
+enum BloodGroup: String, Codable, CaseIterable {
     case aPositive = "A+"
     case aNegative = "A-"
     case bPositive = "B+"
@@ -23,6 +23,12 @@ enum BloodGroup: String, Codable {
     case oNegative = "O-"
 }
 
+enum Gender: String, Codable {
+    case male = "Male"
+    case female = "Female"
+    case other = "Other"
+}
+
 struct Patient: Codable, Equatable {
     enum CodingKeys: String, CodingKey {
         case id = "_id"
@@ -31,6 +37,7 @@ struct Patient: Codable, Equatable {
         case emailAddress = "email_address"
         case password = "password"
         case dateOfBirth = "date_of_birth"
+        case gender
         case bloodGroup = "blood_group"
         case height
         case weight
@@ -51,11 +58,12 @@ struct Patient: Codable, Equatable {
     var emailAddress: String
     var password: String
     var dateOfBirth: Date
+    var gender: Gender = .other
     var bloodGroup: BloodGroup
     var height: Int
     var weight: Int
-    var allergies: [String]
-    var medications: [String]
+    var allergies: [String] = []
+    var medications: [String] = []
 
     var emergencyContactName: String
     var emergencyContactNumber: String

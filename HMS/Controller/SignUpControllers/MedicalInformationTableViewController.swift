@@ -14,6 +14,10 @@ class MedicalInformationTableViewController: UITableViewController {
     @IBOutlet var bloodGroupButton: UIButton!
     @IBOutlet var heightButton: UIButton!
     @IBOutlet var weightButton: UIButton!
+    @IBOutlet var allergiesTextField: UITextField!
+    @IBOutlet var medicationTextField: UITextField!
+
+    var patient: Patient?
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "segueShowPickerViewController", let pickerViewController = segue.destination as? PickerViewController, let presentationController = segue.destination.presentationController as? UISheetPresentationController {
@@ -25,6 +29,10 @@ class MedicalInformationTableViewController: UITableViewController {
             }
 
             presentationController.detents = [.medium()]
+        }
+
+        if segue.identifier == "segueShowEmergencyContactTableViewController", let emergencyContactTableViewController = segue.destination as? EmergencyContactTableViewController {
+            emergencyContactTableViewController.patient = sender as? Patient
         }
     }
 
@@ -43,12 +51,29 @@ class MedicalInformationTableViewController: UITableViewController {
     @IBAction func nextButtonTapped(_ sender: UIButton) {
         guard validateFields() else { return }
 
-        performSegue(withIdentifier: "segueShowEmergencyContactTableViewController", sender: nil)
+        patient?.bloodGroup = BloodGroup(rawValue: bloodGroupButton.titleLabel?.text ?? "")!
+        let height = Int((heightButton.titleLabel?.text ?? "").components(separatedBy: " ")[0])
+        let weight = Int((weightButton.titleLabel?.text ?? "").components(separatedBy: " ")[0])
+
+        patient?.height = height!
+        patient?.weight = weight!
+
+        if allergiesTextField.text?.isEmpty ?? false {
+            let allergies: [String] = allergiesTextField.text?.components(separatedBy: ",") ?? []
+            patient?.allergies = allergies
+        }
+
+        if medicationTextField.text?.isEmpty ?? false {
+            let medications: [String] = medicationTextField.text?.components(separatedBy: ",") ?? []
+            patient?.medications = medications
+        }
+
+        performSegue(withIdentifier: "segueShowEmergencyContactTableViewController", sender: patient)
     }
 
     // MARK: Private
 
-    private let bloodGroup = ["": "", "A+": "A Positive", "A-": "A Negative", "B+": "B Positive", "B-": "B Negative", "AB+": "AB Positive", "AB-": "AB Negative", "O+": "O Positive", "O-": "O Negative"]
+    private let bloodGroup: [String: String] = BloodGroup.allCases.reduce(into: ["": "None"]) { $0[$1.rawValue] = $1.rawValue }
 
     private let heights: [String: String] = {
         var heights = ["": ""]

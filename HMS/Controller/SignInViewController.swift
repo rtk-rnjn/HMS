@@ -21,15 +21,22 @@ class SignInViewController: UIViewController {
     }
 
     @IBAction func signInButtonTapped(_ sender: UIButton) {
-        let email = emailTextField.text ?? ""
-        guard email.isValidEmail() else {
+        let emailAddress = emailTextField.text ?? ""
+        guard emailAddress.isValidEmail() else {
             showAlert(message: "Invalid email")
             return
         }
 
-        Task {}
-
-        performSegue(withIdentifier: "segueShowInitialTabBarController", sender: nil)
+        Task {
+            let loginResponse = await DataController.shared.login(emailAddress: emailAddress, password: passwordTextField.text ?? "")
+            DispatchQueue.main.async {
+                if loginResponse {
+                    self.performSegue(withIdentifier: "segueShowInitialTabBarController", sender: nil)
+                } else {
+                    self.showAlert(message: "Invalid email or password")
+                }
+            }
+        }
     }
 
     @IBAction func createAccountTapped(_ sender: UIButton) {

@@ -41,8 +41,15 @@ class ChangePasswordTableViewController: UITableViewController {
             return
         }
 
-        dismiss(animated: true) {
-            print("Password changed successfully")
+        Task {
+            let changed = await DataController.shared.changePassword(oldPassword: oldPassword, newPassword: newPassword)
+            DispatchQueue.main.async {
+                if changed {
+                    self.dismiss(animated: true)
+                } else {
+                    self.showAlert(message: "Failed to change password")
+                }
+            }
         }
     }
 
