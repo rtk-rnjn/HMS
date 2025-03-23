@@ -43,6 +43,16 @@ struct ChangePassword: Codable {
     var newPassword: String
 }
 
+struct HardPasswordReset: Codable {
+    enum CodingKeys: String, CodingKey {
+        case emailAddress = "email_address"
+        case newPassword = "new_password"
+    }
+
+    var emailAddress: String
+    var newPassword: String
+}
+
 class DataController {
 
     // MARK: Public
@@ -112,6 +122,26 @@ class DataController {
         }
 
         let response: ServerResponse? = await MiddlewareManager.shared.patch(url: "/patient/change-password", body: changePasswordData)
+        return response?.success ?? false
+    }
+
+    func hardPasswordReset(emailAddress: String, password: String) async -> Bool {
+        let hardPasswordReset = HardPasswordReset(emailAddress: emailAddress, newPassword: password)
+        guard let hardPasswordResetData = hardPasswordReset.toData() else {
+            fatalError("WTF... fucked up yet again...")
+        }
+
+        let response: ServerResponse? = await MiddlewareManager.shared.patch(url: "/change-password", body: hardPasswordResetData)
+        return response?.success ?? false
+    }
+
+    func requestOtp(emailAddress: String) async -> Bool {
+        let response: ServerResponse? = await MiddlewareManager.shared.get(url: "/request-otp", queryParameters: ["to_email": emailAddress])
+        return response?.success ?? false
+    }
+
+    func verifyOtp(emailAddress: String, otp: String) async -> Bool {
+        let response: ServerResponse? = await MiddlewareManager.shared.get(url: "/verify-otp", queryParameters: ["to_email": emailAddress, "otp": otp])
         return response?.success ?? false
     }
 

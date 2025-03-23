@@ -11,6 +11,8 @@ class SetPasswordViewController: UIViewController {
 
     // MARK: Internal
 
+    var email: String?
+
     @IBOutlet var confirmPasswordTextField: UITextField!
     @IBOutlet var newPasswordTextField: UITextField!
 
@@ -44,8 +46,17 @@ class SetPasswordViewController: UIViewController {
             return
         }
 
-        Task {}
-        performSegue(withIdentifier: "segueShowSignInViewController", sender: nil)
+        Task {
+            guard let email else { fatalError("HOW TF EMAIL IS NONE???") }
+
+            let changed = await DataController.shared.hardPasswordReset(emailAddress: email, password: newPassword)
+            if changed {
+                DispatchQueue.main.async {
+                    self.performSegue(withIdentifier: "segueShowSignInViewController", sender: nil)
+                }
+            }
+
+        }
     }
 
     // MARK: Private
