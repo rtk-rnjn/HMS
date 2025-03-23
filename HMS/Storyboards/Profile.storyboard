@@ -394,6 +394,14 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="ageLabel" destination="fyY-yp-OYe" id="SQ8-mv-64c"/>
+                        <outlet property="alergiesLabel" destination="ySi-2o-IxC" id="H8x-P9-X7V"/>
+                        <outlet property="bloodTypeLabel" destination="o41-kb-JIx" id="Ufk-oB-u1D"/>
+                        <outlet property="dateOfBirthLabel" destination="xjU-U6-SFa" id="0d9-i8-KCt"/>
+                        <outlet property="genderLabel" destination="f5c-LC-ef1" id="v0E-r3-bzr"/>
+                        <outlet property="heightLabel" destination="MvY-LR-tjm" id="ymI-Xv-CgR"/>
+                        <outlet property="patientIdLabel" destination="9NR-Wo-yed" id="Jqf-YW-QBy"/>
+                        <outlet property="weightLabel" destination="cdL-gR-kmA" id="qrY-TD-0Pb"/>
                         <segue destination="Avn-eR-LsK" kind="presentation" identifier="segueShowChangePasswordTableViewController" id="qFW-QC-zek"/>
                     </connections>
                 </tableViewController>
@@ -558,7 +566,7 @@
         <image name="bell.fill" catalog="system" width="123" height="128"/>
         <image name="person.fill" catalog="system" width="128" height="120"/>
         <systemColor name="systemPinkColor">
-            <color red="1" green="0.1764705882" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="1" green="0.17647058823529413" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

@@ -27,11 +27,11 @@
             <objects>
                 <viewController storyboardIdentifier="SignInViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="6M8-7E-xDs" customClass="SignInViewController" customModule="HMS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Fa9-xz-2Mc">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="AU2-R4-lOy">
-                                <rect key="frame" x="20" y="267.33333333333326" width="353" height="317.66666666666674"/>
+                                <rect key="frame" x="20" y="262.33333333333326" width="353" height="317.66666666666674"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="wsf-0h-pIl">
                                         <rect key="frame" x="0.0" y="0.0" width="353" height="63.666666666666664"/>
@@ -92,7 +92,7 @@
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0Sy-Sq-oNR">
-                                <rect key="frame" x="43" y="784.66666666666663" width="307" height="33.333333333333371"/>
+                                <rect key="frame" x="43" y="808.66666666666663" width="307" height="33.333333333333371"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Don't have an account?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jlE-9b-oSu">
                                         <rect key="frame" x="0.0" y="0.0" width="170.33333333333334" height="33.333333333333336"/>
@@ -126,6 +126,8 @@
                     </view>
                     <navigationItem key="navigationItem" id="OXI-E5-oE3"/>
                     <connections>
+                        <outlet property="emailTextField" destination="Z9a-4Q-otL" id="gAG-5D-4PP"/>
+                        <outlet property="passwordTextField" destination="nV0-l0-krj" id="Ywr-DF-aDP"/>
                         <segue destination="9BT-J2-7Pp" kind="show" identifier="segueShowInitialTabBarController" id="39O-hB-NkO"/>
                         <segue destination="k9D-sL-MQ2" kind="show" identifier="segueShowPersonalInformationTableViewController" id="n97-2B-6Ih"/>
                         <segue destination="06d-R1-AXB" kind="show" identifier="segueShowResetPasswordViewController" id="dC6-Jx-YIm"/>
@@ -140,11 +142,11 @@
             <objects>
                 <viewController storyboardIdentifier="ResetPasswordViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="06d-R1-AXB" customClass="ResetPasswordViewController" customModule="HMS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ekf-GO-pFX">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="6Ch-jq-PBl">
-                                <rect key="frame" x="20" y="300.33333333333331" width="353" height="251.66666666666669"/>
+                                <rect key="frame" x="20" y="295.33333333333331" width="353" height="251.66666666666669"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="HMS - Reset Password" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XZV-qa-WER">
                                         <rect key="frame" x="0.0" y="0.0" width="353" height="40.666666666666664"/>
@@ -192,6 +194,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="s1k-q1-qm3"/>
                     <connections>
+                        <outlet property="emailTextField" destination="2fx-ab-g0a" id="Mnu-t9-76l"/>
                         <segue destination="OPC-hZ-LUM" kind="show" identifier="segueShowSetPasswordViewController" id="AVC-aB-lb2"/>
                     </connections>
                 </viewController>
@@ -214,7 +217,7 @@
             <objects>
                 <tableViewController id="k9D-sL-MQ2" customClass="PersonalInformationTableViewController" customModule="HMS" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="insetGrouped" separatorStyle="default" rowHeight="50" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" id="qOV-Bx-ndc">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <sections>
                             <tableViewSection id="IvA-0C-x5v">
@@ -309,30 +312,17 @@
                                                 <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="aF0-Y6-gdl">
                                                     <rect key="frame" x="0.0" y="0.0" width="353" height="50"/>
                                                     <subviews>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HDp-a3-GZ3">
-                                                            <rect key="frame" x="0.0" y="0.0" width="117.66666666666667" height="50"/>
-                                                            <state key="normal" title="Button"/>
-                                                            <buttonConfiguration key="configuration" style="filled" title="Male">
-                                                                <backgroundConfiguration key="background" cornerRadius="0.0"/>
-                                                                <fontDescription key="titleFontDescription" style="UICTFontTextStyleBody"/>
-                                                            </buttonConfiguration>
-                                                        </button>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2HE-b2-wsa">
-                                                            <rect key="frame" x="117.66666666666666" y="0.0" width="117.66666666666666" height="50"/>
-                                                            <state key="normal" title="Button"/>
-                                                            <buttonConfiguration key="configuration" style="tinted" title="Female">
-                                                                <backgroundConfiguration key="background" cornerRadius="0.0"/>
-                                                                <fontDescription key="titleFontDescription" style="UICTFontTextStyleBody"/>
-                                                            </buttonConfiguration>
-                                                        </button>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vMD-Br-cxe">
-                                                            <rect key="frame" x="235.33333333333334" y="0.0" width="117.66666666666666" height="50"/>
-                                                            <state key="normal" title="Button"/>
-                                                            <buttonConfiguration key="configuration" style="tinted" title="Other">
-                                                                <backgroundConfiguration key="background" cornerRadius="0.0"/>
-                                                                <fontDescription key="titleFontDescription" style="UICTFontTextStyleBody"/>
-                                                            </buttonConfiguration>
-                                                        </button>
+                                                        <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bordered" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="342-h9-LLi">
+                                                            <rect key="frame" x="0.0" y="0.0" width="353" height="51"/>
+                                                            <segments>
+                                                                <segment title="Male"/>
+                                                                <segment title="Female"/>
+                                                                <segment title="Other"/>
+                                                            </segments>
+                                                            <connections>
+                                                                <action selector="genderSegmentedControlTapped:" destination="k9D-sL-MQ2" eventType="valueChanged" id="vMU-jl-qVW"/>
+                                                            </connections>
+                                                        </segmentedControl>
                                                     </subviews>
                                                 </stackView>
                                             </subviews>
@@ -457,7 +447,7 @@
                         <outlet property="firstNameTextField" destination="nYS-ey-DCr" id="I4d-zC-Xou"/>
                         <outlet property="lastNameTextField" destination="TOx-3m-akZ" id="N6y-Do-QyB"/>
                         <outlet property="newPasswordTextField" destination="gdP-7E-ngW" id="vWe-kT-nBw"/>
-                        <segue destination="FYz-8R-KHJ" kind="show" identifier="segueShowMedicalInformationTableViewController" id="lv5-wk-Pyc"/>
+                        <segue destination="FYz-8R-KHJ" kind="show" identifier="segueShowEmergencyContactTableViewController" id="lv5-wk-Pyc"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Cls-FJ-pmS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -469,7 +459,7 @@
             <objects>
                 <tableViewController id="FYz-8R-KHJ" customClass="MedicalInformationTableViewController" customModule="HMS" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="insetGrouped" separatorStyle="default" rowHeight="50" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" id="nAv-Wn-1dH">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <sections>
                             <tableViewSection headerTitle="Blood Type" id="9ek-gk-Tfw">
@@ -686,6 +676,9 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Medical Information" id="uil-nC-af3"/>
                     <connections>
+                        <outlet property="bloodGroupButton" destination="6SP-1k-UFF" id="d54-m7-YSW"/>
+                        <outlet property="heightButton" destination="CuU-FG-Kg1" id="6ib-B0-9Cn"/>
+                        <outlet property="weightButton" destination="Eac-jD-pS3" id="cbi-aD-XG4"/>
                         <segue destination="QJs-dA-fdU" kind="show" identifier="segueShowEmergencyContactTableViewController" id="e3o-HS-vZT"/>
                         <segue destination="PeO-0V-wCN" kind="presentation" identifier="segueShowPickerViewController" id="GBz-dV-x6D"/>
                     </connections>
@@ -764,7 +757,7 @@
             <objects>
                 <tableViewController id="QJs-dA-fdU" customClass="EmergencyContactTableViewController" customModule="HMS" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="insetGrouped" separatorStyle="default" rowHeight="50" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" id="b6h-ry-Z6a">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <sections>
                             <tableViewSection headerTitle="Contact Name" id="5Ma-eR-nQj">
@@ -895,11 +888,11 @@
             <objects>
                 <viewController storyboardIdentifier="SetPasswordViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="OPC-hZ-LUM" customClass="SetPasswordViewController" customModule="HMS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Thh-tW-C9G">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="TA2-sL-hJX">
-                                <rect key="frame" x="20" y="300.33333333333331" width="353" height="251.66666666666669"/>
+                                <rect key="frame" x="20" y="295.33333333333331" width="353" height="251.66666666666669"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="HMS - Set Password" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W8k-bQ-DRc">
                                         <rect key="frame" x="0.0" y="0.0" width="353" height="40.666666666666664"/>
@@ -947,6 +940,8 @@
                     </view>
                     <navigationItem key="navigationItem" id="yZt-E5-eMg"/>
                     <connections>
+                        <outlet property="confirmPasswordTextField" destination="NB7-Db-jUf" id="H5L-wX-6t9"/>
+                        <outlet property="newPasswordTextField" destination="bnT-A9-gpw" id="x1z-Lj-kyw"/>
                         <segue destination="6M8-7E-xDs" kind="show" identifier="segueShowSignInViewController" id="PFm-fc-bAZ"/>
                     </connections>
                 </viewController>
@@ -956,8 +951,8 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="Egb-5Y-RzP"/>
-        <segue reference="RSv-YS-tTm"/>
+        <segue reference="39O-hB-NkO"/>
+        <segue reference="PFm-fc-bAZ"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="chevron.up.chevron.down" catalog="system" width="109" height="128"/>

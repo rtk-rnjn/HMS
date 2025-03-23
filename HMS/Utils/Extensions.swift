@@ -30,6 +30,15 @@ extension String {
         return NSPredicate(format: "SELF MATCHES %@", emailRegex).evaluate(with: self)
     }
 
+    func isValidPassword() -> Bool {
+        return count >= 8
+    }
+
+    func isPhoneNumber() -> Bool {
+        let phoneRegex = "^[0-9]{10}$"
+        return NSPredicate(format: "SELF MATCHES %@", phoneRegex).evaluate(with: self)
+    }
+
     func isNumeric() -> Bool {
         return Double(self) != nil
     }

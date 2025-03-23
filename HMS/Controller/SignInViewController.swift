@@ -9,6 +9,11 @@ import UIKit
 
 class SignInViewController: UIViewController {
 
+    // MARK: Internal
+
+    @IBOutlet var emailTextField: UITextField!
+    @IBOutlet var passwordTextField: UITextField!
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -16,6 +21,14 @@ class SignInViewController: UIViewController {
     }
 
     @IBAction func signInButtonTapped(_ sender: UIButton) {
+        let email = emailTextField.text ?? ""
+        guard email.isValidEmail() else {
+            showAlert(message: "Invalid email")
+            return
+        }
+
+        Task {}
+
         performSegue(withIdentifier: "segueShowInitialTabBarController", sender: nil)
     }
 
@@ -27,4 +40,10 @@ class SignInViewController: UIViewController {
         performSegue(withIdentifier: "segueShowResetPasswordViewController", sender: nil)
     }
 
+    // MARK: Private
+
+    private func showAlert(message: String) {
+        let alert = Utils.getAlert(title: "Error", message: message)
+        present(alert, animated: true, completion: nil)
+    }
 }

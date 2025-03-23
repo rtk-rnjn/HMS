@@ -8,11 +8,39 @@
 import UIKit
 
 class ChangePasswordTableViewController: UITableViewController {
+
+    // MARK: Internal
+
     @IBOutlet var oldPasswordTextField: UITextField!
     @IBOutlet var newPasswordTextField: UITextField!
     @IBOutlet var confirmPasswordTextField: UITextField!
 
     @IBAction func doneButtonTapped(_ sender: UIBarButtonItem) {
+        guard let oldPassword = oldPasswordTextField.text, !oldPassword.isEmpty else {
+            showAlert(message: "Old password is required")
+            return
+        }
+
+        guard let newPassword = newPasswordTextField.text, !newPassword.isEmpty else {
+            showAlert(message: "New password is required")
+            return
+        }
+
+        guard let confirmPassword = confirmPasswordTextField.text, !confirmPassword.isEmpty else {
+            showAlert(message: "Confirm password is required")
+            return
+        }
+
+        guard newPassword == confirmPassword else {
+            showAlert(message: "Passwords do not match")
+            return
+        }
+
+        if !newPassword.isValidPassword() {
+            showAlert(message: "Password must be at least 8 characters long & alphanumeric")
+            return
+        }
+
         dismiss(animated: true) {
             print("Password changed successfully")
         }
@@ -20,5 +48,12 @@ class ChangePasswordTableViewController: UITableViewController {
 
     @IBAction func cancelButtonTapped(_ sender: UIBarButtonItem) {
         dismiss(animated: true)
+    }
+
+    // MARK: Private
+
+    private func showAlert(message: String) {
+        let alert = Utils.getAlert(title: "Error", message: message)
+        present(alert, animated: true, completion: nil)
     }
 }

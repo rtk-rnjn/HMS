@@ -114,7 +114,7 @@
             </objects>
             <point key="canvasLocation" x="2904.5801526717555" y="-34.507042253521128"/>
         </scene>
-        <!--Doctor Profile Table View Controller-->
+        <!--Doctor Profile-->
         <scene sceneID="KQ8-sL-UJe">
             <objects>
                 <tableViewController id="gGo-zi-7Ur" customClass="DoctorProfileTableViewController" customModule="HMS" customModuleProvider="target" sceneMemberID="viewController">
@@ -171,62 +171,13 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection id="HbF-sK-HVl">
-                                <cells>
-                                    <tableViewCell clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="4DM-ET-1k5">
-                                        <rect key="frame" x="0.0" y="152" width="393" height="34.333332061767578"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="4DM-ET-1k5" id="Q2c-ze-g2e">
-                                            <rect key="frame" x="0.0" y="0.0" width="393" height="34.333332061767578"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="jz6-o0-Sei">
-                                                    <rect key="frame" x="66.666666666666686" y="0.0" width="260" height="34.333333333333336"/>
-                                                    <subviews>
-                                                        <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bkt-wg-jVS">
-                                                            <rect key="frame" x="0.0" y="0.0" width="52" height="34.333333333333336"/>
-                                                            <state key="normal" title="Button"/>
-                                                            <buttonConfiguration key="configuration" style="plain" image="star.fill" catalog="system"/>
-                                                        </button>
-                                                        <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nCt-GS-7O8">
-                                                            <rect key="frame" x="52" y="0.0" width="52" height="34.333333333333336"/>
-                                                            <state key="normal" title="Button"/>
-                                                            <buttonConfiguration key="configuration" style="plain" image="star.fill" catalog="system"/>
-                                                        </button>
-                                                        <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s4M-JZ-Vav">
-                                                            <rect key="frame" x="104" y="0.0" width="52" height="34.333333333333336"/>
-                                                            <state key="normal" title="Button"/>
-                                                            <buttonConfiguration key="configuration" style="plain" image="star.fill" catalog="system"/>
-                                                        </button>
-                                                        <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zP2-Ds-GEY">
-                                                            <rect key="frame" x="156" y="0.0" width="52" height="34.333333333333336"/>
-                                                            <state key="normal" title="Button"/>
-                                                            <buttonConfiguration key="configuration" style="plain" image="star" catalog="system"/>
-                                                        </button>
-                                                        <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="keo-Gd-uPt">
-                                                            <rect key="frame" x="208" y="0.0" width="52" height="34.333333333333336"/>
-                                                            <state key="normal" title="Button"/>
-                                                            <buttonConfiguration key="configuration" style="plain" image="star" catalog="system"/>
-                                                        </button>
-                                                    </subviews>
-                                                </stackView>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="jz6-o0-Sei" firstAttribute="top" secondItem="Q2c-ze-g2e" secondAttribute="top" id="PD6-bt-2Ch"/>
-                                                <constraint firstItem="jz6-o0-Sei" firstAttribute="centerX" secondItem="Q2c-ze-g2e" secondAttribute="centerX" id="STa-18-U6F"/>
-                                                <constraint firstAttribute="bottom" secondItem="jz6-o0-Sei" secondAttribute="bottom" id="TqG-Gw-ek5"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </cells>
-                            </tableViewSection>
                         </sections>
                         <connections>
                             <outlet property="dataSource" destination="gGo-zi-7Ur" id="tCz-QM-Csr"/>
                             <outlet property="delegate" destination="gGo-zi-7Ur" id="QgL-b4-xf5"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="jX7-y4-sFT">
+                    <navigationItem key="navigationItem" title="Doctor Profile" largeTitleDisplayMode="never" id="jX7-y4-sFT">
                         <barButtonItem key="backBarButtonItem" title="Back" id="6dM-ot-UUP"/>
                     </navigationItem>
                     <connections>
@@ -243,8 +194,6 @@
         <image name="bell.fill" catalog="system" width="123" height="128"/>
         <image name="house" catalog="system" width="128" height="104"/>
         <image name="person.circle.fill" catalog="system" width="128" height="123"/>
-        <image name="star" catalog="system" width="128" height="116"/>
-        <image name="star.fill" catalog="system" width="128" height="116"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

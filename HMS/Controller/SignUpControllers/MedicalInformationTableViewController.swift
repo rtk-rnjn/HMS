@@ -11,6 +11,10 @@ class MedicalInformationTableViewController: UITableViewController {
 
     // MARK: Internal
 
+    @IBOutlet var bloodGroupButton: UIButton!
+    @IBOutlet var heightButton: UIButton!
+    @IBOutlet var weightButton: UIButton!
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "segueShowPickerViewController", let pickerViewController = segue.destination as? PickerViewController, let presentationController = segue.destination.presentationController as? UISheetPresentationController {
 
@@ -37,12 +41,15 @@ class MedicalInformationTableViewController: UITableViewController {
     }
 
     @IBAction func nextButtonTapped(_ sender: UIButton) {
+        guard validateFields() else { return }
+
         performSegue(withIdentifier: "segueShowEmergencyContactTableViewController", sender: nil)
     }
 
     // MARK: Private
 
     private let bloodGroup = ["": "", "A+": "A Positive", "A-": "A Negative", "B+": "B Positive", "B-": "B Negative", "AB+": "AB Positive", "AB-": "AB Negative", "O+": "O Positive", "O-": "O Negative"]
+
     private let heights: [String: String] = {
         var heights = ["": ""]
         for i in 120...220 {
@@ -58,5 +65,29 @@ class MedicalInformationTableViewController: UITableViewController {
         }
         return weights
     }()
+
+    private func validateFields() -> Bool {
+        guard let bloodGroup = bloodGroupButton.titleLabel?.text, !bloodGroup.isEmpty, bloodGroup != "None" else {
+            showAlert(message: "Blood group is required")
+            return false
+        }
+
+        guard let height = heightButton.titleLabel?.text, !height.isEmpty, height != "None" else {
+            showAlert(message: "Height is required")
+            return false
+        }
+
+        guard let weight = weightButton.titleLabel?.text, !weight.isEmpty, weight != "None" else {
+            showAlert(message: "Weight is required")
+            return false
+        }
+
+        return true
+    }
+
+    private func showAlert(message: String) {
+        let alert = Utils.getAlert(title: "Error", message: message)
+        present(alert, animated: true)
+    }
 
 }
