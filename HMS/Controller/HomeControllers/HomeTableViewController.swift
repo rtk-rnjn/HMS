@@ -10,6 +10,7 @@ import UIKit
 class HomeTableViewController: UITableViewController, UISearchResultsUpdating, UISearchBarDelegate {
 
     // MARK: Internal
+    private var filteredDoctors: [Staff] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,15 +31,24 @@ class HomeTableViewController: UITableViewController, UISearchResultsUpdating, U
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return doctors?.count ?? 0
+        return isSearching ? max(filteredDoctors.count, 1) : (doctors?.count ?? 0)
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "DoctorTableViewCell", for: indexPath) as? DoctorTableViewCell
-        guard let cell else { fatalError("Unable to fetch cell") }
-        guard let doctors else { fatalError("Unable to fetch doctors") }
-        cell.updateElements(with: doctors[indexPath.row])
-        return cell
+        if isSearching && filteredDoctors.isEmpty {
+                     let cell = UITableViewCell(style: .default, reuseIdentifier: "NoDoctorCell")
+                     cell.textLabel?.text = "No doctor found"
+                     cell.textLabel?.textAlignment = .center
+                     cell.textLabel?.textColor = .gray
+                     return cell
+                 }
+              
+              let cell = tableView.dequeueReusableCell(withIdentifier: "DoctorTableViewCell", for: indexPath) as? DoctorTableViewCell
+              guard let cell else { fatalError("mai pal do pal ka shayar hoon") }
+              guard let doctors else { fatalError("pal do pal meri kahani hai") }
+              cell.updateElements(with: doctors[indexPath.row])
+              return cell
+              
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -88,6 +98,24 @@ extension HomeTableViewController {
         navigationItem.hidesSearchBarWhenScrolling = false
     }
 
-    func updateSearchResults(for searchController: UISearchController) {}
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let query = searchController.searchBar.text?.lowercased(), !query.isEmpty else {
+                      filteredDoctors = doctors ?? []
+                      tableView.reloadData()
+                      return
+                  }
+
+                  filteredDoctors = doctors?.filter { doctor in
+                      doctor.firstName.lowercased().contains(query) ||
+                      doctor.specializations.contains { $0.lowercased().contains(query) }
+                  } ?? []
+
+                  tableView.reloadData()
+    }
+    
+    private var isSearching: Bool {
+          return searchController.isActive && !(searchController.searchBar.text?.isEmpty ?? true)
+      }
+
 
 }
