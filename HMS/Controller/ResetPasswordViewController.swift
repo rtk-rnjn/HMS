@@ -26,7 +26,7 @@ class ResetPasswordViewController: UIViewController {
         if segue.identifier == "segueShowSetPasswordViewController" {
             guard let email = sender as? String else { return }
             guard let setPasswordViewController = segue.destination as? SetPasswordViewController else {
-                fatalError("yeh dosti hum nahi todenge, todenge dum magar tera saath na chhodenge")
+                fatalError("Couldnt perform segue")
             }
             setPasswordViewController.email = email
         }

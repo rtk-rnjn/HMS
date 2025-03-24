@@ -66,7 +66,7 @@ class DataController {
     func login(emailAddress: String, password: String) async -> Bool {
         let userLogin = UserLogin(emailAddress: emailAddress, password: password)
         guard let userLoginData = userLogin.toData() else {
-            fatalError("Something fucked up")
+            fatalError("Could not convert UserLogin to Data")
         }
 
         let token: Token? = await MiddlewareManager.shared.post(url: "/patient/login", body: userLoginData)
@@ -102,7 +102,7 @@ class DataController {
 
     func createPatient(patient: Patient) async -> Bool {
         guard let patientData = patient.toData() else {
-            fatalError("Something def. fucked up!!")
+            fatalError("Could not create patient")
         }
 
         let response: ServerResponse? = await MiddlewareManager.shared.post(url: "/patient/create", body: patientData)
@@ -118,7 +118,7 @@ class DataController {
     func changePassword(oldPassword: String, newPassword: String) async -> Bool {
         let changePassword = ChangePassword(oldPassword: oldPassword, newPassword: newPassword)
         guard let changePasswordData = changePassword.toData() else {
-            fatalError("Something fucked up again...")
+            fatalError("Could not change password")
         }
 
         let response: ServerResponse? = await MiddlewareManager.shared.patch(url: "/patient/change-password", body: changePasswordData)
@@ -128,7 +128,7 @@ class DataController {
     func hardPasswordReset(emailAddress: String, password: String) async -> Bool {
         let hardPasswordReset = HardPasswordReset(emailAddress: emailAddress, newPassword: password)
         guard let hardPasswordResetData = hardPasswordReset.toData() else {
-            fatalError("WTF... fucked up yet again...")
+            fatalError("Could not hard reset password")
         }
 
         let response: ServerResponse? = await MiddlewareManager.shared.patch(url: "/change-password", body: hardPasswordResetData)

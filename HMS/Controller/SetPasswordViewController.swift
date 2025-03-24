@@ -47,7 +47,7 @@ class SetPasswordViewController: UIViewController {
         }
 
         Task {
-            guard let email else { fatalError("HOW TF EMAIL IS NONE???") }
+            guard let email else { fatalError("Email is none. Cannot reset password") }
 
             let changed = await DataController.shared.hardPasswordReset(emailAddress: email, password: newPassword)
             if changed {

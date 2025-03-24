@@ -48,7 +48,7 @@ class ProfileTableViewController: UITableViewController {
 
     private func prepareUI() {
         guard let patient else {
-            fatalError("Tareef karu kya uski jisne tujhe banaya")
+            fatalError("Unable to prepareUI: patient is nil")
         }
 
         dateOfBirthDatePicker.date = patient.dateOfBirth
