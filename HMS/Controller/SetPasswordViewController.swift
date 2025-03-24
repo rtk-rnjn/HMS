@@ -15,7 +15,7 @@ class SetPasswordViewController: UIViewController {
 
     @IBOutlet var confirmPasswordTextField: UITextField!
     @IBOutlet var newPasswordTextField: UITextField!
-    
+    @IBOutlet weak var doneButton: UIButton!
     
     
     let eyeButton1 = UIButton(type: .custom)
@@ -37,10 +37,30 @@ class SetPasswordViewController: UIViewController {
         
         
         
+        newPasswordTextField.addTarget(self, action: #selector(textFieldsChanged), for: .editingChanged)
+            confirmPasswordTextField.addTarget(self, action: #selector(textFieldsChanged), for: .editingChanged)
+
+        doneButton.isEnabled = false
+        doneButton.alpha = 0.5 //
+        
         
         
         navigationItem.hidesBackButton = true
     }
+    
+    
+    
+    @objc func textFieldsChanged() {
+        let password = newPasswordTextField.text ?? ""
+        let confirmPassword = confirmPasswordTextField.text ?? ""
+        
+        let isValid = password.count >= 8 && confirmPassword.count >= 8 && password == confirmPassword
+        
+        doneButton.isEnabled = isValid
+        doneButton.alpha = isValid ? 1.0 : 0.7 // Adjusted opacity for better visibility
+    }
+    
+    
 
     @IBAction func doneButtonTapped(_ sender: UIButton) {
         let newPassword = newPasswordTextField.text ?? ""

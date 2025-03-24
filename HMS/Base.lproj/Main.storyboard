@@ -944,6 +944,7 @@
                     <navigationItem key="navigationItem" id="yZt-E5-eMg"/>
                     <connections>
                         <outlet property="confirmPasswordTextField" destination="NB7-Db-jUf" id="H5L-wX-6t9"/>
+                        <outlet property="doneButton" destination="Veo-Xk-uav" id="WTz-al-L4y"/>
                         <outlet property="newPasswordTextField" destination="bnT-A9-gpw" id="x1z-Lj-kyw"/>
                         <segue destination="6M8-7E-xDs" kind="show" identifier="segueShowSignInViewController" id="PFm-fc-bAZ"/>
                     </connections>
