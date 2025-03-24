@@ -7,7 +7,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Anish Ranjan-->
+        <!--Profile Table View Controller-->
         <scene sceneID="9pp-Yd-7ss">
             <objects>
                 <tableViewController storyboardIdentifier="ProfileTableViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="aME-u9-7VD" customClass="ProfileTableViewController" customModule="HMS" customModuleProvider="target" sceneMemberID="viewController">
@@ -310,13 +310,7 @@
                             <outlet property="delegate" destination="aME-u9-7VD" id="6qL-qE-XgU"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Anish Ranjan" id="d3G-k7-dbX">
-                        <barButtonItem key="rightBarButtonItem" image="bell.fill" catalog="system" style="done" id="1Yb-2Z-rbo">
-                            <connections>
-                                <segue destination="en8-Dp-T4b" kind="presentation" id="ka7-HL-jaB"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="d3G-k7-dbX"/>
                     <connections>
                         <outlet property="ageLabel" destination="fyY-yp-OYe" id="SQ8-mv-64c"/>
                         <outlet property="bloodTypeLabel" destination="o41-kb-JIx" id="Ufk-oB-u1D"/>
@@ -496,7 +490,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="bell.fill" catalog="system" width="123" height="128"/>
         <image name="person.fill" catalog="system" width="128" height="120"/>
         <systemColor name="systemPinkColor">
             <color red="1" green="0.1764705882" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
