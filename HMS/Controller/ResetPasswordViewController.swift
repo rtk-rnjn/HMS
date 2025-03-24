@@ -19,7 +19,7 @@ class ResetPasswordViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        navigationItem.hidesBackButton = true
+        navigationItem.hidesBackButton = false
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

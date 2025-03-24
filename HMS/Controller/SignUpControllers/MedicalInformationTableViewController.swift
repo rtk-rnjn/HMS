@@ -68,7 +68,7 @@ class MedicalInformationTableViewController: UITableViewController {
             patient?.medications = medications
         }
 
-        performSegue(withIdentifier: "segueShowEmergencyContactTableViewController", sender: patient)
+       // performSegue(withIdentifier: "segueShowEmergencyContactTableViewController", sender: patient)
     }
 
     // MARK: Private

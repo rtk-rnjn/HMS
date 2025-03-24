@@ -36,13 +36,13 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="wsf-0h-pIl">
                                         <rect key="frame" x="0.0" y="0.0" width="353" height="63.666666666666664"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="HMS - Patient Login" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8kN-Dp-hGk">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome Back!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8kN-Dp-hGk">
                                                 <rect key="frame" x="0.0" y="0.0" width="353" height="40.666666666666664"/>
                                                 <fontDescription key="fontDescription" style="UICTFontTextStyleTitle0"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sign in to continue" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TYA-eY-Q8e">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sign in to continue" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TYA-eY-Q8e">
                                                 <rect key="frame" x="0.0" y="45.666666666666686" width="353" height="18"/>
                                                 <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -66,7 +66,7 @@
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b3g-sa-Wmg">
                                                 <rect key="frame" x="0.0" y="130.66666666666669" width="353" height="28"/>
                                                 <state key="normal" title="Button"/>
-                                                <buttonConfiguration key="configuration" style="plain" title="Forget Password?" buttonSize="mini">
+                                                <buttonConfiguration key="configuration" style="plain" title="Forgot Password?" buttonSize="mini">
                                                     <fontDescription key="titleFontDescription" style="UICTFontTextStyleSubhead"/>
                                                 </buttonConfiguration>
                                                 <connections>
@@ -92,7 +92,7 @@
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0Sy-Sq-oNR">
-                                <rect key="frame" x="43" y="808.66666666666663" width="307" height="33.333333333333371"/>
+                                <rect key="frame" x="58.333333333333343" y="808.66666666666663" width="276.66666666666663" height="33.333333333333371"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Don't have an account?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jlE-9b-oSu">
                                         <rect key="frame" x="0.0" y="0.0" width="170.33333333333334" height="33.333333333333336"/>
@@ -101,9 +101,9 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bfL-zR-chz">
-                                        <rect key="frame" x="170.33333333333337" y="0.0" width="136.66666666666663" height="33.333333333333336"/>
+                                        <rect key="frame" x="170.33333333333331" y="0.0" width="106.33333333333331" height="33.333333333333336"/>
                                         <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" title="Create Account">
+                                        <buttonConfiguration key="configuration" style="plain" title="Create One">
                                             <fontDescription key="titleFontDescription" style="UICTFontTextStyleCallout"/>
                                         </buttonConfiguration>
                                         <connections>
@@ -148,7 +148,7 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="6Ch-jq-PBl">
                                 <rect key="frame" x="20" y="295.33333333333331" width="353" height="251.66666666666669"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="HMS - Reset Password" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XZV-qa-WER">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Reset Password" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XZV-qa-WER">
                                         <rect key="frame" x="0.0" y="0.0" width="353" height="40.666666666666664"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleTitle0"/>
                                         <nil key="textColor"/>
@@ -656,6 +656,7 @@
                                                     </buttonConfiguration>
                                                     <connections>
                                                         <action selector="nextButtonTapped:" destination="FYz-8R-KHJ" eventType="touchUpInside" id="2vU-ul-LIc"/>
+                                                        <segue destination="9BT-J2-7Pp" kind="show" id="mYR-m8-Pzv"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -682,7 +683,6 @@
                         <outlet property="heightButton" destination="CuU-FG-Kg1" id="6ib-B0-9Cn"/>
                         <outlet property="medicationTextField" destination="Qwn-3P-LGO" id="P4R-uq-FvZ"/>
                         <outlet property="weightButton" destination="Eac-jD-pS3" id="cbi-aD-XG4"/>
-                        <segue destination="QJs-dA-fdU" kind="show" identifier="segueShowEmergencyContactTableViewController" id="e3o-HS-vZT"/>
                         <segue destination="PeO-0V-wCN" kind="presentation" identifier="segueShowPickerViewController" id="GBz-dV-x6D"/>
                     </connections>
                 </tableViewController>
@@ -760,7 +760,7 @@
             <objects>
                 <tableViewController id="QJs-dA-fdU" customClass="EmergencyContactTableViewController" customModule="HMS" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="insetGrouped" separatorStyle="default" rowHeight="50" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" id="b6h-ry-Z6a">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <sections>
                             <tableViewSection headerTitle="Contact Name" id="5Ma-eR-nQj">
@@ -879,12 +879,11 @@
                         <outlet property="emergencyContactName" destination="eMS-J1-RQc" id="1Qi-lg-dlG"/>
                         <outlet property="emergencyContactNumber" destination="eiG-OB-5dS" id="efM-82-C9u"/>
                         <outlet property="emergencyContactRelationship" destination="pJo-w7-3BY" id="J7Z-Sw-FZw"/>
-                        <segue destination="9BT-J2-7Pp" kind="show" identifier="segueShowInitialTabBarViewController" id="Egb-5Y-RzP"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bZV-kK-I8u" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3046.5648854961833" y="829.57746478873241"/>
+            <point key="canvasLocation" x="3228" y="830"/>
         </scene>
         <!--Set Password View Controller-->
         <scene sceneID="j2l-fc-Q1p">
@@ -897,7 +896,7 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="TA2-sL-hJX">
                                 <rect key="frame" x="20" y="295.33333333333331" width="353" height="251.66666666666669"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="HMS - Set Password" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W8k-bQ-DRc">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Set New Password" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W8k-bQ-DRc">
                                         <rect key="frame" x="0.0" y="0.0" width="353" height="40.666666666666664"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleTitle0"/>
                                         <nil key="textColor"/>
@@ -954,8 +953,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="AVC-aB-lb2"/>
-        <segue reference="39O-hB-NkO"/>
+        <segue reference="mYR-m8-Pzv"/>
         <segue reference="PFm-fc-bAZ"/>
     </inferredMetricsTieBreakers>
     <resources>
