@@ -24,8 +24,28 @@ class PersonalInformationTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureEyeButton(for: newPasswordTextField)
+        configureEyeButton(for: confirmPasswordTextField)
         dateOfBirthPicker.maximumDate = Date()
     }
+    
+    private func configureEyeButton(for textField: UITextField) {
+           let eyeButton = UIButton(type: .custom)
+           eyeButton.setImage(UIImage(systemName: "eye"), for: .normal)
+           eyeButton.setImage(UIImage(systemName: "eye.slash"), for: .selected)
+           eyeButton.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+           eyeButton.addTarget(self, action: #selector(togglePasswordVisibility(_:)), for: .touchUpInside)
+
+           textField.rightView = eyeButton
+           textField.rightViewMode = .always
+           textField.isSecureTextEntry = true // Ensure secure entry initially
+       }
+
+       @objc private func togglePasswordVisibility(_ sender: UIButton) {
+           guard let textField = sender.superview as? UITextField else { return }
+           sender.isSelected.toggle()
+           textField.isSecureTextEntry.toggle()
+       }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "segueShowMedicalInformationTableViewController", let medicalInformationTableViewController = segue.destination as? MedicalInformationTableViewController {
