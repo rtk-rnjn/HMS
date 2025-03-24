@@ -73,7 +73,11 @@ class MedicalInformationTableViewController: UITableViewController {
 
     // MARK: Private
 
-    private let bloodGroup: [String: String] = BloodGroup.allCases.reduce(into: ["": "None"]) { $0[$1.rawValue] = $1.rawValue }
+    private let bloodGroup: [String: String] = {
+        var groups = BloodGroup.allCases.reduce(into: [:]) { $0[$1.rawValue] = $1.rawValue }
+        groups["not_known"] = "Not Known"
+        return groups
+    }()
 
     private let heights: [String: String] = {
         var heights = ["": ""]
@@ -84,15 +88,15 @@ class MedicalInformationTableViewController: UITableViewController {
     }()
 
     private let weights: [String: String] = {
-        var weights = ["": ""]
-        for i in 30...200 {
+        var weights: [String: String] = [:]
+        for i in 10...200 {
             weights[String(i)] = "\(i) kg"
         }
         return weights
     }()
 
     private func validateFields() -> Bool {
-        guard let bloodGroup = bloodGroupButton.titleLabel?.text, !bloodGroup.isEmpty, bloodGroup != "None" else {
+        guard let bloodGroup = bloodGroupButton.titleLabel?.text, !bloodGroup.isEmpty, bloodGroup != "Not Known" else {
             showAlert(message: "Blood group is required")
             return false
         }
