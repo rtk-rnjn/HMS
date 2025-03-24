@@ -21,10 +21,18 @@ class ProfileTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        patient = DataController.shared.patient
-        navigationItem.title = patient?.fullName
+        Task {
+            let loggedIn = await DataController.shared.autoLogin()
+            if loggedIn {
+                DispatchQueue.main.async {
+                    self.patient = DataController.shared.patient
+                    self.navigationItem.title = patient?.fullName
 
-        prepareUI()
+                    self.prepareUI()
+                }
+            }
+        }
+
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -54,7 +62,7 @@ class ProfileTableViewController: UITableViewController {
 
     private func prepareUI() {
         guard let patient else {
-            fatalError("Unable to prepareUI: patient is nil")
+            return
         }
 
         dateOfBirthDatePicker.date = patient.dateOfBirth
