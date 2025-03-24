@@ -14,12 +14,49 @@ class SignInViewController: UIViewController {
     @IBOutlet var emailTextField: UITextField!
     @IBOutlet var passwordTextField: UITextField!
 
+    
+    
+    let eyeButton = UIButton(type: .custom)
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        eyeButton.tintColor = .gray
+        eyeButton.isEnabled = false
         configureEyeButton(for: passwordTextField)
+        passwordTextField.addTarget(self, action: #selector(passwordEntered), for: .editingChanged)
+        
+        
+        
+        
+        
         navigationItem.hidesBackButton = true
     }
 
+    @objc func passwordEntered(sender:UITextField){
+        if passwordTextField.text?.isEmpty ?? true || passwordTextField.text == "" {
+            eyeButton.isEnabled = false
+            eyeButton.tintColor = .gray
+        }else{
+            eyeButton.isEnabled = true
+            eyeButton.tintColor = .tintColor
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     @IBAction func signInButtonTapped(_ sender: UIButton) {
         let emailAddress = emailTextField.text ?? ""
         guard emailAddress.isValidEmail() else {
@@ -52,7 +89,6 @@ class SignInViewController: UIViewController {
 
     private func configureEyeButton(for textField: UITextField) {
         // Create the eye button
-        let eyeButton = UIButton(type: .custom)
         eyeButton.setImage(UIImage(systemName: "eye"), for: .normal)
         eyeButton.setImage(UIImage(systemName: "eye.slash"), for: .selected)
         eyeButton.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
@@ -70,11 +106,11 @@ class SignInViewController: UIViewController {
         textField.rightViewMode = .always
         textField.isSecureTextEntry = true // Ensure secure entry initially
     }
-
-       @objc private func togglePasswordVisibility(_ sender: UIButton) {
-           sender.isSelected.toggle()
-           passwordTextField.isSecureTextEntry.toggle()
-       }
+    
+    @objc private func togglePasswordVisibility(_ sender: UIButton) {
+        sender.isSelected.toggle()
+        passwordTextField.isSecureTextEntry.toggle()
+    }
 
     private func showAlert(message: String) {
         let alert = Utils.getAlert(title: "Error", message: message)
