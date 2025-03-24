@@ -19,6 +19,10 @@ class PersonalInformationTableViewController: UITableViewController {
     @IBOutlet var newPasswordTextField: UITextField!
     @IBOutlet var confirmPasswordTextField: UITextField!
 
+    // Warning labels for name fields
+    private let firstNameWarningLabel = UILabel()
+    private let lastNameWarningLabel = UILabel()
+
     var selectedGender: String = "Male"
     var patient: Patient?
 
@@ -27,6 +31,21 @@ class PersonalInformationTableViewController: UITableViewController {
         configureEyeButton(for: newPasswordTextField)
         configureEyeButton(for: confirmPasswordTextField)
         dateOfBirthPicker.maximumDate = Date()
+        
+        // Configure text fields to capitalize first letter
+        firstNameTextField.autocapitalizationType = .words
+        lastNameTextField.autocapitalizationType = .words
+        
+        // Setup warning labels
+        setupWarningLabels()
+        
+        // Add text field delegates
+        firstNameTextField.delegate = self
+        lastNameTextField.delegate = self
+        
+        // Add text change observers
+        firstNameTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+        lastNameTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -67,13 +86,97 @@ class PersonalInformationTableViewController: UITableViewController {
        textField.isSecureTextEntry.toggle()
    }
 
+    private func setupWarningLabels() {
+        // Configure first name warning label
+        firstNameWarningLabel.textColor = .red
+        firstNameWarningLabel.font = .systemFont(ofSize: 12)
+        firstNameWarningLabel.numberOfLines = 0
+        firstNameWarningLabel.isHidden = true
+        
+        // Configure last name warning label
+        lastNameWarningLabel.textColor = .red
+        lastNameWarningLabel.font = .systemFont(ofSize: 12)
+        lastNameWarningLabel.numberOfLines = 0
+        lastNameWarningLabel.isHidden = true
+        
+        // Add warning labels to the view
+        if let firstNameCell = firstNameTextField.superview?.superview as? UITableViewCell {
+            firstNameCell.contentView.addSubview(firstNameWarningLabel)
+            firstNameWarningLabel.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                firstNameWarningLabel.topAnchor.constraint(equalTo: firstNameTextField.bottomAnchor, constant: 4),
+                firstNameWarningLabel.leadingAnchor.constraint(equalTo: firstNameTextField.leadingAnchor),
+                firstNameWarningLabel.trailingAnchor.constraint(equalTo: firstNameTextField.trailingAnchor),
+                firstNameWarningLabel.bottomAnchor.constraint(lessThanOrEqualTo: firstNameCell.contentView.bottomAnchor, constant: -4)
+            ])
+        }
+        
+        if let lastNameCell = lastNameTextField.superview?.superview as? UITableViewCell {
+            lastNameCell.contentView.addSubview(lastNameWarningLabel)
+            lastNameWarningLabel.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                lastNameWarningLabel.topAnchor.constraint(equalTo: lastNameTextField.bottomAnchor, constant: 4),
+                lastNameWarningLabel.leadingAnchor.constraint(equalTo: lastNameTextField.leadingAnchor),
+                lastNameWarningLabel.trailingAnchor.constraint(equalTo: lastNameTextField.trailingAnchor),
+                lastNameWarningLabel.bottomAnchor.constraint(lessThanOrEqualTo: lastNameCell.contentView.bottomAnchor, constant: -4)
+            ])
+        }
+    }
+    
+    @objc private func textFieldDidChange(_ textField: UITextField) {
+        validateNameField(textField)
+    }
+    
+    private func validateNameField(_ textField: UITextField) {
+        guard let text = textField.text else { return }
+        
+        let warningLabel = textField == firstNameTextField ? firstNameWarningLabel : lastNameWarningLabel
+        
+        // Check for numbers and special characters
+        let nameRegex = "^[a-zA-Z ]*$"
+        let namePredicate = NSPredicate(format: "SELF MATCHES %@", nameRegex)
+        let isValid = namePredicate.evaluate(with: text)
+        
+        if !text.isEmpty && !isValid {
+            warningLabel.text = "Only letters are allowed"
+            warningLabel.isHidden = false
+            
+            // Adjust cell height to accommodate warning label
+            if let cell = textField.superview?.superview as? UITableViewCell {
+                UIView.animate(withDuration: 0.3) {
+                    cell.layoutIfNeeded()
+                }
+            }
+        } else {
+            warningLabel.isHidden = true
+        }
+        
+        tableView.beginUpdates()
+        tableView.endUpdates()
+    }
+
     private func validateFields() -> Bool {
         guard let firstName = firstNameTextField.text, !firstName.isEmpty else {
             showAlert(message: "First name is required")
             return false
         }
+        
+        // Validate first name format
+        let nameRegex = "^[a-zA-Z ]*$"
+        let namePredicate = NSPredicate(format: "SELF MATCHES %@", nameRegex)
+        
+        if !namePredicate.evaluate(with: firstName) {
+            showAlert(message: "First name should only contain letters")
+            return false
+        }
 
         let lastName = lastNameTextField.text ?? ""
+        
+        // Validate last name format if not empty
+        if !lastName.isEmpty && !namePredicate.evaluate(with: lastName) {
+            showAlert(message: "Last name should only contain letters")
+            return false
+        }
 
         guard let email = emailTextField.text, !email.isEmpty else {
             showAlert(message: "Email is required")
@@ -117,4 +220,18 @@ class PersonalInformationTableViewController: UITableViewController {
         present(alert, animated: true)
     }
 
+}
+
+// MARK: - UITextFieldDelegate
+extension PersonalInformationTableViewController: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        // Allow backspace
+        if string.isEmpty {
+            return true
+        }
+        
+        // Only allow letters and spaces
+        let allowedCharacters = CharacterSet.letters.union(.whitespaces)
+        return string.rangeOfCharacter(from: allowedCharacters.inverted) == nil
+    }
 }
