@@ -72,13 +72,7 @@
                             <outlet property="delegate" destination="mYR-aj-pJw" id="Kc7-ck-UnA"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Ritik Ranjan" largeTitleDisplayMode="always" id="GdR-8C-Jic">
-                        <barButtonItem key="rightBarButtonItem" title="Item" image="bell.fill" catalog="system" style="done" id="SBo-eF-Xt0">
-                            <connections>
-                                <segue destination="k7h-eb-pfL" kind="presentation" id="2mp-Sz-Xln"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Ritik Ranjan" largeTitleDisplayMode="always" id="GdR-8C-Jic"/>
                     <connections>
                         <segue destination="gGo-zi-7Ur" kind="show" identifier="segueShowDoctorProfileTableViewController" id="LuO-Hg-V3T"/>
                     </connections>
@@ -191,7 +185,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="bell.fill" catalog="system" width="123" height="128"/>
         <image name="house" catalog="system" width="128" height="104"/>
         <image name="person.circle.fill" catalog="system" width="128" height="123"/>
         <systemColor name="systemBackgroundColor">
