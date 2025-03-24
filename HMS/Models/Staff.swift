@@ -28,6 +28,7 @@ struct Staff: Codable, Equatable {
         case specializations = "specializations"
         case department = "department"
         case onLeave = "on_leave"
+        case consultationFee = "consultation_fee"
         case unavailabilityPeriods = "unavailability_periods"
         case licenseId = "license_id"
         case role = "role"
@@ -44,6 +45,7 @@ struct Staff: Codable, Equatable {
     var specializations: [String]
     var department: String
     var onLeave: Bool = false
+    var consultationFee: Int = 0
 
     var unavailabilityPeriods: [UnavailablePeriod] = []
     var licenseId: String
