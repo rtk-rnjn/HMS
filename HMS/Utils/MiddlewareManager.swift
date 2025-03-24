@@ -50,7 +50,7 @@ actor MiddlewareManager {
         }
 
         guard let url = URL(string: urlString) else {
-            fatalError("Oo haseena zulfon waali jaane jahan")
+            fatalError("Could not create URL from \(urlString)")
         }
 
         var request = URLRequest(url: url)
@@ -74,7 +74,7 @@ actor MiddlewareManager {
             return try decoder.decode(T.self, from: data)
 
         } catch {
-            fatalError("WHITEEE AMEERIICAAAA!!!!!!")
+            fatalError("Could not fetch data: \(error)")
         }
     }
 }

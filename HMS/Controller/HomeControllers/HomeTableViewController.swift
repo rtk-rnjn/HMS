@@ -35,8 +35,8 @@ class HomeTableViewController: UITableViewController, UISearchResultsUpdating, U
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "DoctorTableViewCell", for: indexPath) as? DoctorTableViewCell
-        guard let cell else { fatalError("mai pal do pal ka shayar hoon") }
-        guard let doctors else { fatalError("pal do pal meri kahani hai") }
+        guard let cell else { fatalError("Unable to fetch cell") }
+        guard let doctors else { fatalError("Unable to fetch doctors") }
         cell.updateElements(with: doctors[indexPath.row])
         return cell
     }
