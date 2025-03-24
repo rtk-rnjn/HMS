@@ -26,7 +26,7 @@ class ProfileTableViewController: UITableViewController {
             if loggedIn {
                 DispatchQueue.main.async {
                     self.patient = DataController.shared.patient
-                    self.navigationItem.title = patient?.fullName
+                    self.navigationItem.title = self.patient?.fullName
 
                     self.prepareUI()
                 }
