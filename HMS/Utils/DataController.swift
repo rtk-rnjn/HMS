@@ -97,7 +97,7 @@ class DataController {
     }
 
     func fetchDoctors() async -> [Staff]? {
-        return await MiddlewareManager.shared.get(url: "/staff")
+        return await MiddlewareManager.shared.get(url: "/staffs", queryParameters: ["limit": "100"])
     }
 
     func createPatient(patient: Patient) async -> Bool {
@@ -122,7 +122,11 @@ class DataController {
         }
 
         let response: ServerResponse? = await MiddlewareManager.shared.patch(url: "/patient/change-password", body: changePasswordData)
-        return response?.success ?? false
+        let success = response?.success ?? false
+        if success {
+            UserDefaults.standard.set(newPassword, forKey: "password")
+        }
+        return success
     }
 
     func hardPasswordReset(emailAddress: String, password: String) async -> Bool {
