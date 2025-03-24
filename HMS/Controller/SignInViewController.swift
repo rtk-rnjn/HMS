@@ -13,13 +13,64 @@ class SignInViewController: UIViewController {
 
     @IBOutlet var emailTextField: UITextField!
     @IBOutlet var passwordTextField: UITextField!
-
+    @IBOutlet weak var signInButton: UIButton!
+    
+    
+    let eyeButton = UIButton(type: .custom)
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        eyeButton.tintColor = .gray
+        eyeButton.isEnabled = false
         configureEyeButton(for: passwordTextField)
+        passwordTextField.addTarget(self, action: #selector(passwordEntered), for: .editingChanged)
+        
+        
+        emailTextField.addTarget(self, action: #selector(textFieldsChanged), for: .editingChanged)
+                passwordTextField.addTarget(self, action: #selector(textFieldsChanged), for: .editingChanged)
+
+                // Initially disable sign-in button
+                signInButton.isEnabled = false
+                signInButton.alpha = 1.0
+        
+        
         navigationItem.hidesBackButton = true
     }
+    
+    @objc func textFieldsChanged() {
+            let isValidEmail = isValidEmail(emailTextField.text ?? "")
+            let isPasswordFilled = !(passwordTextField.text?.isEmpty ?? true)
 
+            signInButton.isEnabled = isValidEmail && isPasswordFilled
+//        signInButton.alpha = signInButton.isEnabled ? 1.0 : 0.5
+        }
+    
+
+    @objc func passwordEntered(sender:UITextField){
+        if passwordTextField.text?.isEmpty ?? true || passwordTextField.text == "" {
+            eyeButton.isEnabled = false
+            eyeButton.tintColor = .gray
+        }else{
+            eyeButton.isEnabled = true
+            eyeButton.tintColor = .tintColor
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     @IBAction func signInButtonTapped(_ sender: UIButton) {
         let emailAddress = emailTextField.text ?? ""
         guard emailAddress.isValidEmail() else {
@@ -52,7 +103,6 @@ class SignInViewController: UIViewController {
 
     private func configureEyeButton(for textField: UITextField) {
         // Create the eye button
-        let eyeButton = UIButton(type: .custom)
         eyeButton.setImage(UIImage(systemName: "eye"), for: .normal)
         eyeButton.setImage(UIImage(systemName: "eye.slash"), for: .selected)
         eyeButton.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
@@ -70,11 +120,18 @@ class SignInViewController: UIViewController {
         textField.rightViewMode = .always
         textField.isSecureTextEntry = true // Ensure secure entry initially
     }
-
-       @objc private func togglePasswordVisibility(_ sender: UIButton) {
-           sender.isSelected.toggle()
-           passwordTextField.isSecureTextEntry.toggle()
-       }
+    
+    @objc private func togglePasswordVisibility(_ sender: UIButton) {
+        sender.isSelected.toggle()
+        passwordTextField.isSecureTextEntry.toggle()
+    }
+    
+    private func isValidEmail(_ email: String) -> Bool {
+            let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+            let emailPredicate = NSPredicate(format: "SELF MATCHES %@", emailRegex)
+            return emailPredicate.evaluate(with: email)
+        }
+    
 
     private func showAlert(message: String) {
         let alert = Utils.getAlert(title: "Error", message: message)
