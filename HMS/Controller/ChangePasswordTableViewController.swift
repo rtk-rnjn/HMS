@@ -14,7 +14,7 @@ class ChangePasswordTableViewController: UITableViewController {
     @IBOutlet var oldPasswordTextField: UITextField!
     @IBOutlet var newPasswordTextField: UITextField!
     @IBOutlet var confirmPasswordTextField: UITextField!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         configureEyeButton(for: oldPasswordTextField)
@@ -65,7 +65,7 @@ class ChangePasswordTableViewController: UITableViewController {
     }
 
     // MARK: Private
-    
+
     private func configureEyeButton(for textField: UITextField) {
            let eyeButton = UIButton(type: .custom)
            eyeButton.setImage(UIImage(systemName: "eye"), for: .normal)
