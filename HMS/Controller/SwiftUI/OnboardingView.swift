@@ -43,7 +43,7 @@ struct OnboardingView: View {
                                     .fontWeight(.bold)
                             }
                             Text(onboardingData[index].description)
-                                .font(.title3)
+                                .font(.subheadline)
                                 .foregroundColor(.gray)
                                 .multilineTextAlignment(.center)
                                 .lineLimit(nil)
