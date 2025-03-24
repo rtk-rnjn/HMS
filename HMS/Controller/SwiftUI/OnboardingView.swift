@@ -97,12 +97,14 @@ struct OnboardingView: View {
         .navigationTitle("")
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
-                Button(action: {
-                    isOnboardingComplete = true
-                    delegate?.onboardingComplete()
-                }) {
-                    Text("Skip")
-                        .foregroundColor(.blue)
+                if !isLastPage {
+                    Button(action: {
+                        isOnboardingComplete = true
+                        delegate?.onboardingComplete()
+                    }) {
+                        Text("Skip")
+                            .foregroundColor(.blue)
+                    }
                 }
             }
         }
