@@ -21,25 +21,24 @@ class PersonalInformationTableViewController: UITableViewController {
 
     @IBOutlet var genderButton: UIButton!
     @IBOutlet var nextButton: UIButton!
-    
+
     var selectedGender: String = "Male"
     var patient: Patient?
 
-    let newPasswordEyeButton = UIButton(type: .custom)
-    let confirmPasswordEyeButton = UIButton(type: .custom)
+    let newPasswordEyeButton: UIButton = .init(type: .custom)
+    let confirmPasswordEyeButton: UIButton = .init(type: .custom)
 
     var hasValidInput: Bool {
         guard let firstName = firstNameTextField.text, let email = emailTextField.text, let newPassword = newPasswordTextField.text, let confirmPassword = confirmPasswordTextField.text else {
             return false
         }
-        let hasInputs  = !firstName.isEmpty && !email.isEmpty && !newPassword.isEmpty && !confirmPassword.isEmpty
+        let hasInputs = !firstName.isEmpty && !email.isEmpty && !newPassword.isEmpty && !confirmPassword.isEmpty
 
         let hasValidEmail = email.isValidEmail()
         let passwordsMatch = newPassword == confirmPassword
 
         return hasInputs && hasValidEmail && passwordsMatch
     }
-
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,6 +59,30 @@ class PersonalInformationTableViewController: UITableViewController {
         } else {
             showAlert(message: "Please fill all the fields")
         }
+    }
+
+    @IBAction func nameEditingChaged(_ sender: UITextField) {
+        firstNameTextField.text = firstNameTextField.text?.filter { $0.isLetter || $0.isWhitespace }
+        lastNameTextField.text = lastNameTextField.text?.filter { $0.isLetter || $0.isWhitespace }
+
+        firstNameTextField.text = firstNameTextField.text?.trimmingCharacters(in: .whitespaces)
+        lastNameTextField.text = lastNameTextField.text?.trimmingCharacters(in: .whitespaces)
+    }
+
+    @IBAction func passwordEditingChanged(_ sender: UITextField) {
+        let hasSomeNewPassword = newPasswordTextField.text?.isEmpty ?? true ? false : true
+
+        newPasswordEyeButton.isEnabled = hasSomeNewPassword
+        newPasswordEyeButton.tintColor = hasSomeNewPassword ? .tintColor : .gray
+
+        let hasSomeConfirmPassword = confirmPasswordTextField.text?.isEmpty ?? true ? false : true
+
+        confirmPasswordEyeButton.isEnabled = hasSomeConfirmPassword
+        confirmPasswordEyeButton.tintColor = hasSomeConfirmPassword ? .tintColor : .gray
+    }
+
+    @IBAction func textEditingChanged(_ sender: UITextField) {
+        nextButton.isEnabled = hasValidInput
     }
 
     // MARK: Private
@@ -112,32 +135,6 @@ class PersonalInformationTableViewController: UITableViewController {
     private func showAlert(message: String) {
         let alert = Utils.getAlert(title: "Error", message: message)
         present(alert, animated: true)
-    }
-
-
-    @IBAction func nameEditingChaged(_ sender: UITextField) {
-        firstNameTextField.text =  firstNameTextField.text?.filter { $0.isLetter || $0.isWhitespace }
-        lastNameTextField.text = lastNameTextField.text?.filter { $0.isLetter || $0.isWhitespace }
-
-        firstNameTextField.text = firstNameTextField.text?.trimmingCharacters(in: .whitespaces)
-        lastNameTextField.text = lastNameTextField.text?.trimmingCharacters(in: .whitespaces)
-    }
-
-
-    @IBAction func passwordEditingChanged(_ sender: UITextField) {
-        let hasSomeNewPassword = newPasswordTextField.text?.isEmpty ?? true ? false : true
-
-        newPasswordEyeButton.isEnabled = hasSomeNewPassword
-        newPasswordEyeButton.tintColor = hasSomeNewPassword ? .tintColor : .gray
-
-        let hasSomeConfirmPassword = confirmPasswordTextField.text?.isEmpty ?? true ? false : true
-
-        confirmPasswordEyeButton.isEnabled = hasSomeConfirmPassword
-        confirmPasswordEyeButton.tintColor = hasSomeConfirmPassword ? .tintColor : .gray
-    }
-
-    @IBAction func textEditingChanged(_ sender: UITextField) {
-        nextButton.isEnabled = hasValidInput
     }
 
 }

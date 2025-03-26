@@ -14,22 +14,23 @@ class ResetPasswordViewController: UIViewController {
     @IBOutlet var emailTextField: UITextField!
     @IBOutlet var otpTextField: UITextField!
     @IBOutlet var requestContinueButton: UIButton!
-    
+
     var otpRequested = false
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        navigationItem.hidesBackButton = false
-    }
 
     var isValidEmail: Bool {
         guard let email = emailTextField.text else { return false }
         return email.isValidEmail()
     }
+
     var isValidOtp: Bool {
         guard let otp = otpTextField.text else { return false }
         return !otp.isEmpty && otp.count == 6 && otp.allSatisfy(\.isNumber)
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        navigationItem.hidesBackButton = false
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -47,7 +48,7 @@ class ResetPasswordViewController: UIViewController {
         otpTextField.text = otpTextField.text?.filter { $0.isNumber }
         requestContinueButton.isEnabled = isValidOtp
     }
-    
+
     @IBAction func requestOTPButtonTapped(_ sender: UIButton) {
         let email = emailTextField.text ?? ""
         if otpRequested {

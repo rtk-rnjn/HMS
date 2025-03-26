@@ -17,16 +17,6 @@ class SignInViewController: UIViewController {
 
     let eyeButton: UIButton = .init(type: .custom)
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        eyeButton.tintColor = .gray
-        eyeButton.isEnabled = false
-
-        passwordTextField.configureEyeButton(with: eyeButton)
-
-        navigationItem.hidesBackButton = true
-    }
-
     var isValidEmail: Bool {
         guard let email = emailTextField.text else { return false }
         return email.isValidEmail()
@@ -37,10 +27,19 @@ class SignInViewController: UIViewController {
         return !password.isEmpty
     }
 
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        eyeButton.tintColor = .gray
+        eyeButton.isEnabled = false
+
+        passwordTextField.configureEyeButton(with: eyeButton)
+
+        navigationItem.hidesBackButton = true
+    }
+
     @IBAction func textFieldEditingChanged(_ sender: UITextField) {
         signInButton.isEnabled = isValidEmail && isPasswordFilled
     }
-
 
     @IBAction func passwordEditingChanged(_ sender: UITextField) {
         let hasSomePassword = passwordTextField.text?.isEmpty ?? true ? false : true

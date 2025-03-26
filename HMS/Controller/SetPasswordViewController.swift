@@ -15,11 +15,10 @@ class SetPasswordViewController: UIViewController {
 
     @IBOutlet var confirmPasswordTextField: UITextField!
     @IBOutlet var newPasswordTextField: UITextField!
-    @IBOutlet weak var doneButton: UIButton!
-    
-    
-    let newPasswordEyeButton = UIButton(type: .custom)
-    let confirmPasswordEyeButton = UIButton(type: .custom)
+    @IBOutlet var doneButton: UIButton!
+
+    let newPasswordEyeButton: UIButton = .init(type: .custom)
+    let confirmPasswordEyeButton: UIButton = .init(type: .custom)
 
     var validInputs: Bool {
         guard let newPassword = newPasswordTextField.text, let confirmPassword = confirmPasswordTextField.text else { return false }
@@ -55,12 +54,6 @@ class SetPasswordViewController: UIViewController {
         }
     }
 
-    private func showAlert(message: String) {
-        let alert = Utils.getAlert(title: "Error", message: message)
-        present(alert, animated: true, completion: nil)
-    }
-
-
     @IBAction func textFieldEditingChanged(_ sender: UITextField) {
         doneButton.isEnabled = validInputs
 
@@ -74,4 +67,12 @@ class SetPasswordViewController: UIViewController {
         confirmPasswordEyeButton.isEnabled = hasSomeConfirmPassword
         confirmPasswordEyeButton.tintColor = hasSomeConfirmPassword ? .tintColor : .gray
     }
+
+    // MARK: Private
+
+    private func showAlert(message: String) {
+        let alert = Utils.getAlert(title: "Error", message: message)
+        present(alert, animated: true, completion: nil)
+    }
+
 }

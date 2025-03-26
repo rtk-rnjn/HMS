@@ -89,13 +89,13 @@ extension UITextField {
         containerView.addSubview(eyeButton)
 
         eyeButton.frame = CGRect(x: -8, y: 0, width: 30, height: 30)
-        self.rightView = containerView
-        self.rightViewMode = .always
-        self.isSecureTextEntry = true
+        rightView = containerView
+        rightViewMode = .always
+        isSecureTextEntry = true
     }
 
     @objc private func togglePasswordVisibility(_ sender: UIButton) {
         sender.isSelected.toggle()
-        self.isSecureTextEntry.toggle()
+        isSecureTextEntry.toggle()
     }
 }

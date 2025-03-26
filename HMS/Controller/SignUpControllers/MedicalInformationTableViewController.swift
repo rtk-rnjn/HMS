@@ -17,7 +17,7 @@ class MedicalInformationTableViewController: UITableViewController {
     @IBOutlet var allergiesTextField: UITextField!
     @IBOutlet var medicationTextField: UITextField!
     @IBOutlet var nextButton: UIButton!
-    
+
     var patient: Patient?
 
     var validInput: Bool {
@@ -118,7 +118,5 @@ class MedicalInformationTableViewController: UITableViewController {
         let alert = Utils.getAlert(title: "Error", message: message)
         present(alert, animated: true)
     }
-
-    
 
 }
