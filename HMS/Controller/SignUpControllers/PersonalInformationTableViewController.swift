@@ -44,12 +44,26 @@ class PersonalInformationTableViewController: UITableViewController {
         super.viewDidLoad()
         newPasswordTextField.configureEyeButton(with: newPasswordEyeButton)
         confirmPasswordTextField.configureEyeButton(with: confirmPasswordEyeButton)
+
         dateOfBirthPicker.maximumDate = Date()
+        passwordEntered()
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "segueShowMedicalInformationTableViewController", let medicalInformationTableViewController = segue.destination as? MedicalInformationTableViewController {
             medicalInformationTableViewController.patient = sender as? Patient
+        }
+
+        if segue.identifier == "segueShowPickerViewController", let pickerViewController = segue.destination as? PickerViewController, let presentationController = segue.destination.presentationController as? UISheetPresentationController {
+            guard let (sender, options) = sender as? (UIButton, [String: String]) else { return }
+            pickerViewController.options = options
+            pickerViewController.completionHandler = { _, value in
+                sender.setTitle(value, for: .normal)
+                self.selectedGender = value
+                self.nextButton.isEnabled = self.hasValidInput
+            }
+
+            presentationController.detents = [.medium()]
         }
     }
 
@@ -69,16 +83,20 @@ class PersonalInformationTableViewController: UITableViewController {
         lastNameTextField.text = lastNameTextField.text?.trimmingCharacters(in: .whitespaces)
     }
 
-    @IBAction func passwordEditingChanged(_ sender: UITextField) {
+    private func passwordEntered() {
         let hasSomeNewPassword = newPasswordTextField.text?.isEmpty ?? true ? false : true
-
+        
         newPasswordEyeButton.isEnabled = hasSomeNewPassword
         newPasswordEyeButton.tintColor = hasSomeNewPassword ? .tintColor : .gray
-
+        
         let hasSomeConfirmPassword = confirmPasswordTextField.text?.isEmpty ?? true ? false : true
-
+        
         confirmPasswordEyeButton.isEnabled = hasSomeConfirmPassword
         confirmPasswordEyeButton.tintColor = hasSomeConfirmPassword ? .tintColor : .gray
+    }
+    
+    @IBAction func passwordEditingChanged(_ sender: UITextField) {
+        passwordEntered()
     }
 
     @IBAction func textEditingChanged(_ sender: UITextField) {
@@ -137,4 +155,8 @@ class PersonalInformationTableViewController: UITableViewController {
         present(alert, animated: true)
     }
 
+    @IBAction func genderButtonTapped(_ sender: UIButton) {
+        let options = ["": "", "Male": "Male", "Female": "Female", "Other": "Other"]
+        performSegue(withIdentifier: "segueShowPickerViewController", sender: (sender, options))
+    }
 }

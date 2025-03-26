@@ -18,21 +18,10 @@ class ProfileTableViewController: UITableViewController {
     @IBOutlet var heightLabel: UILabel!
     @IBOutlet var weightLabel: UILabel!
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
 
-        Task {
-            let loggedIn = await DataController.shared.autoLogin()
-            if loggedIn {
-                DispatchQueue.main.async {
-                    self.patient = DataController.shared.patient
-                    self.navigationItem.title = self.patient?.fullName
-
-                    self.prepareUI()
-                }
-            }
-        }
-
+        prepareUI()
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -60,12 +49,8 @@ class ProfileTableViewController: UITableViewController {
 
     // MARK: Private
 
-    private var patient: Patient?
-
     private func prepareUI() {
-        guard let patient else {
-            return
-        }
+        guard let patient = DataController.shared.patient else { return }
 
         dateOfBirthDatePicker.date = patient.dateOfBirth
         let age = Calendar.current.dateComponents([.year], from: patient.dateOfBirth, to: Date()).year ?? 0

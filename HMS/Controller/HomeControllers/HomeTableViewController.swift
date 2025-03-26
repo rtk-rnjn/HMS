@@ -36,19 +36,18 @@ class HomeTableViewController: UITableViewController, UISearchResultsUpdating, U
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if isSearching && filteredDoctors.isEmpty {
-                     let cell = UITableViewCell(style: .default, reuseIdentifier: "NoDoctorCell")
-                     cell.textLabel?.text = "No doctor found"
-                     cell.textLabel?.textAlignment = .center
-                     cell.textLabel?.textColor = .gray
-                     return cell
-                 }
+             let cell = UITableViewCell(style: .default, reuseIdentifier: "NoDoctorCell")
+             cell.textLabel?.text = "No doctor found"
+             cell.textLabel?.textAlignment = .center
+             cell.textLabel?.textColor = .gray
+             return cell
+         }
 
-              let cell = tableView.dequeueReusableCell(withIdentifier: "DoctorTableViewCell", for: indexPath) as? DoctorTableViewCell
-              guard let cell else { fatalError("mai pal do pal ka shayar hoon") }
-              guard let doctors else { fatalError("pal do pal meri kahani hai") }
-              cell.updateElements(with: doctors[indexPath.row])
-              return cell
-
+        let cell = tableView.dequeueReusableCell(withIdentifier: "DoctorTableViewCell", for: indexPath) as? DoctorTableViewCell
+        guard let cell else { fatalError("mai pal do pal ka shayar hoon") }
+        guard let doctors else { fatalError("pal do pal meri kahani hai") }
+        cell.updateElements(with: doctors[indexPath.row])
+        return cell
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
