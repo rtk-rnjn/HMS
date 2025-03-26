@@ -326,14 +326,6 @@
             </objects>
             <point key="canvasLocation" x="1808.3969465648854" y="95.774647887323951"/>
         </scene>
-        <!--Notifications-->
-        <scene sceneID="opY-Bs-kfW">
-            <objects>
-                <viewControllerPlaceholder storyboardName="Notifications" id="en8-Dp-T4b" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="vCK-BK-J8T" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1496" y="563"/>
-        </scene>
         <!--Main-->
         <scene sceneID="t0k-cs-nQX">
             <objects>
@@ -342,7 +334,7 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UGg-Ow-DxQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2201" y="563"/>
+            <point key="canvasLocation" x="1808" y="556"/>
         </scene>
         <!--Change Password-->
         <scene sceneID="hYr-eQ-VA1">
@@ -492,7 +484,7 @@
     <resources>
         <image name="person.fill" catalog="system" width="128" height="120"/>
         <systemColor name="systemPinkColor">
-            <color red="1" green="0.1764705882" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="1" green="0.17647058823529413" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

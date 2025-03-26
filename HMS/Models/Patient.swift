@@ -43,9 +43,6 @@ struct Patient: Codable, Equatable {
         case weight
         case allergies
         case medications
-        case emergencyContactName = "emergency_contact_name"
-        case emergencyContactNumber = "emergency_contact_number"
-        case emergencyContactRelationship = "emergency_contact_relationship"
         case role
         case active
     }
@@ -64,10 +61,6 @@ struct Patient: Codable, Equatable {
     var weight: Int
     var allergies: [String] = []
     var medications: [String] = []
-
-    var emergencyContactName: String
-    var emergencyContactNumber: String
-    var emergencyContactRelationship: String
 
     var role: Role = .patient
     var active: Bool = true

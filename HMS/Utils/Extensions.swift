@@ -5,6 +5,7 @@
 //  Created by RITIK RANJAN on 20/03/25.
 //
 
+import UIKit
 import Foundation
 
 extension Encodable {
@@ -31,7 +32,8 @@ extension String {
     }
 
     func isValidPassword() -> Bool {
-        return count >= 8
+        let passwordRegex = "^(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z]).{8,}$"
+        return NSPredicate(format: "SELF MATCHES %@", passwordRegex).evaluate(with: self)
     }
 
     func isPhoneNumber() -> Bool {
@@ -72,5 +74,28 @@ extension Date {
     func relativeInterval(from date: Date?) -> TimeInterval {
         guard let date else { return 0 }
         return abs(round(Date().timeIntervalSince(date)))
+    }
+}
+
+extension UITextField {
+    func configureEyeButton(with eyeButton: UIButton) {
+        eyeButton.setImage(UIImage(systemName: "eye"), for: .normal)
+        eyeButton.setImage(UIImage(systemName: "eye.slash"), for: .selected)
+
+        eyeButton.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        eyeButton.addTarget(self, action: #selector(togglePasswordVisibility(_:)), for: .touchUpInside)
+
+        let containerView = UIView(frame: CGRect(x: 0, y: 0, width: 40, height: 30))
+        containerView.addSubview(eyeButton)
+
+        eyeButton.frame = CGRect(x: -8, y: 0, width: 30, height: 30)
+        self.rightView = containerView
+        self.rightViewMode = .always
+        self.isSecureTextEntry = true
+    }
+
+    @objc private func togglePasswordVisibility(_ sender: UIButton) {
+        sender.isSelected.toggle()
+        self.isSecureTextEntry.toggle()
     }
 }

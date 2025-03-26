@@ -19,13 +19,32 @@ class PersonalInformationTableViewController: UITableViewController {
     @IBOutlet var newPasswordTextField: UITextField!
     @IBOutlet var confirmPasswordTextField: UITextField!
 
+    @IBOutlet var genderButton: UIButton!
+    @IBOutlet var nextButton: UIButton!
+    
     var selectedGender: String = "Male"
     var patient: Patient?
 
+    let newPasswordEyeButton = UIButton(type: .custom)
+    let confirmPasswordEyeButton = UIButton(type: .custom)
+
+    var hasValidInput: Bool {
+        guard let firstName = firstNameTextField.text, let email = emailTextField.text, let newPassword = newPasswordTextField.text, let confirmPassword = confirmPasswordTextField.text else {
+            return false
+        }
+        let hasInputs  = !firstName.isEmpty && !email.isEmpty && !newPassword.isEmpty && !confirmPassword.isEmpty
+
+        let hasValidEmail = email.isValidEmail()
+        let passwordsMatch = newPassword == confirmPassword
+
+        return hasInputs && hasValidEmail && passwordsMatch
+    }
+
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureEyeButton(for: newPasswordTextField)
-        configureEyeButton(for: confirmPasswordTextField)
+        newPasswordTextField.configureEyeButton(with: newPasswordEyeButton)
+        confirmPasswordTextField.configureEyeButton(with: confirmPasswordEyeButton)
         dateOfBirthPicker.maximumDate = Date()
     }
 
@@ -43,29 +62,7 @@ class PersonalInformationTableViewController: UITableViewController {
         }
     }
 
-    @IBAction func genderSegmentedControlTapped(_ sender: UISegmentedControl) {
-        selectedGender = sender.titleForSegment(at: sender.selectedSegmentIndex) ?? "Other"
-    }
-
     // MARK: Private
-
-    private func configureEyeButton(for textField: UITextField) {
-       let eyeButton = UIButton(type: .custom)
-       eyeButton.setImage(UIImage(systemName: "eye"), for: .normal)
-       eyeButton.setImage(UIImage(systemName: "eye.slash"), for: .selected)
-       eyeButton.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
-       eyeButton.addTarget(self, action: #selector(togglePasswordVisibility(_:)), for: .touchUpInside)
-
-       textField.rightView = eyeButton
-       textField.rightViewMode = .always
-       textField.isSecureTextEntry = true // Ensure secure entry initially
-   }
-
-   @objc private func togglePasswordVisibility(_ sender: UIButton) {
-       guard let textField = sender.superview as? UITextField else { return }
-       sender.isSelected.toggle()
-       textField.isSecureTextEntry.toggle()
-   }
 
     private func validateFields() -> Bool {
         guard let firstName = firstNameTextField.text, !firstName.isEmpty else {
@@ -107,7 +104,7 @@ class PersonalInformationTableViewController: UITableViewController {
 
         let gender = Gender(rawValue: selectedGender) ?? .other
 
-        patient = Patient(firstName: firstName, lastName: lastName, emailAddress: email, password: newPassword, dateOfBirth: dateOfBirthPicker.date, gender: gender, bloodGroup: .aNegative, height: 0, weight: 0, allergies: [], medications: [], emergencyContactName: "", emergencyContactNumber: "", emergencyContactRelationship: "")
+        patient = Patient(firstName: firstName, lastName: lastName, emailAddress: email, password: newPassword, dateOfBirth: dateOfBirthPicker.date, gender: gender, bloodGroup: .aNegative, height: 0, weight: 0, allergies: [], medications: [])
 
         return true
     }
@@ -115,6 +112,32 @@ class PersonalInformationTableViewController: UITableViewController {
     private func showAlert(message: String) {
         let alert = Utils.getAlert(title: "Error", message: message)
         present(alert, animated: true)
+    }
+
+
+    @IBAction func nameEditingChaged(_ sender: UITextField) {
+        firstNameTextField.text =  firstNameTextField.text?.filter { $0.isLetter || $0.isWhitespace }
+        lastNameTextField.text = lastNameTextField.text?.filter { $0.isLetter || $0.isWhitespace }
+
+        firstNameTextField.text = firstNameTextField.text?.trimmingCharacters(in: .whitespaces)
+        lastNameTextField.text = lastNameTextField.text?.trimmingCharacters(in: .whitespaces)
+    }
+
+
+    @IBAction func passwordEditingChanged(_ sender: UITextField) {
+        let hasSomeNewPassword = newPasswordTextField.text?.isEmpty ?? true ? false : true
+
+        newPasswordEyeButton.isEnabled = hasSomeNewPassword
+        newPasswordEyeButton.tintColor = hasSomeNewPassword ? .tintColor : .gray
+
+        let hasSomeConfirmPassword = confirmPasswordTextField.text?.isEmpty ?? true ? false : true
+
+        confirmPasswordEyeButton.isEnabled = hasSomeConfirmPassword
+        confirmPasswordEyeButton.tintColor = hasSomeConfirmPassword ? .tintColor : .gray
+    }
+
+    @IBAction func textEditingChanged(_ sender: UITextField) {
+        nextButton.isEnabled = hasValidInput
     }
 
 }

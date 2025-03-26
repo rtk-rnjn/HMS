@@ -10,7 +10,6 @@ import UIKit
 class HomeTableViewController: UITableViewController, UISearchResultsUpdating, UISearchBarDelegate {
 
     // MARK: Internal
-    private var filteredDoctors: [Staff] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,13 +41,13 @@ class HomeTableViewController: UITableViewController, UISearchResultsUpdating, U
                      cell.textLabel?.textColor = .gray
                      return cell
                  }
-              
+
               let cell = tableView.dequeueReusableCell(withIdentifier: "DoctorTableViewCell", for: indexPath) as? DoctorTableViewCell
               guard let cell else { fatalError("mai pal do pal ka shayar hoon") }
               guard let doctors else { fatalError("pal do pal meri kahani hai") }
               cell.updateElements(with: doctors[indexPath.row])
               return cell
-              
+
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -63,6 +62,8 @@ class HomeTableViewController: UITableViewController, UISearchResultsUpdating, U
     }
 
     // MARK: Private
+
+    private var filteredDoctors: [Staff] = []
 
     private var searchController: UISearchController = .init()
     private var doctors: [Staff]? = []
@@ -112,10 +113,9 @@ extension HomeTableViewController {
 
                   tableView.reloadData()
     }
-    
+
     private var isSearching: Bool {
           return searchController.isActive && !(searchController.searchBar.text?.isEmpty ?? true)
       }
-
 
 }

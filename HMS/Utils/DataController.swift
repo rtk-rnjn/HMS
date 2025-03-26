@@ -94,6 +94,7 @@ class DataController {
 
     func logout() {
         UserDefaults.standard.removeObject(forKey: "accessToken")
+        UserDefaults.standard.removeObject(forKey: "isUserLoggedIn")
     }
 
     func fetchDoctors() async -> [Staff]? {

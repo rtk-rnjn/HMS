@@ -16,8 +16,13 @@ class MedicalInformationTableViewController: UITableViewController {
     @IBOutlet var weightButton: UIButton!
     @IBOutlet var allergiesTextField: UITextField!
     @IBOutlet var medicationTextField: UITextField!
-
+    @IBOutlet var nextButton: UIButton!
+    
     var patient: Patient?
+
+    var validInput: Bool {
+        return bloodGroupButton.titleLabel?.text != "Not Known" && heightButton.titleLabel?.text != "None" && weightButton.titleLabel?.text != "None"
+    }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "segueShowPickerViewController", let pickerViewController = segue.destination as? PickerViewController, let presentationController = segue.destination.presentationController as? UISheetPresentationController {
@@ -26,13 +31,10 @@ class MedicalInformationTableViewController: UITableViewController {
             pickerViewController.options = options
             pickerViewController.completionHandler = { _, value in
                 sender.setTitle(value, for: .normal)
+                self.nextButton.isEnabled = self.validInput
             }
 
             presentationController.detents = [.medium()]
-        }
-
-        if segue.identifier == "segueShowEmergencyContactTableViewController", let emergencyContactTableViewController = segue.destination as? EmergencyContactTableViewController {
-            emergencyContactTableViewController.patient = sender as? Patient
         }
     }
 
@@ -67,15 +69,13 @@ class MedicalInformationTableViewController: UITableViewController {
             let medications: [String] = medicationTextField.text?.components(separatedBy: ",") ?? []
             patient?.medications = medications
         }
-
-       // performSegue(withIdentifier: "segueShowEmergencyContactTableViewController", sender: patient)
     }
 
     // MARK: Private
 
     private let bloodGroup: [String: String] = {
         var groups = BloodGroup.allCases.reduce(into: [:]) { $0[$1.rawValue] = $1.rawValue }
-        groups["not_known"] = "Not Known"
+        groups[""] = ""
         return groups
     }()
 
@@ -118,5 +118,7 @@ class MedicalInformationTableViewController: UITableViewController {
         let alert = Utils.getAlert(title: "Error", message: message)
         present(alert, animated: true)
     }
+
+    
 
 }

@@ -13,7 +13,8 @@ class ResetPasswordViewController: UIViewController {
 
     @IBOutlet var emailTextField: UITextField!
     @IBOutlet var otpTextField: UITextField!
-
+    @IBOutlet var requestContinueButton: UIButton!
+    
     var otpRequested = false
 
     override func viewDidLoad() {
@@ -22,24 +23,35 @@ class ResetPasswordViewController: UIViewController {
         navigationItem.hidesBackButton = false
     }
 
+    var isValidEmail: Bool {
+        guard let email = emailTextField.text else { return false }
+        return email.isValidEmail()
+    }
+    var isValidOtp: Bool {
+        guard let otp = otpTextField.text else { return false }
+        return !otp.isEmpty && otp.count == 6 && otp.allSatisfy(\.isNumber)
+    }
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "segueShowSetPasswordViewController" {
-            guard let email = sender as? String else { return }
-            guard let setPasswordViewController = segue.destination as? SetPasswordViewController else {
-                fatalError("Couldnt perform segue")
-            }
+        if segue.identifier == "segueShowSetPasswordViewController", let email = sender as? String, let setPasswordViewController = segue.destination as? SetPasswordViewController {
+
             setPasswordViewController.email = email
         }
     }
 
+    @IBAction func emailEditingChanged(_ sender: UITextField) {
+        requestContinueButton.isEnabled = isValidEmail
+    }
+
+    @IBAction func otpEditingChanged(_ sender: UITextField) {
+        otpTextField.text = otpTextField.text?.filter { $0.isNumber }
+        requestContinueButton.isEnabled = isValidOtp
+    }
+    
     @IBAction func requestOTPButtonTapped(_ sender: UIButton) {
         let email = emailTextField.text ?? ""
         if otpRequested {
             let otp = otpTextField.text ?? ""
-            guard !otp.isEmpty else {
-                showAlert(message: "OTP is required")
-                return
-            }
 
             Task {
                 let otpValid = await DataController.shared.verifyOtp(emailAddress: email, otp: otp)
@@ -55,13 +67,15 @@ class ResetPasswordViewController: UIViewController {
             return
         }
 
-        guard email.isValidEmail() else {
-            showAlert(message: "Invalid email")
-            return
-        }
-
         otpRequested = true
+
         sender.setTitle("Continue", for: .normal)
+        sender.isEnabled = false
+
+        emailTextField.isEnabled = !isValidEmail
+        otpTextField.isEnabled = true
+
+        showAlert(error: "Alert", message: "OTP sent to your email")
 
         Task {
             let otpSent = await DataController.shared.requestOtp(emailAddress: email)
@@ -76,7 +90,7 @@ class ResetPasswordViewController: UIViewController {
 
     // MARK: Private
 
-    private func showAlert(message: String) {
+    private func showAlert(error: String = "Error", message: String) {
         let alert = Utils.getAlert(title: "Error", message: message)
         present(alert, animated: true, completion: nil)
     }

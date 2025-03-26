@@ -45,8 +45,6 @@ class PickerViewController: UIViewController, UIPickerViewDelegate, UIPickerView
 
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         let sortedOptions = options.sorted {
-            if $0.value == "Not Known" { return false }
-            if $1.value == "Not Known" { return true }
             if let firstNumber = Int($0.key), let secondNumber = Int($1.key) {
                 return firstNumber < secondNumber
             }
@@ -57,8 +55,6 @@ class PickerViewController: UIViewController, UIPickerViewDelegate, UIPickerView
 
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         let sortedOptions = options.sorted {
-            if $0.value == "Not Known" { return false }
-            if $1.value == "Not Known" { return true }
             if let firstNumber = Int($0.key), let secondNumber = Int($1.key) {
                 return firstNumber < secondNumber
             }

@@ -47,12 +47,14 @@ class ProfileTableViewController: UITableViewController {
 
     @IBAction func logOutButtonTapped(_ sender: UIButton) {
         let logoutAction = AlertActionHandler(title: "Logout", style: .destructive) { _ in
+            DataController.shared.logout()
             self.performSegue(withIdentifier: "segueShowSignInViewController", sender: nil)
         }
         let cancelAction = AlertActionHandler(title: "Cancel", style: .cancel) { _ in
             self.dismiss(animated: true, completion: nil)
         }
         let alert = Utils.getAlert(title: "Logout", message: "Are you sure you want to logout?", actions: [cancelAction, logoutAction])
+
         present(alert, animated: true, completion: nil)
     }
 
