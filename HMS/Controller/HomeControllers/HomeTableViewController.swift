@@ -17,7 +17,8 @@ class HomeTableViewController: UITableViewController, UISearchResultsUpdating, U
         prepareSearchController()
         prepareRefreshControl()
 
-        navigationItem.title = DataController.shared.patient?.fullName
+        let greetings = Utils.getGreetigs()
+        navigationItem.title = "\(greetings), \((DataController.shared.patient?.fullName ?? "User") as String)"
     }
 
     override func viewWillAppear(_ animated: Bool) {
