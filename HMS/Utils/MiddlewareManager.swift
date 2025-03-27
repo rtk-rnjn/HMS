@@ -50,12 +50,19 @@ actor MiddlewareManager {
         }
 
         guard let url = URL(string: urlString) else {
-            fatalError("Could not create URL from \(urlString)")
+            print("Error: Could not create URL from \(urlString)")
+            return nil
         }
 
         var request = URLRequest(url: url)
         request.httpMethod = method
-        if let body { request.httpBody = body }
+        if let body {
+            request.httpBody = body
+            // Print the request body for debugging
+            if let jsonString = String(data: body, encoding: .utf8) {
+                print("Request Body: \(jsonString)")
+            }
+        }
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
         if let accessToken = UserDefaults.standard.string(forKey: "accessToken") {
@@ -64,8 +71,23 @@ actor MiddlewareManager {
 
         do {
             let (data, response) = try await URLSession.shared.data(for: request)
-            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-                print("Status code: \((response as? HTTPURLResponse)?.statusCode ?? 0)")
+
+            // Print response data for debugging
+            if let jsonString = String(data: data, encoding: .utf8) {
+                print("Response Data: \(jsonString)")
+            }
+
+            guard let httpResponse = response as? HTTPURLResponse else {
+                print("Error: Not an HTTP response")
+                return nil
+            }
+
+            print("Status code: \(httpResponse.statusCode)")
+
+            if httpResponse.statusCode != 200 {
+                if let errorJson = try? JSONSerialization.jsonObject(with: data) as? [String: Any] {
+                    print("Error response: \(errorJson)")
+                }
                 return nil
             }
 
@@ -74,7 +96,8 @@ actor MiddlewareManager {
             return try decoder.decode(T.self, from: data)
 
         } catch {
-            fatalError("Could not fetch data: \(error)")
+            print("Network error: \(error)")
+            return nil
         }
     }
 }
