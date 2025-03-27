@@ -12,7 +12,7 @@ class AppointmentsTableViewCell: UITableViewCell {
     @IBOutlet var staffName: UILabel!
     @IBOutlet var staffDepartment: UILabel!
     @IBOutlet var date: UIDatePicker!
-    
+
     func updateElements(with appointment: Appointment) {
         staffName.text = appointment.doctorName
         staffDepartment.text = appointment.doctorSpecializations

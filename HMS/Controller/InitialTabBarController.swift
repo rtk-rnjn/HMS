@@ -9,17 +9,13 @@ import UIKit
 
 class InitialTabBarController: UITabBarController, UITabBarControllerDelegate {
 
-    // MARK: Internal
-
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.delegate = self
+        delegate = self
         checkForAuthentication()
 
         navigationController?.setNavigationBarHidden(true, animated: true)
     }
-
-    // MARK: Private
 
     func checkForAuthentication() {
         guard DataController.shared.patient == nil else { return }

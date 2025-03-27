@@ -18,7 +18,7 @@ struct Appointment {
     var doctorId: String
 
     var reason: String
-    var doctorNotes: String? = nil
+    var doctorNotes: String?
 
     var doctorName: String?
     var doctorSpecializations: String?
@@ -26,4 +26,3 @@ struct Appointment {
     var date: Date
     var status: AppointmentStatus = .confirmed
 }
-

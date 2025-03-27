@@ -83,18 +83,6 @@ class PersonalInformationTableViewController: UITableViewController {
         lastNameTextField.text = lastNameTextField.text?.trimmingCharacters(in: .whitespaces)
     }
 
-    private func passwordEntered() {
-        let hasSomeNewPassword = newPasswordTextField.text?.isEmpty ?? true ? false : true
-        
-        newPasswordEyeButton.isEnabled = hasSomeNewPassword
-        newPasswordEyeButton.tintColor = hasSomeNewPassword ? .tintColor : .gray
-        
-        let hasSomeConfirmPassword = confirmPasswordTextField.text?.isEmpty ?? true ? false : true
-        
-        confirmPasswordEyeButton.isEnabled = hasSomeConfirmPassword
-        confirmPasswordEyeButton.tintColor = hasSomeConfirmPassword ? .tintColor : .gray
-    }
-    
     @IBAction func passwordEditingChanged(_ sender: UITextField) {
         passwordEntered()
     }
@@ -103,7 +91,24 @@ class PersonalInformationTableViewController: UITableViewController {
         nextButton.isEnabled = hasValidInput
     }
 
+    @IBAction func genderButtonTapped(_ sender: UIButton) {
+        let options = ["": "", "Male": "Male", "Female": "Female", "Other": "Other"]
+        performSegue(withIdentifier: "segueShowPickerViewController", sender: (sender, options))
+    }
+
     // MARK: Private
+
+    private func passwordEntered() {
+        let hasSomeNewPassword = newPasswordTextField.text?.isEmpty ?? true ? false : true
+
+        newPasswordEyeButton.isEnabled = hasSomeNewPassword
+        newPasswordEyeButton.tintColor = hasSomeNewPassword ? .tintColor : .gray
+
+        let hasSomeConfirmPassword = confirmPasswordTextField.text?.isEmpty ?? true ? false : true
+
+        confirmPasswordEyeButton.isEnabled = hasSomeConfirmPassword
+        confirmPasswordEyeButton.tintColor = hasSomeConfirmPassword ? .tintColor : .gray
+    }
 
     private func validateFields() -> Bool {
         guard let firstName = firstNameTextField.text, !firstName.isEmpty else {
@@ -155,8 +160,4 @@ class PersonalInformationTableViewController: UITableViewController {
         present(alert, animated: true)
     }
 
-    @IBAction func genderButtonTapped(_ sender: UIButton) {
-        let options = ["": "", "Male": "Male", "Female": "Female", "Other": "Other"]
-        performSegue(withIdentifier: "segueShowPickerViewController", sender: (sender, options))
-    }
 }

@@ -46,27 +46,17 @@ let sampleAppointments: [Int: [Appointment]] = [
 
 let dates = (0...6).map { $0 }
 
-
 class AppointmentsTableViewController: UITableViewController, UISearchResultsUpdating, UISearchBarDelegate {
-    func updateSearchResults(for searchController: UISearchController) {}
-    
 
-    var searchController: UISearchController  = .init()
+    // MARK: Internal
+
+    var searchController: UISearchController = .init()
     var appointments: [Int: [Appointment]] = sampleAppointments
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         prepareSearchController()
-    }
-
-    private func prepareSearchController() {
-        searchController.searchBar.delegate = self
-        searchController.searchResultsUpdater = self
-        searchController.searchBar.placeholder = "Search Appointments"
-
-        navigationItem.searchController = searchController
-        navigationItem.hidesSearchBarWhenScrolling = false
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -97,6 +87,19 @@ class AppointmentsTableViewController: UITableViewController, UISearchResultsUpd
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         performSegue(withIdentifier: "segueShowAppointmentDetailViewController", sender: self)
+    }
+
+    func updateSearchResults(for searchController: UISearchController) {}
+
+    // MARK: Private
+
+    private func prepareSearchController() {
+        searchController.searchBar.delegate = self
+        searchController.searchResultsUpdater = self
+        searchController.searchBar.placeholder = "Search Appointments"
+
+        navigationItem.searchController = searchController
+        navigationItem.hidesSearchBarWhenScrolling = false
     }
 
 }

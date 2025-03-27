@@ -2,22 +2,26 @@ import UIKit
 import SwiftUI
 
 class MedicalInformationTableViewController: UIViewController {
-    
+
+    // MARK: Internal
+
     var patient: Patient? {
         didSet {
-            if let patient = patient {
+            if let patient {
                 updatePatient(patient)
             }
         }
     }
-    
-    private var hostingController: UIHostingController<MedicalProfileView>?
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupSwiftUIView()
     }
-    
+
+    // MARK: Private
+
+    private var hostingController: UIHostingController<MedicalProfileView>?
+
     private func setupSwiftUIView() {
         let medicalProfileView = MedicalProfileView(
             patient: Binding(
@@ -29,24 +33,24 @@ class MedicalInformationTableViewController: UIViewController {
                 }
             ),
             onComplete: { [weak self] in
-                guard let self = self, let patient = self.patient else {
+                guard let self, let patient else {
                     DispatchQueue.main.async {
                         let alert = Utils.getAlert(title: "Error", message: "Invalid patient data. Please try again.")
                         self?.present(alert, animated: true)
                     }
                     return
                 }
-                
+
                 Task {
                     // Create the patient first
                     let success = await DataController.shared.createPatient(patient: patient)
-                    
+
                     DispatchQueue.main.async {
                         if success {
                             // If patient creation is successful, try to log in
                             Task {
                                 let loginSuccess = await DataController.shared.login(emailAddress: patient.emailAddress, password: patient.password)
-                                
+
                                 DispatchQueue.main.async {
                                     if loginSuccess {
                                         // Navigate to Initial storyboard
@@ -72,15 +76,15 @@ class MedicalInformationTableViewController: UIViewController {
                 }
             }
         )
-        
+
         let hostingController = UIHostingController(rootView: medicalProfileView)
         self.hostingController = hostingController
-        
+
         // Add the hosting controller as a child
         addChild(hostingController)
         view.addSubview(hostingController.view)
         hostingController.view.translatesAutoresizingMaskIntoConstraints = false
-        
+
         // Set up constraints
         NSLayoutConstraint.activate([
             hostingController.view.topAnchor.constraint(equalTo: view.topAnchor),
@@ -88,10 +92,10 @@ class MedicalInformationTableViewController: UIViewController {
             hostingController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             hostingController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
-        
+
         hostingController.didMove(toParent: self)
     }
-    
+
     private func updatePatient(_ patient: Patient) {
         hostingController?.rootView = MedicalProfileView(
             patient: Binding(
@@ -103,24 +107,24 @@ class MedicalInformationTableViewController: UIViewController {
                 }
             ),
             onComplete: { [weak self] in
-                guard let self = self, let patient = self.patient else {
+                guard let self, let patient = self.patient else {
                     DispatchQueue.main.async {
                         let alert = Utils.getAlert(title: "Error", message: "Invalid patient data. Please try again.")
                         self?.present(alert, animated: true)
                     }
                     return
                 }
-                
+
                 Task {
                     // Create the patient first
                     let success = await DataController.shared.createPatient(patient: patient)
-                    
+
                     DispatchQueue.main.async {
                         if success {
                             // If patient creation is successful, try to log in
                             Task {
                                 let loginSuccess = await DataController.shared.login(emailAddress: patient.emailAddress, password: patient.password)
-                                
+
                                 DispatchQueue.main.async {
                                     if loginSuccess {
                                         // Navigate to Initial storyboard
@@ -147,4 +151,4 @@ class MedicalInformationTableViewController: UIViewController {
             }
         )
     }
-} 
+}

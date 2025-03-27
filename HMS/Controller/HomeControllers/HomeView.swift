@@ -7,7 +7,7 @@ struct AppointmentCard: View {
     let specialty: String
     let hospital: String
     let status: String?
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack {
@@ -19,8 +19,8 @@ struct AppointmentCard: View {
                         .font(.system(size: 16))
                         .foregroundColor(.gray)
                 }
-                
-                if let status = status {
+
+                if let status {
                     Spacer()
                     Text(status)
                         .font(.system(size: 14))
@@ -31,14 +31,14 @@ struct AppointmentCard: View {
                         .cornerRadius(12)
                 }
             }
-            
+
             Text(doctorName)
                 .font(.system(size: 18, weight: .semibold))
-            
+
             Text(specialty)
                 .font(.system(size: 16))
                 .foregroundColor(.gray)
-            
+
             Text(hospital)
                 .font(.system(size: 16))
                 .foregroundColor(.gray)
@@ -55,7 +55,7 @@ struct QuickActionButton: View {
     let title: String
     let color: Color
     let action: () -> Void
-    
+
     var body: some View {
         Button(action: action) {
             VStack(spacing: 12) {
@@ -79,7 +79,7 @@ struct LabReportCard: View {
     let title: String
     let date: String
     let status: String
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
@@ -88,14 +88,14 @@ struct LabReportCard: View {
                     .foregroundColor(.blue)
                 Spacer()
             }
-            
+
             Text(title)
                 .font(.system(size: 18, weight: .semibold))
-            
+
             Text(date)
                 .font(.system(size: 16))
                 .foregroundColor(.gray)
-            
+
             HStack {
                 Circle()
                     .fill(Color.green)
@@ -113,8 +113,9 @@ struct LabReportCard: View {
 }
 
 struct HomeView: View {
-    @State private var searchText = ""
-    
+
+    // MARK: Internal
+
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 24) {
@@ -128,12 +129,12 @@ struct HomeView: View {
                 .background(Color(.systemGray6))
                 .cornerRadius(12)
                 .padding(.horizontal)
-                
+
                 // Upcoming Appointments
                 VStack(alignment: .leading, spacing: 16) {
                     Text("Upcoming Appointments")
                         .font(.system(size: 24, weight: .bold))
-                    
+
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: 16) {
                             AppointmentCard(
@@ -144,7 +145,7 @@ struct HomeView: View {
                                 hospital: "Central Hospital",
                                 status: "Confirmed"
                             )
-                            
+
                             AppointmentCard(
                                 date: "Tomorrow",
                                 time: "10:15",
@@ -158,7 +159,7 @@ struct HomeView: View {
                     }
                 }
                 .padding(.top)
-                
+
                 // Quick Actions Grid
                 LazyVGrid(columns: [
                     GridItem(.flexible()),
@@ -171,7 +172,7 @@ struct HomeView: View {
                     ) {
                         // Handle book appointment
                     }
-                    
+
                     QuickActionButton(
                         icon: "cross.case",
                         title: "Emergency Services",
@@ -179,7 +180,7 @@ struct HomeView: View {
                     ) {
                         // Handle emergency services
                     }
-                    
+
                     QuickActionButton(
                         icon: "folder.fill",
                         title: "Medical Records",
@@ -187,7 +188,7 @@ struct HomeView: View {
                     ) {
                         // Handle medical records
                     }
-                    
+
                     QuickActionButton(
                         icon: "video",
                         title: "Video Consultation",
@@ -197,7 +198,7 @@ struct HomeView: View {
                     }
                 }
                 .padding(.horizontal)
-                
+
                 // Recent Lab Reports
                 VStack(alignment: .leading, spacing: 16) {
                     HStack {
@@ -209,7 +210,7 @@ struct HomeView: View {
                         }
                         .foregroundColor(.blue)
                     }
-                    
+
                     LazyVGrid(columns: [
                         GridItem(.flexible()),
                         GridItem(.flexible())
@@ -219,7 +220,7 @@ struct HomeView: View {
                             date: "Oct 15, 2023",
                             status: "Completed"
                         )
-                        
+
                         LabReportCard(
                             title: "X-Ray Report",
                             date: "Oct 10, 2023",
@@ -233,8 +234,13 @@ struct HomeView: View {
         }
         .background(Color(.systemGroupedBackground))
     }
+
+    // MARK: Private
+
+    @State private var searchText = ""
+
 }
 
 #Preview {
     HomeView()
-} 
+}
