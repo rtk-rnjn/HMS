@@ -20,8 +20,16 @@ class MedicalInformationTableViewController: UITableViewController {
 
     var patient: Patient?
 
-    var validInput: Bool {
-        return bloodGroupButton.titleLabel?.text != "Not Known" && heightButton.titleLabel?.text != "None" && weightButton.titleLabel?.text != "None"
+    private var validInput: Bool {
+        guard let bloodGroupText = bloodGroupButton.titleLabel?.text else { return false }
+        guard let height = heightButton.titleLabel?.text else { return false }
+        guard let weight = weightButton.titleLabel?.text else { return false }
+
+        let validBloodGroup = bloodGroupText != "None" && bloodGroupText != ""
+        let validHeight = height != "None" && height != ""
+        let validWeight = weight != "None" && weight != ""
+
+        return validBloodGroup && validHeight && validWeight
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -30,8 +38,10 @@ class MedicalInformationTableViewController: UITableViewController {
             guard let (sender, options) = sender as? (UIButton, [String: String]) else { return }
             pickerViewController.options = options
             pickerViewController.completionHandler = { _, value in
-                sender.setTitle(value, for: .normal)
-                self.nextButton.isEnabled = self.validInput
+                DispatchQueue.main.async {
+                    sender.setTitle(value, for: .normal)
+                    self.nextButton.isEnabled = self.validInput
+                }
             }
 
             presentationController.detents = [.medium()]
@@ -69,18 +79,30 @@ class MedicalInformationTableViewController: UITableViewController {
             let medications: [String] = medicationTextField.text?.components(separatedBy: ",") ?? []
             patient?.medications = medications
         }
+
+        Task {
+            guard let patient else { fatalError("Patient is nil. Cannot create patient") }
+            let created = await DataController.shared.createPatient(patient: patient)
+            DispatchQueue.main.async {
+                if created {
+                    self.performSegue(withIdentifier: "segueShowInitialTabBarController", sender: nil)
+                    UserDefaults.standard.set(true, forKey: "isUserLoggedIn")
+                } else {
+                    self.showAlert(message: "Failed to create patient")
+                }
+            }
+        }
     }
 
     // MARK: Private
 
     private let bloodGroup: [String: String] = {
         var groups = BloodGroup.allCases.reduce(into: [:]) { $0[$1.rawValue] = $1.rawValue }
-        groups[""] = ""
         return groups
     }()
 
     private let heights: [String: String] = {
-        var heights = ["": ""]
+        var heights: [String: String] = [:]
         for i in 120...220 {
             heights[String(i)] = "\(i) cm"
         }

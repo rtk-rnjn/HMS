@@ -401,7 +401,7 @@
                                                 <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="New Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gdP-7E-ngW" userLabel="New Password">
                                                     <rect key="frame" x="20" y="0.0" width="333" height="50"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                                                    <textInputTraits key="textInputTraits" autocorrectionType="no" secureTextEntry="YES" textContentType="new-password"/>
+                                                    <textInputTraits key="textInputTraits" autocorrectionType="no" secureTextEntry="YES" textContentType="password"/>
                                                     <connections>
                                                         <action selector="passwordEditingChanged:" destination="k9D-sL-MQ2" eventType="editingChanged" id="sAh-vZ-MS0"/>
                                                         <action selector="textEditingChanged:" destination="k9D-sL-MQ2" eventType="editingChanged" id="whl-ga-OSo"/>
@@ -426,7 +426,7 @@
                                                 <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Confirm Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6HG-fX-VRi" userLabel="Conform Password">
                                                     <rect key="frame" x="20" y="0.0" width="333" height="50"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
-                                                    <textInputTraits key="textInputTraits" autocorrectionType="no" secureTextEntry="YES" textContentType="new-password"/>
+                                                    <textInputTraits key="textInputTraits" autocorrectionType="no" secureTextEntry="YES" textContentType="password"/>
                                                     <connections>
                                                         <action selector="passwordEditingChanged:" destination="k9D-sL-MQ2" eventType="editingChanged" id="axX-gc-JbN"/>
                                                         <action selector="textEditingChanged:" destination="k9D-sL-MQ2" eventType="editingChanged" id="Ufk-bV-bcu"/>
@@ -690,7 +690,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="353" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lht-kN-AXN">
+                                                <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lht-kN-AXN">
                                                     <rect key="frame" x="0.0" y="0.0" width="353" height="50"/>
                                                     <state key="normal" title="Button"/>
                                                     <buttonConfiguration key="configuration" style="filled" title="Next">
@@ -698,7 +698,6 @@
                                                     </buttonConfiguration>
                                                     <connections>
                                                         <action selector="nextButtonTapped:" destination="FYz-8R-KHJ" eventType="touchUpInside" id="2vU-ul-LIc"/>
-                                                        <segue destination="9BT-J2-7Pp" kind="show" id="mYR-m8-Pzv"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -727,6 +726,7 @@
                         <outlet property="nextButton" destination="Lht-kN-AXN" id="SBu-95-6E8"/>
                         <outlet property="weightButton" destination="Eac-jD-pS3" id="cbi-aD-XG4"/>
                         <segue destination="PeO-0V-wCN" kind="presentation" identifier="segueShowPickerViewController" id="GBz-dV-x6D"/>
+                        <segue destination="9BT-J2-7Pp" kind="show" identifier="segueShowInitialTabBarController" id="0bT-Xd-w36"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kQ1-a6-toZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -874,7 +874,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="GBz-dV-x6D"/>
-        <segue reference="mYR-m8-Pzv"/>
+        <segue reference="0bT-Xd-w36"/>
         <segue reference="RSv-YS-tTm"/>
     </inferredMetricsTieBreakers>
     <resources>

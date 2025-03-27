@@ -45,18 +45,4 @@ enum Utils {
 
         UNUserNotificationCenter.current().add(request)
     }
-
-    public static func getGreetigs() -> String {
-        let hour = Calendar.current.component(.hour, from: Date())
-        switch hour {
-        case 0..<12:
-            return "Good Morning"
-        case 12..<17:
-            return "Good Afternoon"
-        case 17..<24:
-            return "Good Evening"
-        default:
-            return "Hello"
-        }
-    }
 }
