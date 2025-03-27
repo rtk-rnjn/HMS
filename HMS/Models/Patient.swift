@@ -21,6 +21,8 @@ enum BloodGroup: String, Codable, CaseIterable {
     case abNegative = "AB-"
     case oPositive = "O+"
     case oNegative = "O-"
+    case oh = "Oh"
+    case na = "N/A"
 }
 
 enum Gender: String, Codable {
@@ -43,6 +45,7 @@ struct Patient: Codable, Equatable {
         case weight
         case allergies
         case medications
+        case disorders
         case role
         case active
     }
@@ -61,6 +64,7 @@ struct Patient: Codable, Equatable {
     var weight: Int
     var allergies: [String] = []
     var medications: [String] = []
+    var disorders: [String]?
 
     var role: Role = .patient
     var active: Bool = true
