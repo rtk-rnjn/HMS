@@ -10,13 +10,13 @@ import SwiftUI
 class ProfileHostingController: UIHostingController<PatientProfileView> {
 
     // MARK: Lifecycle
-    
+
     required init?(coder: NSCoder) {
         super.init(coder: coder, rootView: PatientProfileView(patient: DataController.shared.patient))
     }
-    
+
     // MARK: Internal
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         rootView.delegate = self
@@ -27,9 +27,8 @@ class ProfileHostingController: UIHostingController<PatientProfileView> {
 
         navigationItem.title = "Profile"
     }
-    
+
     func profileComplete() {
         performSegue(withIdentifier: "segueShowSignInViewController", sender: self)
     }
 }
-

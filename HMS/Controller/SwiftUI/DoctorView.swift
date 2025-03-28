@@ -14,19 +14,19 @@ struct DoctorView: View {
     @State private var isNewVisit = true
     @State private var additionalNotes = ""
 
-    let now = Date()
+    let now: Date = .init()
 
     var timeSlots: [[Date]] {
         let now = Date()
         return [
             [9, 10].map { now.addingTimeInterval(60 * 60 * Double($0)) },
             [13, 14].map { now.addingTimeInterval(60 * 60 * Double($0)) },
-            [17, 18].map { now.addingTimeInterval(60 * 60 * Double($0)) },
+            [17, 18].map { now.addingTimeInterval(60 * 60 * Double($0)) }
         ]
     }
 
     // Custom colors to maintain consistency
-    let customBlue = Color(red: 0.27, green: 0.45, blue: 1.0) // Matches the profile section blue
+    let customBlue: Color = .init(red: 0.27, green: 0.45, blue: 1.0) // Matches the profile section blue
 
     // Get next 14 days
     var dates: [Date] {

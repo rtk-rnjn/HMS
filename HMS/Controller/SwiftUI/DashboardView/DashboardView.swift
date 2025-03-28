@@ -41,7 +41,7 @@ struct DashboardView: View {
                         .fontWeight(.bold)
                         .padding(.horizontal)
 
-                    ForEach(appointments) { appointment in
+                    ForEach(appointments) { _ in
                         AppointmentCard(date: "", time: "", doctorName: "", specialty: "", hospital: "", status: "")
                     }
                     .padding(.horizontal)
@@ -133,10 +133,9 @@ struct SpecializationDetailView: View {
     }
 }
 
-
 struct QuickActionsSection: View {
-    @State private var showingBookAppointment = false
-    @State private var showingMedicalRecords = false
+
+    // MARK: Internal
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
@@ -175,10 +174,17 @@ struct QuickActionsSection: View {
             MedicalRecordsView()
         }
     }
+
+    // MARK: Private
+
+    @State private var showingBookAppointment = false
+    @State private var showingMedicalRecords = false
+
 }
 
 struct MedicalRecordsView: View {
-    @Environment(\.dismiss) private var dismiss
+
+    // MARK: Internal
 
     var body: some View {
         NavigationStack {
@@ -205,12 +211,16 @@ struct MedicalRecordsView: View {
             }
         }
     }
+
+    // MARK: Private
+
+    @Environment(\.dismiss) private var dismiss
+
 }
 
 struct BookAppointmentView: View {
-    @Environment(\.dismiss) private var dismiss
-    @State private var selectedSpecialization: Specialization?
-    @State private var selectedDate = Date()
+
+    // MARK: Internal
 
     var body: some View {
 
@@ -240,8 +250,15 @@ struct BookAppointmentView: View {
                 }
             }
         }
-        
+
     }
+
+    // MARK: Private
+
+    @Environment(\.dismiss) private var dismiss
+    @State private var selectedSpecialization: Specialization?
+    @State private var selectedDate: Date = .init()
+
 }
 
 struct MedicalRecordRow: View {

@@ -5,7 +5,7 @@ struct BasicInfoCard: View {
     let title: String
     let value: String
     let unit: String
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
@@ -33,7 +33,7 @@ struct MedicalRecordRow: View {
     let condition: String
     let doctor: String
     let notes: String
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack {
@@ -56,9 +56,11 @@ struct MedicalRecordRow: View {
 }
 
 struct PatientDetailsView: View {
+
+    // MARK: Internal
+
     let patient: Patient
-    @State private var selectedTab = "Records"
-    
+
     var body: some View {
         ScrollView {
             VStack(spacing: 24) {
@@ -72,7 +74,7 @@ struct PatientDetailsView: View {
                         .font(.title)
                         .fontWeight(.bold)
                 }
-                
+
                 // Basic Information
                 VStack(alignment: .leading, spacing: 16) {
                     InfoRow(title: "Age", value: "\(Calendar.current.dateComponents([.year], from: patient.dateOfBirth, to: Date()).year ?? 0) years")
@@ -80,21 +82,21 @@ struct PatientDetailsView: View {
                     InfoRow(title: "Phone", value: "+1 (555) 123-4567")
                 }
                 .padding(.horizontal)
-                
+
                 // Basic Info Cards
                 Text("Basic Info")
                     .font(.title2)
                     .fontWeight(.bold)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.horizontal)
-                
+
                 HStack(spacing: 12) {
                     BasicInfoCard(icon: "drop.fill", title: "Blood Type", value: patient.bloodGroup.rawValue, unit: "")
                     BasicInfoCard(icon: "scalemass.fill", title: "Weight", value: "\(patient.weight)", unit: "kg")
                     BasicInfoCard(icon: "ruler.fill", title: "Height", value: "\(patient.height)", unit: "cm")
                 }
                 .padding(.horizontal)
-                
+
                 // Records Tabs
                 HStack {
                     ForEach(["Records", "Medications", "Lab Results", "Notes"], id: \.self) { tab in
@@ -114,7 +116,7 @@ struct PatientDetailsView: View {
                 .background(Color(.systemGray6))
                 .cornerRadius(25)
                 .padding(.horizontal)
-                
+
                 // Medical Records
                 if selectedTab == "Records" {
                     MedicalRecordRow(
@@ -131,12 +133,17 @@ struct PatientDetailsView: View {
         .background(Color(.systemGray6))
         .navigationBarTitleDisplayMode(.inline)
     }
+
+    // MARK: Private
+
+    @State private var selectedTab = "Records"
+
 }
 
 struct InfoRow: View {
     let title: String
     let value: String
-    
+
     var body: some View {
         HStack {
             Text(title)
@@ -163,4 +170,4 @@ struct InfoRow: View {
             weight: 65
         ))
     }
-} 
+}

@@ -10,7 +10,6 @@ import SwiftUI
 class DoctorsHostingController: UIHostingController<DoctorListView> {
 
     // MARK: Lifecycle
-    var specialization: String = ""
 
     required init?(coder: NSCoder) {
         let swiftUIView = DoctorListView()
@@ -18,6 +17,8 @@ class DoctorsHostingController: UIHostingController<DoctorListView> {
     }
 
     // MARK: Internal
+
+    var specialization: String = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()

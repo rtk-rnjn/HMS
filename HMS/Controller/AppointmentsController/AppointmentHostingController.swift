@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-let calendar = Calendar.current
-let currentDate: Date = Date()
+let calendar: Calendar = .current
+let currentDate: Date = .init()
 
 let sampleAppointments = [
     Appointment(patientId: "12345", doctorId: "D001", reason: "General Checkup", doctorNotes: nil, doctorName: "Dr. Smith", doctorSpecializations: "Cardiology", date: calendar.date(byAdding: .day, value: -10, to: currentDate)!),
@@ -34,24 +34,29 @@ let sampleAppointments = [
 ]
 
 class AppointmentHostingController: UIHostingController<AppointmentView>, UISearchBarDelegate, UISearchResultsUpdating {
+
     // MARK: Lifecycle
-    
+
     required init?(coder: NSCoder) {
         super.init(coder: coder, rootView: AppointmentView())
     }
-    
+
     // MARK: Internal
-    
+
+    var searchController: UISearchController = .init()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.rootView.appointments = sampleAppointments
-        self.rootView.delegate = self
+        rootView.appointments = sampleAppointments
+        rootView.delegate = self
 
         prepareSearchController()
     }
 
-    var searchController: UISearchController = .init()
+    func updateSearchResults(for searchController: UISearchController) {}
+
+    // MARK: Private
 
     private func prepareSearchController() {
         searchController.searchBar.delegate = self
@@ -62,7 +67,4 @@ class AppointmentHostingController: UIHostingController<AppointmentView>, UISear
         navigationItem.hidesSearchBarWhenScrolling = false
     }
 
-    func updateSearchResults(for searchController: UISearchController) {
-    }
 }
-

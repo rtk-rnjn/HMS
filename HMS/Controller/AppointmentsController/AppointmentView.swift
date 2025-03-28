@@ -8,11 +8,13 @@
 import SwiftUI
 
 struct AppointmentView: View {
+
+    // MARK: Internal
+
     weak var delegate: AppointmentHostingController?
 
     var appointments: [Appointment] = []
-    @State private var currentDate: Date = Date()
-    
+
     var body: some View {
         ScrollViewReader { scrollView in
             List {
@@ -33,18 +35,9 @@ struct AppointmentView: View {
         }
     }
 
-    private func appointmentList(for date: Date) -> some View {
-        ForEach(groupedAppointments[date] ?? []) { appointment in
-            AppointmentRow(appointment: appointment, isPast: date < Calendar.current.startOfDay(for: currentDate))
-                .id(appointment.id)
-        }
-    }
+    // MARK: Private
 
-    private func formattedDate(_ date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .full
-        return formatter.string(from: date)
-    }
+    @State private var currentDate: Date = .init()
 
     private var groupedAppointments: [Date: [Appointment]] {
         Dictionary(grouping: appointments, by: { Calendar.current.startOfDay(for: $0.date) })
@@ -52,6 +45,13 @@ struct AppointmentView: View {
 
     private var sortedDates: [Date] {
         groupedAppointments.keys.sorted()
+    }
+
+    private func appointmentList(for date: Date) -> some View {
+        ForEach(groupedAppointments[date] ?? []) { appointment in
+            AppointmentRow(appointment: appointment, isPast: date < Calendar.current.startOfDay(for: currentDate))
+                .id(appointment.id)
+        }
     }
 
     private func headerView(for date: Date) -> some View {
@@ -63,6 +63,12 @@ struct AppointmentView: View {
             )
             .fontWeight(Calendar.current.isDate(date, inSameDayAs: currentDate) ? .bold : .regular)
             .opacity(isPast ? 0.5 : 1.0)
+    }
+
+    private func formattedDate(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .full
+        return formatter.string(from: date)
     }
 
 }
