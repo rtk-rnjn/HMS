@@ -8,36 +8,14 @@
 import SwiftUI
 
 struct Specialization: Identifiable, Hashable {
-    let id = UUID()
+    let id: String = UUID().uuidString
     let name: String
-    let image: String
+    let image: String = "heart.fill"
 }
-
-let specializations = [
-    Specialization(name: "Cardiologist", image: "heart.fill"),
-    Specialization(name: "Neurologist", image: "brain.head.profile"),
-    Specialization(name: "Orthopedic Surgeon", image: "figure.walk"),
-    Specialization(name: "Pediatrician", image: "person.2.circle"),
-    Specialization(name: "Gynecologist/Obstetrician", image: "person.2.wave.2.fill"),
-    Specialization(name: "Oncologist", image: "cross.case.fill"),
-    Specialization(name: "Radiologist", image: "rays"),
-    Specialization(name: "Emergency Medicine", image: "cross.circle.fill"),
-    Specialization(name: "Dermatologist", image: "hand.raised.fill"),
-    Specialization(name: "Psychiatrist", image: "brain.fill"),
-    Specialization(name: "Gastroenterologist", image: "pills.fill"),
-    Specialization(name: "Nephrologist", image: "cross.vial.fill"),
-    Specialization(name: "Endocrinologist", image: "chart.dots.scatter"),
-    Specialization(name: "Pulmonologist", image: "lungs.fill"),
-    Specialization(name: "Ophthalmologist", image: "eye.fill"),
-    Specialization(name: "ENT Specialist", image: "ear.fill"),
-    Specialization(name: "Urologist", image: "cross.fill"),
-    Specialization(name: "Anesthesiologist", image: "waveform.path.ecg"),
-    Specialization(name: "Hematologist", image: "drop.fill"),
-    Specialization(name: "Rheumatologist", image: "figure.walk.motion")
-]
 
 struct DashboardView: View {
     weak var delegate: HomeHostingController?
+    var specializations: [Specialization] = []
 
     @State private var searchText = ""
     @State private var selectedSpecialization: Specialization?
@@ -52,7 +30,7 @@ struct DashboardView: View {
                 SpecializationsSection(
                     specializations: specializations,
                     onTap: { specialization in
-                        selectedSpecialization = specialization
+                        delegate?.performSegue(withIdentifier: "segueShowDoctorsHostingController", sender: specialization)
                     }
                 )
 
@@ -80,9 +58,6 @@ struct DashboardView: View {
             placement: .navigationBarDrawer,
             prompt: "Search doctors or specializations"
         )
-        .navigationDestination(item: $selectedSpecialization) { specialization in
-            SpecializationDetailView(specialization: specialization)
-        }
     }
 }
 
@@ -101,14 +76,13 @@ struct SpecializationCard: View {
 
             // Title
             Text(specialization.name)
-                .font(.system(size: 16, weight: .semibold))
+                .font(.system(size: 14, weight: .semibold))
                 .foregroundColor(.primary)
                 .multilineTextAlignment(.center)
         }
-        .frame(width: 150, height: 150)
+        .frame(width: 130, height: 130)
         .background(Color(.secondarySystemGroupedBackground))
         .cornerRadius(20)
-        .shadow(color: Color.black.opacity(0.06), radius: 10, x: 0, y: 2)
     }
 }
 
@@ -133,7 +107,7 @@ struct SpecializationsSection: View {
                     }
                 }
                 .padding(.horizontal)
-                .padding(.bottom, 8) // Add padding to account for shadow
+                .padding(.bottom, 8)
             }
         }
     }
@@ -159,53 +133,6 @@ struct SpecializationDetailView: View {
     }
 }
 
-struct DoctorCard: View {
-    let doctor: Staff
-
-    var body: some View {
-        NavigationLink(destination: DoctorView(doctor: doctor)) {
-            HStack(spacing: 12) {
-                // Profile image
-                Image(systemName: "person.circle.fill")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 60, height: 60)
-                    .foregroundColor(Color(.systemGray3))
-                    .clipShape(Circle())
-                    .overlay(
-                        Circle()
-                            .stroke(Color.white, lineWidth: 2)
-                    )
-
-                VStack(alignment: .leading, spacing: 4) {
-                    // Name
-                    Text(doctor.fullName)
-                        .font(.system(size: 17, weight: .semibold))
-                        .foregroundColor(.primary)
-
-                    // Department and specialization
-                    Text(doctor.department)
-                        .font(.system(size: 14, weight: .regular))
-                        .foregroundColor(.secondary)
-
-                    Text(doctor.specializations.joined(separator: ", "))
-                        .font(.system(size: 14, weight: .regular))
-                        .foregroundColor(.secondary)
-                }
-
-                Spacer()
-
-                // Status indicator - small dot instead of badge for cleaner list
-                Circle()
-                    .fill(doctor.onLeave ? Color.orange : Color.green)
-                    .frame(width: 10, height: 10)
-            }
-            .padding()
-            .background(Color.white)
-            .cornerRadius(16)
-        }
-    }
-}
 
 struct QuickActionsSection: View {
     @State private var showingBookAppointment = false
@@ -229,7 +156,9 @@ struct QuickActionsSection: View {
                     icon: "calendar.badge.plus",
                     title: "Book New\nAppointment",
                     color: .blue,
-                    action: { showingBookAppointment = true }
+                    action: {
+                        showingBookAppointment = true
+                    }
                 )
                 QuickActionButton(
                     icon: "folder.fill", title: "My Medical\nRecords",
@@ -298,14 +227,6 @@ struct BookAppointmentView: View {
                 .padding()
                 .background(Color(.secondarySystemGroupedBackground))
                 .cornerRadius(12)
-
-                // Specializations
-                SpecializationsSection(
-                    specializations: specializations,
-                    onTap: { specialization in
-                        selectedSpecialization = specialization
-                    }
-                )
             }
             .padding()
         }

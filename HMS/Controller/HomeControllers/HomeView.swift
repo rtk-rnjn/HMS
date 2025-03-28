@@ -46,7 +46,6 @@ struct AppointmentCard: View {
         .padding()
         .background(Color(.systemBackground))
         .cornerRadius(16)
-        .shadow(color: Color.black.opacity(0.05), radius: 10, x: 0, y: 4)
     }
 }
 
@@ -108,7 +107,6 @@ struct LabReportCard: View {
         .padding()
         .background(Color(.systemBackground))
         .cornerRadius(16)
-        .shadow(color: Color.black.opacity(0.05), radius: 10, x: 0, y: 4)
     }
 }
 
@@ -242,5 +240,5 @@ struct HomeView: View {
 }
 
 #Preview {
-    HomeView()
+    AppointmentCard(date: "23 March 2025", time: "9:00 AM", doctorName: "Doctor", specialty: "All in one", hospital: "Apollo", status: "PENDING")
 }

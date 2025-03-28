@@ -18,6 +18,12 @@ class HomeHostingController: UIHostingController<DashboardView>, UISearchBarDele
         super.viewDidLoad()
         rootView.delegate = self
 
+        Task {
+            if let staffs = await DataController.shared.fetchDoctor(bySpecialization: "") {
+                let specializations = staffs.map { $0.specialization }
+                rootView.specializations = specializations.map { Specialization(name: $0) }
+            }
+        }
         prepareSearchController()
     }
 
@@ -33,5 +39,12 @@ class HomeHostingController: UIHostingController<DashboardView>, UISearchBarDele
     }
 
     func updateSearchResults(for searchController: UISearchController) {
+    }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "segueShowDoctorsHostingController", let specialization = sender as? Specialization {
+            let destination = segue.destination as? DoctorsHostingController
+            destination?.specialization = specialization.name
+        }
     }
 }

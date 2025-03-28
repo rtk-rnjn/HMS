@@ -14,7 +14,16 @@ struct DoctorView: View {
     @State private var isNewVisit = true
     @State private var additionalNotes = ""
 
-    let timeSlots = ["09:00 AM", "10:00 AM", "11:30 AM", "02:00 PM"]
+    let now = Date()
+
+    var timeSlots: [[Date]] {
+        let now = Date()
+        return [
+            [9, 10].map { now.addingTimeInterval(60 * 60 * Double($0)) },
+            [13, 14].map { now.addingTimeInterval(60 * 60 * Double($0)) },
+            [17, 18].map { now.addingTimeInterval(60 * 60 * Double($0)) },
+        ]
+    }
 
     // Custom colors to maintain consistency
     let customBlue = Color(red: 0.27, green: 0.45, blue: 1.0) // Matches the profile section blue
@@ -44,7 +53,7 @@ struct DoctorView: View {
 
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 20) {
+            VStack {
                 // Doctor Profile Section
                 VStack(spacing: 12) {
                     // Profile Card
@@ -67,11 +76,11 @@ struct DoctorView: View {
                         }
                         .padding(.bottom, 4)
 
-                        Text("Amit Kumar")
+                        Text(doctor.fullName)
                             .font(.title2)
                             .fontWeight(.semibold)
 
-                        Text("Cardiologist")
+                        Text(doctor.specialization)
                             .font(.body)
                             .foregroundColor(.blue)
                     }
@@ -88,7 +97,7 @@ struct DoctorView: View {
                             Image(systemName: "person.3.fill")
                                 .font(.system(size: 24))
                                 .foregroundColor(.blue)
-                            Text("1.2k")
+                            Text("0")
                                 .font(.title3)
                                 .fontWeight(.bold)
                             Text("Patients")
@@ -103,7 +112,7 @@ struct DoctorView: View {
                             Image(systemName: "clock.fill")
                                 .font(.system(size: 24))
                                 .foregroundColor(.blue)
-                            Text("8+ yrs")
+                            Text("\(doctor.yearOfExperience) yrs")
                                 .font(.title3)
                                 .fontWeight(.bold)
                             Text("Experience")
@@ -188,19 +197,7 @@ struct DoctorView: View {
 
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: 12) {
-                            ForEach(timeSlots, id: \.self) { slot in
-                                Button(action: {
-                                    selectedTimeSlot = slot
-                                }) {
-                                    Text(slot)
-                                        .padding(.horizontal, 20)
-                                        .padding(.vertical, 10)
-                                        .background(selectedTimeSlot == slot ? customBlue : Color.white)
-                                        .foregroundColor(selectedTimeSlot == slot ? .white : .primary)
-                                        .cornerRadius(8)
-                                        .shadow(color: Color.black.opacity(0.05), radius: 4, x: 0, y: 2)
-                                }
-                            }
+                            Text("HELP ME")
                         }
                         .padding(.horizontal)
                     }

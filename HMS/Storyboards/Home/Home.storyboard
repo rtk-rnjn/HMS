@@ -38,10 +38,23 @@
             <objects>
                 <hostingController id="Inu-Os-LXN" customClass="HomeHostingController" customModule="HMS" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" title="Hello!" id="g4C-iQ-RvX"/>
+                    <connections>
+                        <segue destination="wZq-M3-X0a" kind="show" identifier="segueShowDoctorsHostingController" id="UXM-oX-pV3"/>
+                    </connections>
                 </hostingController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TUM-L6-fp1" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3813" y="-35"/>
+        </scene>
+        <!--Doctors Hosting Controller-->
+        <scene sceneID="9vS-UE-q7l">
+            <objects>
+                <hostingController id="wZq-M3-X0a" customClass="DoctorsHostingController" customModule="HMS" customModuleProvider="target" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="h2q-xK-MHv"/>
+                </hostingController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="VX3-ta-x6E" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4856" y="-35"/>
         </scene>
     </scenes>
     <resources>

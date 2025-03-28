@@ -116,6 +116,11 @@ class DataController {
         return success
     }
 
+    func fetchDoctor(bySpecialization specialization: String) async -> [Staff]? {
+        let endpoint = "/search/doctors/specialization"
+        return await MiddlewareManager.shared.get(url: endpoint, queryParameters: ["query": specialization])
+    }
+
     func changePassword(oldPassword: String, newPassword: String) async -> Bool {
         let changePassword = ChangePassword(oldPassword: oldPassword, newPassword: newPassword)
         guard let changePasswordData = changePassword.toData() else {

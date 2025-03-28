@@ -6,13 +6,24 @@
 //
 
 import UIKit
+@preconcurrency import UserNotifications
+import EventKit
 
 class InitialTabBarController: UITabBarController, UITabBarControllerDelegate {
+
+    var eventStore: EKEventStore?
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         delegate = self
         checkForAuthentication()
+
+        Task {
+            await requestAccessForNotification()
+
+            await requestAccessForCalendar()
+            await requestAccessForReminders()
+        }
 
         navigationController?.setNavigationBarHidden(true, animated: true)
     }
@@ -33,4 +44,65 @@ class InitialTabBarController: UITabBarController, UITabBarControllerDelegate {
             }
         }
     }
+
+    func requestAccessForNotification() async {
+        let center = UNUserNotificationCenter.current()
+        do {
+            let granted = try await center.requestAuthorization(options: [.alert, .sound, .badge])
+            if granted {
+                let settings = await center.notificationSettings()
+                guard settings.authorizationStatus == .authorized else { return }
+                DispatchQueue.main.async {
+                    UIApplication.shared.registerForRemoteNotifications()
+                }
+            }
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+
+    func requestAccessForCalendar() async {
+        let status = EKEventStore.authorizationStatus(for: .event)
+
+        switch status {
+        case .denied, .restricted, .notDetermined:
+            let store = EKEventStore()
+            do {
+                let success = try await store.requestFullAccessToEvents()
+                if success {
+                    DispatchQueue.main.async {
+                        self.eventStore = store
+                    }
+                }
+            } catch {
+                print("Error: \(error)")
+            }
+
+        default:
+            break
+        }
+    }
+
+    func requestAccessForReminders() async {
+        let status = EKEventStore.authorizationStatus(for: .reminder)
+
+        switch status {
+        case .denied, .restricted, .notDetermined:
+            let store = EKEventStore()
+            do {
+                let success = try await store.requestFullAccessToReminders()
+                if success {
+                    DispatchQueue.main.async {
+                        self.eventStore = store
+                    }
+                }
+            } catch {
+                print(error)
+            }
+
+        default:
+            break
+        }
+    }
+
 }
