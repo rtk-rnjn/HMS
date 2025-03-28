@@ -17,7 +17,7 @@ struct UnavailablePeriod: Codable, Equatable {
     let endDate: Date
 }
 
-struct Staff: Codable, Equatable {
+struct Staff: Codable, Equatable, Identifiable {
     enum CodingKeys: String, CodingKey {
         case id = "_id"
         case firstName = "first_name"
@@ -59,5 +59,4 @@ struct Staff: Codable, Equatable {
         let lastName = lastName ?? ""
         return "\(firstName) \(lastName)".trimmingCharacters(in: .whitespaces)
     }
-
 }

@@ -1,110 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="GfI-7V-XJw">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="U4T-XM-Ceh">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Appointments-->
-        <scene sceneID="aIs-ZB-ehc">
+        <!--My Appointments-->
+        <scene sceneID="XMJ-bD-1ot">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="GfI-7V-XJw" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Appointments" image="calendar" catalog="system" id="wPS-DN-tZK"/>
+                <hostingController id="46G-0Y-LSx" customClass="AppointmentHostingController" customModule="HMS" customModuleProvider="target" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" title="My Appointments" id="hrc-J4-P44"/>
+                </hostingController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bKO-3k-23E" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2397.709923664122" y="-65.492957746478879"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="hSj-ih-pBe">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="U4T-XM-Ceh" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="a52-yP-L0P">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Q2Y-1w-D7x">
                         <rect key="frame" x="0.0" y="59" width="393" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="6I4-ei-c0N" kind="relationship" relationship="rootViewController" id="wip-ra-dZk"/>
+                        <segue destination="46G-0Y-LSx" kind="relationship" relationship="rootViewController" id="FVF-hB-6Yn"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="rj8-57-xkr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="GMa-d1-K6h" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1055.7251908396945" y="-28.169014084507044"/>
-        </scene>
-        <!--My Appointments-->
-        <scene sceneID="XWJ-sZ-qBu">
-            <objects>
-                <tableViewController id="6I4-ei-c0N" customClass="AppointmentsTableViewController" customModule="HMS" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="insetGrouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" id="XCD-KR-ccH">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="AppointmentsTableViewCell" id="xaM-ht-aje" customClass="AppointmentsTableViewCell" customModule="HMS" customModuleProvider="target">
-                                <rect key="frame" x="20" y="55.333332061767578" width="353" height="80.333335876464844"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="xaM-ht-aje" id="aAN-Yb-DW0">
-                                    <rect key="frame" x="0.0" y="0.0" width="322.66666666666669" height="80.333335876464844"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Z3T-QC-SiA">
-                                            <rect key="frame" x="20" y="10.000000000000004" width="282.66666666666669" height="60.333333333333343"/>
-                                            <subviews>
-                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="RQz-Q7-JTa">
-                                                    <rect key="frame" x="0.0" y="0.0" width="131" height="60.333333333333336"/>
-                                                    <subviews>
-                                                        <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZHG-h3-lbm">
-                                                            <rect key="frame" x="0.0" y="0.0" width="131" height="30.333333333333332"/>
-                                                            <subviews>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Dr. Amit Kumar" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SRf-hB-Kfa">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="131" height="30.333333333333332"/>
-                                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
-                                                                    <nil key="textColor"/>
-                                                                    <nil key="highlightedColor"/>
-                                                                </label>
-                                                            </subviews>
-                                                        </stackView>
-                                                        <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="B6T-Jq-nBc">
-                                                            <rect key="frame" x="0.0" y="30.333333333333336" width="131" height="30"/>
-                                                            <subviews>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Cardiology" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9cj-SA-HVx">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="131" height="30"/>
-                                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
-                                                                    <nil key="textColor"/>
-                                                                    <nil key="highlightedColor"/>
-                                                                </label>
-                                                            </subviews>
-                                                        </stackView>
-                                                    </subviews>
-                                                </stackView>
-                                                <datePicker contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="eBT-cR-I0Z">
-                                                    <rect key="frame" x="141" y="0.0" width="142" height="61"/>
-                                                </datePicker>
-                                            </subviews>
-                                        </stackView>
-                                    </subviews>
-                                    <constraints>
-                                        <constraint firstAttribute="trailing" secondItem="Z3T-QC-SiA" secondAttribute="trailing" constant="20" id="9yi-fZ-noW"/>
-                                        <constraint firstItem="Z3T-QC-SiA" firstAttribute="top" secondItem="aAN-Yb-DW0" secondAttribute="top" constant="10" id="LhE-wY-fuU"/>
-                                        <constraint firstItem="Z3T-QC-SiA" firstAttribute="leading" secondItem="aAN-Yb-DW0" secondAttribute="leading" constant="20" id="UmX-KB-jEg"/>
-                                        <constraint firstAttribute="bottom" secondItem="Z3T-QC-SiA" secondAttribute="bottom" constant="10" id="bTJ-UR-vLo"/>
-                                    </constraints>
-                                </tableViewCellContentView>
-                                <connections>
-                                    <outlet property="date" destination="eBT-cR-I0Z" id="4hr-ag-yLY"/>
-                                    <outlet property="staffDepartment" destination="9cj-SA-HVx" id="UCR-gs-26j"/>
-                                    <outlet property="staffName" destination="SRf-hB-Kfa" id="Wl5-AV-1br"/>
-                                </connections>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="6I4-ei-c0N" id="QG5-m5-l4u"/>
-                            <outlet property="delegate" destination="6I4-ei-c0N" id="a3p-8a-aDT"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" title="My Appointments" id="Jwb-X4-qxy">
-                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="add" id="tQS-3T-5nd"/>
-                    </navigationItem>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="ugs-0Y-OgL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1919.8473282442746" y="-28.169014084507044"/>
+            <point key="canvasLocation" x="1470.9923664122136" y="-65.492957746478879"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="calendar" catalog="system" width="128" height="107"/>
-    </resources>
 </document>

@@ -7,11 +7,11 @@
 
 import Foundation
 
-enum AppointmentStatus: String {
+enum AppointmentStatus: String, Codable {
     case confirmed = "Confirmed"
 }
 
-struct Appointment {
+struct Appointment: Codable, Identifiable, Hashable {
     var id: String = UUID().uuidString
 
     var patientId: String
