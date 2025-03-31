@@ -210,6 +210,7 @@ struct DoctorCard: View {
 struct QuickActionsSection: View {
     @State private var showingBookAppointment = false
     @State private var showingMedicalRecords = false
+    @State private var navigateToMedicalRecords = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
@@ -231,49 +232,134 @@ struct QuickActionsSection: View {
                     color: .blue,
                     action: { showingBookAppointment = true }
                 )
-                QuickActionButton(
-                    icon: "folder.fill", title: "My Medical\nRecords",
-                    color: .green,
-                    action: { showingMedicalRecords = true }
-                )
+                NavigationLink(destination: MedicalRecordsView()) {
+                    QuickActionButtonView(
+                        icon: "folder.fill",
+                        title: "My Medical\nRecords",
+                        color: .green
+                    )
+                }
             }
             .padding(.horizontal)
         }
         .sheet(isPresented: $showingBookAppointment) {
             BookAppointmentView()
         }
-        .sheet(isPresented: $showingMedicalRecords) {
-            MedicalRecordsView()
+    }
+}
+
+struct QuickActionButtonView: View {
+    let icon: String
+    let title: String
+    let color: Color
+    
+    var body: some View {
+        VStack(spacing: 12) {
+            Image(systemName: icon)
+                .font(.system(size: 24))
+                .foregroundColor(color)
+            
+            Text(title)
+                .font(.system(size: 14, weight: .medium))
+                .multilineTextAlignment(.center)
+                .foregroundColor(.primary)
         }
+        .frame(maxWidth: .infinity)
+        .frame(height: 120)
+        .background(Color.white)
+        .cornerRadius(16)
+        .shadow(color: Color.black.opacity(0.06), radius: 10, x: 0, y: 2)
     }
 }
 
 struct MedicalRecordsView: View {
-    @Environment(\.dismiss) private var dismiss
-
+    @State private var showingAddReport = false
+    @State private var reports: [MedicalReport] = []
+    @State private var showingFilterSheet = false
+    @State private var selectedFilter: String? = nil
+    
+    private func loadReports() {
+        reports = DataController.shared.getMedicalReports().sorted(by: { $0.createdAt > $1.createdAt })
+    }
+    
+    private var filteredReports: [MedicalReport] {
+        if let filter = selectedFilter {
+            return reports.filter { $0.reportType == filter }
+        }
+        return reports
+    }
+    
+    private var uniqueReportTypes: [String] {
+        Array(Set(reports.map { $0.reportType })).sorted()
+    }
+    
     var body: some View {
-        NavigationStack {
-            List {
-                Section(header: Text("Recent Records")) {
-                    MedicalRecordRow(title: "Blood Test Results", date: "Mar 15, 2024", type: "Lab Report")
-                    MedicalRecordRow(title: "Annual Physical", date: "Feb 28, 2024", type: "Check-up Report")
-                    MedicalRecordRow(title: "X-Ray Report", date: "Jan 10, 2024", type: "Radiology")
+        List {
+            if !reports.isEmpty {
+                ForEach(filteredReports) { report in
+                    MedicalRecordRow(
+                        title: report.description.isEmpty ? report.reportType : report.description,
+                        date: report.reportDate.formatted(date: .numeric, time: .omitted),
+                        type: report.reportType,
+                        report: report
+                    )
+                    .listRowBackground(Color(.systemGroupedBackground))
+                    .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
                 }
-
-                Section(header: Text("Prescriptions")) {
-                    MedicalRecordRow(title: "Prescription #123", date: "Mar 10, 2024", type: "Medication")
-                    MedicalRecordRow(title: "Prescription #122", date: "Feb 15, 2024", type: "Medication")
-                }
+            } else {
+                Text("No medical records yet")
+                    .foregroundColor(.gray)
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .padding()
+                    .listRowBackground(Color(.systemGroupedBackground))
             }
-            .navigationTitle("Medical Records")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    Button("Done") {
-                        dismiss()
+        }
+        .listStyle(PlainListStyle())
+        .background(Color(.systemGroupedBackground))
+        .scrollContentBackground(.hidden)
+        .navigationTitle("Medical Records")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                HStack(spacing: 16) {
+                    Button(action: {
+                        showingFilterSheet = true
+                    }) {
+                        Image(systemName: selectedFilter == nil ? "line.3.horizontal.decrease.circle" : "line.3.horizontal.decrease.circle.fill")
+                            .font(.system(size: 22))
+                            .foregroundColor(.blue)
+                    }
+                    
+                    Button(action: {
+                        showingAddReport = true
+                    }) {
+                        Image(systemName: "plus")
+                            .font(.system(size: 18))
+                            .foregroundColor(.blue)
                     }
                 }
             }
+        }
+        .sheet(isPresented: $showingAddReport) {
+            AddMedicalReportView(onSave: { _ in
+                loadReports()
+            })
+        }
+        .confirmationDialog("Filter by Type", isPresented: $showingFilterSheet, titleVisibility: .visible) {
+            ForEach(uniqueReportTypes, id: \.self) { type in
+                Button(type) {
+                    selectedFilter = type
+                }
+            }
+            if selectedFilter != nil {
+                Button("Show All", role: .cancel) {
+                    selectedFilter = nil
+                }
+            }
+            Button("Cancel", role: .cancel) { }
+        }
+        .onAppear {
+            loadReports()
         }
     }
 }
@@ -327,19 +413,65 @@ struct MedicalRecordRow: View {
     let title: String
     let date: String
     let type: String
+    let report: MedicalReport
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text(title)
-                .font(.system(size: 16, weight: .semibold))
-            HStack {
-                Text(date)
-                Text("•")
-                Text(type)
+        NavigationLink(destination: MedicalReportDetailView(report: report)) {
+            VStack(alignment: .leading, spacing: 0) {
+                HStack(alignment: .top, spacing: 16) {
+                    // Icon
+                    Image(systemName: "doc.text.fill")
+                        .font(.system(size: 24))
+                        .foregroundColor(.blue)
+                        .frame(width: 32)
+                    
+                    VStack(alignment: .leading, spacing: 8) {
+                        // Title and Date
+                        HStack {
+                            Text(title)
+                                .font(.system(size: 18, weight: .semibold))
+                            Spacer()
+                            Text(date)
+                                .font(.system(size: 16))
+                                .foregroundColor(.secondary)
+                        }
+                        
+                        // Department/Type
+                        Text(type)
+                            .font(.system(size: 16))
+                            .foregroundColor(.secondary)
+                        
+                        // Status and View Report
+                        HStack {
+                            // Status
+                            HStack(spacing: 4) {
+                                Circle()
+                                    .fill(Color.green)
+                                    .frame(width: 8, height: 8)
+                                Text("Completed")
+                                    .font(.system(size: 14))
+                                    .foregroundColor(.green)
+                            }
+                            
+                            Spacer()
+                            
+                            // View Report Button
+                            HStack(spacing: 4) {
+                                Text("View Report")
+                                    .font(.system(size: 16, weight: .medium))
+                                Image(systemName: "chevron.right")
+                                    .font(.system(size: 14))
+                            }
+                            .foregroundColor(.blue)
+                        }
+                        .padding(.top, 8)
+                    }
+                }
+                .padding()
+                .background(Color.white)
             }
-            .font(.system(size: 14))
-            .foregroundColor(.gray)
+            .cornerRadius(12)
+            .shadow(color: Color.black.opacity(0.05), radius: 8, x: 0, y: 2)
         }
-        .padding(.vertical, 8)
     }
 }

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 struct Token: Codable {
     enum CodingKeys: String, CodingKey {
@@ -149,9 +150,58 @@ class DataController {
         let response: ServerResponse? = await MiddlewareManager.shared.get(url: "/verify-otp", queryParameters: ["to_email": emailAddress, "otp": otp])
         return response?.success ?? false
     }
+    
+    // MARK: Medical Reports
+    
+    func saveMedicalReport(_ report: MedicalReport) async -> Bool {
+        // Save the report to local storage for now
+        // In a real app, this would typically save to a backend server
+        var reports = getMedicalReports()
+        reports.append(report)
+        
+        do {
+            let data = try JSONEncoder().encode(reports)
+            UserDefaults.standard.set(data, forKey: "medical_reports")
+            return true
+        } catch {
+            print("Failed to save medical report: \(error)")
+            return false
+        }
+    }
+    
+    func getMedicalReports() -> [MedicalReport] {
+        guard let data = UserDefaults.standard.data(forKey: "medical_reports") else {
+            return []
+        }
+        
+        do {
+            return try JSONDecoder().decode([MedicalReport].self, from: data)
+        } catch {
+            print("Failed to load medical reports: \(error)")
+            return []
+        }
+    }
+    
+    func uploadImage(_ image: UIImage) async -> String? {
+        // In a real app, this would upload to a server and return the URL
+        // For now, we'll save locally and return a dummy URL
+        guard let data = image.jpegData(compressionQuality: 0.8) else {
+            return nil
+        }
+        
+        let filename = "\(UUID().uuidString).jpg"
+        let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(filename)
+        
+        do {
+            try data.write(to: url)
+            return url.path
+        } catch {
+            print("Failed to save image: \(error)")
+            return nil
+        }
+    }
 
     // MARK: Private
 
     private var accessToken: String = ""
-
 }
