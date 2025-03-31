@@ -42,7 +42,9 @@ struct DashboardView: View {
                         .padding(.horizontal)
 
                     ForEach(appointments) { appointment in
-                        return AppointmentCard(appointment: appointment)
+                        if appointment.startDate > Date() {
+                            AppointmentCard(appointment: appointment)
+                        }
                     }
                     .padding(.horizontal)
                 }
@@ -179,35 +181,6 @@ struct QuickActionsSection: View {
 
     @State private var showingBookAppointment = false
     @State private var showingMedicalRecords = false
-
-}
-
-struct MedicalRecordsView: View {
-
-    // MARK: Internal
-
-    var body: some View {
-        NavigationStack {
-            List {
-                Section(header: Text("Recent Records")) {}
-
-                Section(header: Text("Prescriptions")) {}
-            }
-            .navigationTitle("Medical Records")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    Button("Done") {
-                        dismiss()
-                    }
-                }
-            }
-        }
-    }
-
-    // MARK: Private
-
-    @Environment(\.dismiss) private var dismiss
 
 }
 

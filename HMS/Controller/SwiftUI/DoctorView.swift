@@ -12,15 +12,11 @@ struct DoctorView: View {
 
     @State private var selectedDate: Date = Calendar.current.startOfDay(for: Date())
     @State private var selectedTimeSlot: Date = .init()
-    @State private var isNewVisit = true
-    @State private var additionalNotes = ""
 
     let now: Date = .init()
 
     var timeSlots: [Date] {
         return [
-            Calendar.current.date(bySettingHour: 9, minute: 0, second: 0, of: now)!,
-            Calendar.current.date(bySettingHour: 10, minute: 0, second: 0, of: now)!,
             Calendar.current.date(bySettingHour: 11, minute: 0, second: 0, of: now)!,
             Calendar.current.date(bySettingHour: 12, minute: 0, second: 0, of: now)!,
             Calendar.current.date(bySettingHour: 13, minute: 0, second: 0, of: now)!
@@ -205,13 +201,20 @@ struct DoctorView: View {
                 // Continue Button
                 Button(action: {
                     Task {
+                        let startDate =  mergeDateAndTime(selectedDate: selectedDate, selectedTimeSlot: selectedTimeSlot)!
                         let appointment = Appointment(
                             patientId: "",
                             doctorId: doctor.id,
-                            startDate: selectedDate,
-                            endDate: selectedDate.addingTimeInterval(60 * 60)
+                            startDate: startDate,
+                            endDate: startDate.addingTimeInterval(60 * 60)
                         )
-                        await DataController.shared.bookAppointment(appointment)
+
+                        let created = await DataController.shared.bookAppointment(appointment)
+                        if created {
+                            DataController.createEvent(appointment: appointment)
+                        } else {
+                            print("Failed to book appointment")
+                        }
                     }
                 }) {
                     Text("Book Appointment")
@@ -259,5 +262,19 @@ struct DoctorView: View {
                 )
                 .foregroundColor(selectedTimeSlot == timeSlot ? .white : .primary)
         }
+    }
+
+    func mergeDateAndTime(selectedDate: Date, selectedTimeSlot: Date) -> Date? {
+        let calendar = Calendar.current
+
+        let dateComponents = calendar.dateComponents([.year, .month, .day], from: selectedDate)
+        let timeComponents = calendar.dateComponents([.hour, .minute, .second], from: selectedTimeSlot)
+
+        return calendar.date(from: DateComponents(
+            year: dateComponents.year,
+            month: dateComponents.month,
+            day: dateComponents.day,
+            hour: timeComponents.hour
+        ))
     }
 }

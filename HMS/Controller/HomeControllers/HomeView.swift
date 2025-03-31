@@ -19,8 +19,7 @@ struct AppointmentCard: View {
 
             // Right side - Time and status
             VStack(alignment: .trailing, spacing: 8) {
-                // Time with background
-                Text(appointment.createdAt.humanReadableString())
+                Text(appointment.startDate.humanReadableString())
                     .font(.system(size: 16, weight: .semibold))
                     .foregroundColor(.primary)
                     .padding(.horizontal, 8)

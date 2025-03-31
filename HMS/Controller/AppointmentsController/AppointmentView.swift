@@ -24,7 +24,7 @@ struct AppointmentView: View {
                     }
                 }
             }
-            .listStyle(GroupedListStyle())
+            .listRowSeparator(.hidden)
             .onAppear {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                     if let today = sortedDates.first(where: { Calendar.current.isDate($0, inSameDayAs: currentDate) }) {
@@ -49,8 +49,9 @@ struct AppointmentView: View {
 
     private func appointmentList(for date: Date) -> some View {
         ForEach(groupedAppointments[date] ?? []) { appointment in
-            AppointmentRow(appointment: appointment, isPast: date < Calendar.current.startOfDay(for: currentDate))
-                .id(appointment.id)
+            AppointmentCard(appointment: appointment)
+//            (appointment: appointment, isPast: date < Calendar.current.startOfDay(for: currentDate))
+//                .id(appointment.id)
         }
     }
 

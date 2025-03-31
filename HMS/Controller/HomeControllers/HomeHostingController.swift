@@ -19,8 +19,8 @@ class HomeHostingController: UIHostingController<DashboardView>, UISearchBarDele
 
     var searchController: UISearchController = .init()
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         rootView.delegate = self
 
         Task {
@@ -56,5 +56,4 @@ class HomeHostingController: UIHostingController<DashboardView>, UISearchBarDele
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
     }
-
 }

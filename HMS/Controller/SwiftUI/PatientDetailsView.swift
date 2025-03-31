@@ -28,33 +28,6 @@ struct BasicInfoCard: View {
     }
 }
 
-struct MedicalRecordRow: View {
-    let date: String
-    let condition: String
-    let doctor: String
-    let notes: String
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            HStack {
-                Text(date)
-                    .foregroundColor(.gray)
-                Spacer()
-                Text(doctor)
-                    .foregroundColor(.blue)
-            }
-            Text(condition)
-                .font(.title2)
-                .fontWeight(.bold)
-            Text(notes)
-                .foregroundColor(.gray)
-        }
-        .padding()
-        .background(Color.white)
-        .cornerRadius(16)
-    }
-}
-
 struct PatientDetailsView: View {
 
     // MARK: Internal
@@ -119,12 +92,13 @@ struct PatientDetailsView: View {
 
                 // Medical Records
                 if selectedTab == "Records" {
-                    MedicalRecordRow(
-                        date: "21 Mar 2025",
-                        condition: "Common Cold",
-                        doctor: "Dr. Smith",
-                        notes: "Rest and hydration"
-                    )
+//                    MedicalRecordRow(
+//                        date: "21 Mar 2025",
+//                        title: "Common Cold",
+//                        doctor: "Dr. Smith",
+//                        notes: "Rest and hydration"
+//                    )
+                    MedicalRecordRow(title: "Common Cold", date: Date().humanReadableString(), type: "", report: MedicalReport(name: "Common Cold", date: Date().humanReadableString(), type: ""))
                     .padding(.horizontal)
                 }
             }

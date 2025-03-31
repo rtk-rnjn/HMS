@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import EventKit
 
 struct Token: Codable {
     enum CodingKeys: String, CodingKey {
@@ -190,4 +191,21 @@ class DataController {
 
     private var accessToken: String = ""
 
+}
+
+extension DataController {
+    public static func createEvent(appointment: Appointment) {
+        let store = InitialTabBarController.eventStore
+
+        let event = EKEvent(eventStore: store)
+        event.title = "Appointment with \(appointment.doctor?.fullName ?? "Doctor")"
+        event.startDate = appointment.startDate
+        event.endDate = appointment.endDate
+        event.calendar = store.defaultCalendarForNewEvents
+        do {
+            try store.save(event, span: .thisEvent)
+        } catch {
+            print("Error saving event: \(error)")
+        }
+    }
 }

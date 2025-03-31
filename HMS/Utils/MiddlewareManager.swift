@@ -7,7 +7,7 @@
 
 import Foundation
 
-private let endpoint = "http://13.233.139.216:8080"
+private let endpoint = "http://localhost:8080"
 
 actor MiddlewareManager {
 

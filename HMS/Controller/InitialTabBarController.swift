@@ -11,7 +11,7 @@ import EventKit
 
 class InitialTabBarController: UITabBarController, UITabBarControllerDelegate {
 
-    var eventStore: EKEventStore?
+    static var eventStore: EKEventStore = .init()
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -71,7 +71,7 @@ class InitialTabBarController: UITabBarController, UITabBarControllerDelegate {
                 let success = try await store.requestFullAccessToEvents()
                 if success {
                     DispatchQueue.main.async {
-                        self.eventStore = store
+                        InitialTabBarController.eventStore = store
                     }
                 }
             } catch {
@@ -93,7 +93,7 @@ class InitialTabBarController: UITabBarController, UITabBarControllerDelegate {
                 let success = try await store.requestFullAccessToReminders()
                 if success {
                     DispatchQueue.main.async {
-                        self.eventStore = store
+                        InitialTabBarController.eventStore = store
                     }
                 }
             } catch {
