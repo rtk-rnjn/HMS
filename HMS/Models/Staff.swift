@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct UnavailablePeriod: Codable, Equatable {
+struct UnavailablePeriod: Codable, Equatable, Hashable {
     enum CodingKeys: String, CodingKey {
         case startDate = "start_date"
         case endDate = "end_date"
@@ -17,7 +17,7 @@ struct UnavailablePeriod: Codable, Equatable {
     let endDate: Date
 }
 
-struct Staff: Codable, Equatable, Identifiable {
+struct Staff: Codable, Equatable, Identifiable, Hashable {
     enum CodingKeys: String, CodingKey {
         case id = "_id"
         case firstName = "first_name"

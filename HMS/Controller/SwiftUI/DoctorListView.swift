@@ -12,7 +12,6 @@ struct DoctorListView: View {
     // MARK: Internal
 
     var delegate: DoctorsHostingController?
-
     var filteredDoctors: [Staff] = []
 
     var body: some View {

@@ -9,19 +9,21 @@ import SwiftUI
 
 struct DoctorView: View {
     var doctor: Staff
+
     @State private var selectedDate: Date = Calendar.current.startOfDay(for: Date())
-    @State private var selectedTimeSlot: String?
+    @State private var selectedTimeSlot: Date = .init()
     @State private var isNewVisit = true
     @State private var additionalNotes = ""
 
     let now: Date = .init()
 
-    var timeSlots: [[Date]] {
-        let now = Date()
+    var timeSlots: [Date] {
         return [
-            [9, 10].map { now.addingTimeInterval(60 * 60 * Double($0)) },
-            [13, 14].map { now.addingTimeInterval(60 * 60 * Double($0)) },
-            [17, 18].map { now.addingTimeInterval(60 * 60 * Double($0)) }
+            Calendar.current.date(bySettingHour: 9, minute: 0, second: 0, of: now)!,
+            Calendar.current.date(bySettingHour: 10, minute: 0, second: 0, of: now)!,
+            Calendar.current.date(bySettingHour: 11, minute: 0, second: 0, of: now)!,
+            Calendar.current.date(bySettingHour: 12, minute: 0, second: 0, of: now)!,
+            Calendar.current.date(bySettingHour: 13, minute: 0, second: 0, of: now)!
         ]
     }
 
@@ -32,7 +34,7 @@ struct DoctorView: View {
     var dates: [Date] {
         let calendar = Calendar.current
         let today = calendar.startOfDay(for: Date())
-        return (0..<14).compactMap { day in
+        return (1..<15).compactMap { day in
             calendar.date(byAdding: .day, value: day, to: today)
         }
     }
@@ -196,81 +198,23 @@ struct DoctorView: View {
                         .padding(.horizontal)
 
                     ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(spacing: 12) {
-                            Text("HELP ME")
-                        }
-                        .padding(.horizontal)
+                        prepareTimeSlots()
                     }
                 }
-
-                // Visit Type
-                VStack(alignment: .leading) {
-                    Text("Visit Type")
-                        .font(.title3)
-                        .fontWeight(.semibold)
-                        .padding(.horizontal)
-
-                    VStack(spacing: 10) {
-                        Button(action: {
-                            isNewVisit = true
-                        }) {
-                            HStack {
-                                Image(systemName: isNewVisit ? "largecircle.fill.circle" : "circle")
-                                    .foregroundColor(customBlue)
-                                Text("New Visit")
-                                    .foregroundColor(.primary)
-                                Spacer()
-                            }
-                            .padding()
-                            .background(Color.white)
-                            .cornerRadius(8)
-                            .shadow(color: Color.black.opacity(0.05), radius: 4, x: 0, y: 2)
-                        }
-
-                        Button(action: {
-                            isNewVisit = false
-                        }) {
-                            HStack {
-                                Image(systemName: !isNewVisit ? "largecircle.fill.circle" : "circle")
-                                    .foregroundColor(customBlue)
-                                Text("Follow-up")
-                                    .foregroundColor(.primary)
-                                Spacer()
-                            }
-                            .padding()
-                            .background(Color.white)
-                            .cornerRadius(8)
-                            .shadow(color: Color.black.opacity(0.05), radius: 4, x: 0, y: 2)
-                        }
-                    }
-                    .padding(.horizontal)
-                }
-
-                // Additional Notes Section
-                VStack(alignment: .leading, spacing: 8) {
-                    Text("Additional Notes")
-                        .font(.title3)
-                        .foregroundColor(.primary)
-                        .fontWeight(.semibold)
-
-                    TextEditor(text: $additionalNotes)
-                        .frame(height: 150)
-                        .scrollContentBackground(.hidden)
-                        .background(Color.white)
-                        .cornerRadius(16)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 16)
-                                .stroke(Color(UIColor.systemGray5), lineWidth: 1)
-                        )
-                        .shadow(color: Color.black.opacity(0.05), radius: 4, x: 0, y: 2)
-                }
-                .padding(.horizontal)
 
                 // Continue Button
                 Button(action: {
-                    // Handle continue action
+                    Task {
+                        let appointment = Appointment(
+                            patientId: "",
+                            doctorId: doctor.id,
+                            startDate: selectedDate,
+                            endDate: selectedDate.addingTimeInterval(60 * 60)
+                        )
+                        await DataController.shared.bookAppointment(appointment)
+                    }
                 }) {
-                    Text("Continue")
+                    Text("Book Appointment")
                         .fontWeight(.semibold)
                         .frame(maxWidth: .infinity)
                         .padding()
@@ -284,5 +228,36 @@ struct DoctorView: View {
             .padding(.vertical)
         }
         .background(Color(UIColor.systemGray6))
+    }
+
+    // Prepare time slots
+    func prepareTimeSlots() -> some View {
+        HStack(spacing: 12) {
+            ForEach(timeSlots, id: \.self) { timeSlot in
+                prepareTimeSlot(timeSlot: timeSlot)
+            }
+        }
+        .padding(.horizontal)
+    }
+
+    func prepareTimeSlot(timeSlot: Date) -> some View {
+        Button(action: {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "HH:mm"
+            selectedTimeSlot = timeSlot
+        }) {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "HH:mm"
+
+            return Text(formatter.string(from: timeSlot))
+                .font(.system(size: 16))
+                .fontWeight(.semibold)
+                .frame(width: 100, height: 40)
+                .background(
+                    RoundedRectangle(cornerRadius: 8)
+                        .fill(selectedTimeSlot == timeSlot ? customBlue : Color.white)
+                )
+                .foregroundColor(selectedTimeSlot == timeSlot ? .white : .primary)
+        }
     }
 }

@@ -40,7 +40,7 @@ struct AppointmentView: View {
     @State private var currentDate: Date = .init()
 
     private var groupedAppointments: [Date: [Appointment]] {
-        Dictionary(grouping: appointments, by: { Calendar.current.startOfDay(for: $0.date) })
+        Dictionary(grouping: appointments, by: { Calendar.current.startOfDay(for: $0.startDate) })
     }
 
     private var sortedDates: [Date] {
@@ -79,12 +79,10 @@ struct AppointmentRow: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 5) {
-            Text(appointment.reason)
-                .font(.headline)
-            Text(appointment.doctorName ?? "Unknown Doctor")
+            Text(appointment.doctor?.fullName ?? "Unknown Doctor")
                 .font(.subheadline)
                 .foregroundColor(.gray)
-            Text(appointment.date, style: .time)
+            Text(appointment.startDate, style: .time)
                 .font(.caption)
                 .foregroundColor(.blue)
         }

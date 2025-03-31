@@ -7,6 +7,7 @@
 
 import UIKit
 import Foundation
+import OSLog
 
 struct AlertActionHandler {
     let title: String
@@ -15,6 +16,9 @@ struct AlertActionHandler {
 }
 
 enum Utils {
+
+    // MARK: Public
+
     @MainActor public static func getAlert(title: String, message: String, actions: [AlertActionHandler]? = nil) -> UIAlertController {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
 
@@ -45,4 +49,9 @@ enum Utils {
 
         UNUserNotificationCenter.current().add(request)
     }
+
+    // MARK: Internal
+
+    static let logger: Logger = .init(subsystem: "com.Team-06.HMS", category: "Main")
+
 }

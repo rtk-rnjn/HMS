@@ -30,6 +30,11 @@ class HomeHostingController: UIHostingController<DashboardView>, UISearchBarDele
             }
         }
         prepareSearchController()
+
+        Task {
+            let appointments = await DataController.shared.fetchAppointments()
+            self.rootView.appointments = appointments
+        }
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

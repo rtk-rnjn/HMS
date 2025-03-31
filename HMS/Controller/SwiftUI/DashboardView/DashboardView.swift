@@ -41,8 +41,8 @@ struct DashboardView: View {
                         .fontWeight(.bold)
                         .padding(.horizontal)
 
-                    ForEach(appointments) { _ in
-                        AppointmentCard(date: "", time: "", doctorName: "", specialty: "", hospital: "", status: "")
+                    ForEach(appointments) { appointment in
+                        return AppointmentCard(appointment: appointment)
                     }
                     .padding(.horizontal)
                 }
@@ -189,16 +189,9 @@ struct MedicalRecordsView: View {
     var body: some View {
         NavigationStack {
             List {
-                Section(header: Text("Recent Records")) {
-                    MedicalRecordRow(title: "Blood Test Results", date: "Mar 15, 2024", type: "Lab Report")
-                    MedicalRecordRow(title: "Annual Physical", date: "Feb 28, 2024", type: "Check-up Report")
-                    MedicalRecordRow(title: "X-Ray Report", date: "Jan 10, 2024", type: "Radiology")
-                }
+                Section(header: Text("Recent Records")) {}
 
-                Section(header: Text("Prescriptions")) {
-                    MedicalRecordRow(title: "Prescription #123", date: "Mar 10, 2024", type: "Medication")
-                    MedicalRecordRow(title: "Prescription #122", date: "Feb 15, 2024", type: "Medication")
-                }
+                Section(header: Text("Prescriptions")) {}
             }
             .navigationTitle("Medical Records")
             .navigationBarTitleDisplayMode(.inline)
@@ -259,25 +252,4 @@ struct BookAppointmentView: View {
     @State private var selectedSpecialization: Specialization?
     @State private var selectedDate: Date = .init()
 
-}
-
-struct MedicalRecordRow: View {
-    let title: String
-    let date: String
-    let type: String
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text(title)
-                .font(.system(size: 16, weight: .semibold))
-            HStack {
-                Text(date)
-                Text("•")
-                Text(type)
-            }
-            .font(.system(size: 14))
-            .foregroundColor(.gray)
-        }
-        .padding(.vertical, 8)
-    }
 }

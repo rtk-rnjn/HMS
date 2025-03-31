@@ -14,12 +14,13 @@
                 </hostingController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bKO-3k-23E" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2397.709923664122" y="-65.492957746478879"/>
+            <point key="canvasLocation" x="3324.4274809160306" y="-65.492957746478879"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Appointments-->
         <scene sceneID="hSj-ih-pBe">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="U4T-XM-Ceh" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Appointments" image="calendar" catalog="system" id="UJq-4d-lQN"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Q2Y-1w-D7x">
                         <rect key="frame" x="0.0" y="59" width="393" height="44"/>
@@ -32,7 +33,10 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GMa-d1-K6h" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1470.9923664122136" y="-65.492957746478879"/>
+            <point key="canvasLocation" x="2397.709923664122" y="-65.492957746478879"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="calendar" catalog="system" width="128" height="107"/>
+    </resources>
 </document>

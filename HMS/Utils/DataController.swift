@@ -79,6 +79,8 @@ class DataController {
         UserDefaults.standard.set(accessToken, forKey: "accessToken")
         UserDefaults.standard.set(emailAddress, forKey: "emailAddress")
         UserDefaults.standard.set(password, forKey: "password")
+        UserDefaults.standard.set(true, forKey: "isUserLoggedIn")
+        UserDefaults.standard.set(patient.id, forKey: "patientId")
 
         return true
     }
@@ -95,6 +97,9 @@ class DataController {
     func logout() {
         UserDefaults.standard.removeObject(forKey: "accessToken")
         UserDefaults.standard.removeObject(forKey: "isUserLoggedIn")
+        UserDefaults.standard.removeObject(forKey: "emailAddress")
+        UserDefaults.standard.removeObject(forKey: "password")
+        UserDefaults.standard.removeObject(forKey: "patientId")
     }
 
     func fetchDoctors() async -> [Staff]? {
@@ -153,6 +158,32 @@ class DataController {
     func verifyOtp(emailAddress: String, otp: String) async -> Bool {
         let response: ServerResponse? = await MiddlewareManager.shared.get(url: "/verify-otp", queryParameters: ["to_email": emailAddress, "otp": otp])
         return response?.success ?? false
+    }
+
+    func bookAppointment(_ appointment: Appointment) async -> Bool {
+        var thisAppointment = appointment
+        thisAppointment.patientId = patient?.id ?? ""
+
+        guard let appointmentData = thisAppointment.toData() else {
+            fatalError("Could not book appointment")
+        }
+
+        let response: ServerResponse? = await MiddlewareManager.shared.post(url: "/appointment/create", body: appointmentData)
+        return response?.success ?? false
+    }
+
+    func fetchAppointments() async -> [Appointment] {
+        let id = UserDefaults.standard.string(forKey: "patientId")
+        let appointments: [Appointment]? = await MiddlewareManager.shared.get(url: "/appointments/\(id ?? "")")
+        guard var appointments else {
+            return []
+        }
+
+        for i in 0..<appointments.count {
+            appointments[i].doctor = await MiddlewareManager.shared.get(url: "/staff/\(appointments[i].doctorId)")
+            appointments[i].patient = patient
+        }
+        return appointments
     }
 
     // MARK: Private

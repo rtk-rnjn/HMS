@@ -34,4 +34,23 @@ class DoctorsHostingController: UIHostingController<DoctorListView> {
     func doctorsComplete() {
         performSegue(withIdentifier: "segueShowSignInViewController", sender: self)
     }
+
+    func bookAppointment(_ appointment: Appointment) {
+        Task {
+            let booked = await DataController.shared.bookAppointment(appointment)
+            DispatchQueue.main.async {
+                if booked {
+                    self.showAlert(message: "Appointment booked successfully")
+                } else {
+                    self.showAlert(message: "Failed to book appointment")
+                }
+            }
+        }
+    }
+
+    func showAlert(message: String) {
+        let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .default))
+        present(alertController, animated: true)
+    }
 }
