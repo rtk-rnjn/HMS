@@ -88,10 +88,10 @@ struct PatientProfileView: View {
 
             Section {
                 Button("Change Password") {
-                    // Action for changing password
+                    delegate?.performSegue(withIdentifier: "segueShowChangePasswordTableViewController", sender: nil)
                 }
                 Button("Logout") {
-                    // Action for logout
+                    delegate?.logout()
                 }
             }
         }

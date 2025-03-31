@@ -5,14 +5,14 @@
 //  Created by RITIK RANJAN on 31/03/25.
 //
 
-
 import SwiftUI
 
 struct MedicalReportDetailView: View {
+
+    // MARK: Internal
+
     let report: MedicalReport
-    @Environment(\.dismiss) private var dismiss
-    @State private var showingShareSheet = false
-    
+
     var body: some View {
         ScrollView {
             VStack(spacing: 24) {
@@ -25,7 +25,7 @@ struct MedicalReportDetailView: View {
                         Spacer()
                         Text(report.date)
                             .foregroundColor(.secondary)
-                    }    
+                    }
                     HStack {
                         Text("Status")
                             .foregroundColor(.secondary)
@@ -39,7 +39,7 @@ struct MedicalReportDetailView: View {
                             .background(Color.green)
                             .cornerRadius(8)
                     }
-                    
+
                     HStack {
                         Text("Doctor")
                             .foregroundColor(.secondary)
@@ -47,7 +47,7 @@ struct MedicalReportDetailView: View {
                         Text("Dr. Sarah Wilson")
                             .fontWeight(.medium)
                     }
-                    
+
                     HStack {
                         Text("Department")
                             .foregroundColor(.secondary)
@@ -60,7 +60,7 @@ struct MedicalReportDetailView: View {
                 .background(Color(.systemBackground))
                 .cornerRadius(12)
                 .shadow(color: Color.black.opacity(0.05), radius: 8, x: 0, y: 2)
-                
+
                 // Key Test Results Grid
                 LazyVGrid(columns: [
                     GridItem(.flexible(), spacing: 16),
@@ -91,7 +91,7 @@ struct MedicalReportDetailView: View {
                 VStack(alignment: .leading, spacing: 12) {
                     Text("Doctor's Notes")
                         .font(.headline)
-                    
+
                     Text("All blood parameters are within normal ranges. Continue with current diet and exercise routine. Follow-up recommended in 6 months for routine check.")
                         .foregroundColor(.secondary)
                 }
@@ -100,7 +100,7 @@ struct MedicalReportDetailView: View {
                 .background(Color(.systemBackground))
                 .cornerRadius(12)
                 .shadow(color: Color.black.opacity(0.05), radius: 8, x: 0, y: 2)
-                
+
                 // Action Buttons
                 HStack(spacing: 16) {
                     Button(action: {
@@ -116,7 +116,7 @@ struct MedicalReportDetailView: View {
                         .foregroundColor(.white)
                         .cornerRadius(10)
                     }
-                    
+
                     Button(action: {
                         // Handle print
                     }) {
@@ -146,7 +146,7 @@ struct MedicalReportDetailView: View {
                         .foregroundColor(.blue)
                 }
             }
-            
+
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button(action: {
                     showingShareSheet = true
@@ -161,23 +161,29 @@ struct MedicalReportDetailView: View {
             Text("Share Report")
         }
     }
+
+    // MARK: Private
+
+    @Environment(\.dismiss) private var dismiss
+    @State private var showingShareSheet = false
+
 }
 
 struct TestResultCard: View {
     let title: String
     let value: String
     let range: String
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text(title)
                 .font(.subheadline)
                 .foregroundColor(.secondary)
-            
+
             Text(value)
                 .font(.title3)
                 .fontWeight(.semibold)
-            
+
             Text("Range: \(range)")
                 .font(.caption)
                 .foregroundColor(.secondary)

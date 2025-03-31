@@ -5,33 +5,33 @@
 //  Created by RITIK RANJAN on 31/03/25.
 //
 
-
 import SwiftUI
 
 struct MedicalReport: Codable, Identifiable {
+    enum CodingKeys: String, CodingKey {
+        case id = "_id"
+        case name = "description"
+        case date
+        case type
+        case imageData = "image_data"
+    }
+
     var id: String = UUID().uuidString
     var name: String
     var date: String
     var type: String
+    var imageData: Data?
+
+    var description: String {
+        return name
+    }
+
 }
 
 struct MedicalRecordsView: View {
-    @State private var showingAddReport = false
-    @State private var reports: [MedicalReport] = []
-    @State private var showingFilterSheet = false
-    @State private var selectedFilter: String? = nil
 
-    private var filteredReports: [MedicalReport] {
-        if let filter = selectedFilter {
-            return reports.filter { $0.type == filter }
-        }
-        return reports
-    }
-    
-    private var uniqueReportTypes: [String] {
-        Array(Set(reports.map { $0.type })).sorted()
-    }
-    
+    // MARK: Internal
+
     var body: some View {
         List {
             ForEach(filteredReports) { report in
@@ -55,9 +55,28 @@ struct MedicalRecordsView: View {
                     selectedFilter = nil
                 }
             }
-            Button("Cancel", role: .cancel) { }
+            Button("Cancel", role: .cancel) {}
         }
     }
+
+    // MARK: Private
+
+    @State private var showingAddReport = false
+    @State private var reports: [MedicalReport] = []
+    @State private var showingFilterSheet = false
+    @State private var selectedFilter: String?
+
+    private var filteredReports: [MedicalReport] {
+        if let filter = selectedFilter {
+            return reports.filter { $0.type == filter }
+        }
+        return reports
+    }
+
+    private var uniqueReportTypes: [String] {
+        Array(Set(reports.map { $0.type })).sorted()
+    }
+
 }
 
 struct MedicalRecordRow: View {
@@ -75,7 +94,7 @@ struct MedicalRecordRow: View {
                         .font(.system(size: 24))
                         .foregroundColor(.blue)
                         .frame(width: 32)
-                    
+
                     VStack(alignment: .leading, spacing: 8) {
                         // Title and Date
                         HStack {
@@ -86,12 +105,12 @@ struct MedicalRecordRow: View {
                                 .font(.system(size: 16))
                                 .foregroundColor(.secondary)
                         }
-                        
+
                         // Department/Type
                         Text(type)
                             .font(.system(size: 16))
                             .foregroundColor(.secondary)
-                        
+
                         // Status and View Report
                         HStack {
                             // Status
@@ -103,9 +122,9 @@ struct MedicalRecordRow: View {
                                     .font(.system(size: 14))
                                     .foregroundColor(.green)
                             }
-                            
+
                             Spacer()
-                            
+
                             // View Report Button
                             HStack(spacing: 4) {
                                 Text("View Report")

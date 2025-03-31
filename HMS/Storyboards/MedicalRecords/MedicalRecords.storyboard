@@ -41,10 +41,10 @@
             </objects>
             <point key="canvasLocation" x="1998" y="-35"/>
         </scene>
-        <!--Hosting Controller-->
+        <!--Add Medical Report Hosting Controller-->
         <scene sceneID="i2X-Ew-EFb">
             <objects>
-                <hostingController id="wlZ-l8-0Od" sceneMemberID="viewController"/>
+                <hostingController id="wlZ-l8-0Od" customClass="AddMedicalReportHostingController" customModule="HMS" customModuleProvider="target" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wd9-vq-Vlj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3022" y="-35"/>

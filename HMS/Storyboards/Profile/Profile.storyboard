@@ -148,8 +148,8 @@
                 <hostingController id="gQ8-VW-XJg" customClass="ProfileHostingController" customModule="HMS" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="Z8J-tX-cLE"/>
                     <connections>
-                        <segue destination="GF6-GL-ycE" kind="presentation" id="Ojw-Od-wZh"/>
-                        <segue destination="g3L-kl-Se3" kind="presentation" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="m5T-HP-V6t"/>
+                        <segue destination="GF6-GL-ycE" kind="presentation" identifier="segueShowChangePasswordTableViewController" id="Ojw-Od-wZh"/>
+                        <segue destination="g3L-kl-Se3" kind="presentation" identifier="segueShowSignInViewController" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="m5T-HP-V6t"/>
                     </connections>
                 </hostingController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ySl-wk-Lld" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

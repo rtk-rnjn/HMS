@@ -201,7 +201,7 @@ struct DoctorView: View {
                 // Continue Button
                 Button(action: {
                     Task {
-                        let startDate =  mergeDateAndTime(selectedDate: selectedDate, selectedTimeSlot: selectedTimeSlot)!
+                        let startDate = mergeDateAndTime(selectedDate: selectedDate, selectedTimeSlot: selectedTimeSlot)!
                         let appointment = Appointment(
                             patientId: "",
                             doctorId: doctor.id,
