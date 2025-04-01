@@ -238,6 +238,18 @@ class DataController {
         return reports ?? []
     }
 
+    func deleteAppointment(_ appointmentId: String) async -> Bool {
+        guard let patientId = UserDefaults.standard.string(forKey: "patientId") else {
+            print("Error: No patient ID found")
+            return false
+        }
+        
+        let endpoint = "/appointments/\(patientId)/\(appointmentId)"
+        print("Making DELETE request to: \(endpoint)")
+        
+        return await MiddlewareManager.shared.delete(url: endpoint, body: Data())
+    }
+
     // MARK: Private
 
     private var accessToken: String = ""
