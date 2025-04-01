@@ -208,34 +208,25 @@ class DataController {
         return await MiddlewareManager.shared.get(url: "/patient/\(patient.id)/announcements")
     }
 
-    func createMedicalReport(_ report: MedicalReport) async -> Bool {
-        guard let reportData = report.toData() else {
-            fatalError("Could not create report")
+    func fetchMedicalReports() async -> [MedicalReport] {
+        guard let id = UserDefaults.standard.string(forKey: "patientId") else {
+            return []
         }
-
-        if patient == nil {
-            guard await autoLogin() else { fatalError() }
-        }
-
-        guard let patient else {
-            fatalError("Patient is nil")
-        }
-
-        let response: ServerResponse? = await MiddlewareManager.shared.post(url: "/patient/\(patient.id)/medical-report", body: reportData)
-        return response?.success ?? false
+        let reports: [MedicalReport]? = await MiddlewareManager.shared.get(url: "/patient/\(id)/medical-reports")
+        return reports ?? []
     }
 
-    func fetchMedicalReports() async -> [MedicalReport] {
-        if patient == nil {
-            guard await autoLogin() else { fatalError() }
+    func createMedicalReport(_ report: MedicalReport) async -> Bool {
+        guard let id = UserDefaults.standard.string(forKey: "patientId"),
+              let reportData = report.toData() else {
+            return false
         }
-
-        guard let patient else {
-            fatalError("Patient is nil")
-        }
-
-        let reports: [MedicalReport]? = await MiddlewareManager.shared.get(url: "/patient/\(patient.id)/medical-reports")
-        return reports ?? []
+        
+        let response: ServerResponse? = await MiddlewareManager.shared.post(
+            url: "/patient/\(id)/medical-reports/create",
+            body: reportData
+        )
+        return response?.success ?? false
     }
 
     // MARK: Private

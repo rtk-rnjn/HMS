@@ -68,6 +68,7 @@ struct AddMedicalReportView: View {
     @State private var sourceType: UIImagePickerController.SourceType = .photoLibrary
     @State private var isSaving = false
     @State private var showError = false
+    @State private var showSuccess = false
 
     var onSave: ((MedicalReport) -> Void)?
 
@@ -264,13 +265,35 @@ struct AddMedicalReportView: View {
             } message: {
                 Text("Failed to save the medical report. Please try again.")
             }
+            .alert("Success", isPresented: $showSuccess) {
+                Button("OK", role: .cancel) {
+                    dismiss()
+                }
+            } message: {
+                Text("Medical report has been successfully added.")
+            }
         }
     }
 
     private func saveReport() async {
+        isSaving = true
         let report = MedicalReport(description: description, date: reportDate, type: selectedReportType, imageData: selectedImage?.pngData())
-        Task {
-            await DataController.shared.createMedicalReport(report)
+        
+        do {
+            let success = await DataController.shared.createMedicalReport(report)
+            DispatchQueue.main.async {
+                isSaving = false
+                if success {
+                    showSuccess = true
+                } else {
+                    showError = true
+                }
+            }
+        } catch {
+            DispatchQueue.main.async {
+                isSaving = false
+                showError = true
+            }
         }
     }
 }

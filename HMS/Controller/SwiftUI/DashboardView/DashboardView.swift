@@ -36,17 +36,46 @@ struct DashboardView: View {
 
                 // My Appointments Section
                 VStack(alignment: .leading, spacing: 16) {
-                    Text("My Appointments")
-                        .font(.title2)
-                        .fontWeight(.bold)
-                        .padding(.horizontal)
-
-                    ForEach(appointments) { appointment in
-                        if appointment.startDate > Date() {
-                            AppointmentCard(appointment: appointment)
-                        }
+                    HStack {
+                        Text("My Appointments")
+                            .font(.title2)
+                            .fontWeight(.bold)
+                        Spacer()
                     }
                     .padding(.horizontal)
+
+                    let todayAppointments = appointments
+                        .filter {
+                            let calendar = Calendar.current
+                            return calendar.isDate($0.startDate, inSameDayAs: Date())
+                        }
+                        .sorted { $0.startDate < $1.startDate }
+                        .prefix(3)
+
+                    if todayAppointments.isEmpty {
+                        VStack(spacing: 12) {
+                            Image(systemName: "calendar.badge.exclamationmark")
+                                .font(.system(size: 40))
+                                .foregroundColor(.gray)
+                            Text("No Appointments Today")
+                                .font(.headline)
+                                .foregroundColor(.gray)
+                            Text("")
+                                .font(.subheadline)
+                                .foregroundColor(.gray.opacity(0.8))
+                                .multilineTextAlignment(.center)
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 30)
+                        .background(Color.white)
+                        .cornerRadius(12)
+                        .padding(.horizontal)
+                    } else {
+                        ForEach(Array(todayAppointments)) { appointment in
+                            AppointmentCard(appointment: appointment)
+                        }
+                        .padding(.horizontal)
+                    }
                 }
 
                 // Quick Actions Section
@@ -67,24 +96,43 @@ struct SpecializationCard: View {
     let specialization: Specialization
 
     var body: some View {
-        VStack(spacing: 16) {
-            // Icon
-            Image(systemName: specialization.image)
-                .font(.system(size: 28, weight: .medium))
-                .foregroundColor(.white)
-                .frame(width: 56, height: 56)
-                .background(Color(red: 0.27, green: 0.53, blue: 1.0))
-                .clipShape(Circle())
+        VStack {
+            Spacer()
+            
+            // Icon with gradient background
+            Circle()
+                .fill(LinearGradient(
+                    gradient: Gradient(colors: [
+                        Color(red: 0.27, green: 0.53, blue: 1.0),
+                        Color(red: 0.37, green: 0.63, blue: 1.0)
+                    ]),
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                ))
+                .frame(width: 46, height: 46)
+                .overlay(
+                    Image(systemName: specialization.image)
+                        .font(.system(size: 20, weight: .medium))
+                        .foregroundColor(.white)
+                )
 
+            Spacer()
+            
             // Title
             Text(specialization.name)
-                .font(.system(size: 14, weight: .semibold))
+                .font(.system(size: 13, weight: .medium))
                 .foregroundColor(.primary)
                 .multilineTextAlignment(.center)
+                .lineLimit(2)
+                .frame(height: 32)
+                .padding(.horizontal, 4)
+                .padding(.bottom, 8)
         }
-        .frame(width: 130, height: 130)
-        .background(Color(.secondarySystemGroupedBackground))
-        .cornerRadius(20)
+        .frame(width: 105, height: 105)
+        .background(
+            RoundedRectangle(cornerRadius: 16)
+                .fill(Color(.systemBackground))
+        )
     }
 }
 
@@ -93,14 +141,14 @@ struct SpecializationsSection: View {
     let onTap: (Specialization) -> Void
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 20) {
+        VStack(alignment: .leading, spacing: 16) {
             Text("Specializations")
                 .font(.title2)
                 .fontWeight(.bold)
                 .padding(.horizontal)
 
             ScrollView(.horizontal, showsIndicators: false) {
-                LazyHStack(spacing: 16) {
+                LazyHStack(spacing: 12) {
                     ForEach(specializations) { specialization in
                         SpecializationCard(specialization: specialization)
                             .onTapGesture {

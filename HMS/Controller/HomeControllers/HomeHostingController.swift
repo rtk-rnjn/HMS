@@ -21,6 +21,9 @@ class HomeHostingController: UIHostingController<DashboardView>, UISearchBarDele
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        navigationItem.title = "Home"
+        
         rootView.delegate = self
 
         Task {
@@ -41,6 +44,8 @@ class HomeHostingController: UIHostingController<DashboardView>, UISearchBarDele
         if segue.identifier == "segueShowDoctorsHostingController", let specialization = sender as? Specialization {
             let destination = segue.destination as? DoctorsHostingController
             destination?.specialization = specialization.name
+        } else if segue.identifier == "segueShowAppointmentsViewController" {
+            // No need to pass any data as the appointments view controller will fetch its own data
         }
     }
 
