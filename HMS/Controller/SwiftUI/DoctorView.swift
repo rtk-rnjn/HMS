@@ -207,6 +207,7 @@ struct DoctorView: View {
                         let appointment = Appointment(
                             patientId: "",
                             doctorId: doctor.id,
+                            doctor: doctor,
                             startDate: startDate,
                             endDate: startDate.addingTimeInterval(60 * 60)
                         )

@@ -261,7 +261,9 @@ extension DataController {
         let store = InitialTabBarController.eventStore
 
         let event = EKEvent(eventStore: store)
+        var doctor = appointment.doctor
         event.title = "Appointment with \(appointment.doctor?.fullName ?? "Doctor")"
+        event.notes = appointment.notes
         event.startDate = appointment.startDate
         event.endDate = appointment.endDate
         event.calendar = store.defaultCalendarForNewEvents
