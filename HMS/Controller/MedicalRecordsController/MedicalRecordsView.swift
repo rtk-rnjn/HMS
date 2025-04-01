@@ -10,22 +10,17 @@ import SwiftUI
 struct MedicalReport: Codable, Identifiable {
     enum CodingKeys: String, CodingKey {
         case id = "_id"
-        case name = "description"
+        case description
         case date
         case type
         case imageData = "image_data"
     }
 
     var id: String = UUID().uuidString
-    var name: String
-    var date: String
+    var description: String
+    var date: Date
     var type: String
     var imageData: Data?
-
-    var description: String {
-        return name
-    }
-
 }
 
 struct MedicalRecordsView: View {
@@ -35,7 +30,7 @@ struct MedicalRecordsView: View {
     var body: some View {
         List {
             ForEach(filteredReports) { report in
-                MedicalRecordRow(title: report.name, date: report.date, type: report.type, report: report)
+                MedicalRecordRow(title: report.description, date: report.date.humanReadableString(), type: report.type, report: report)
                 .listRowBackground(Color(.systemGroupedBackground))
                 .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
                 .listRowSeparator(.hidden)
@@ -62,7 +57,10 @@ struct MedicalRecordsView: View {
     // MARK: Private
 
     @State private var showingAddReport = false
-    @State private var reports: [MedicalReport] = []
+    @State private var reports: [MedicalReport] = [
+        MedicalReport(description: "MRI Scan", date: Date().addingTimeInterval(-86400), type: "Radiology", imageData: nil),
+        MedicalReport(description: "Blood Test", date: Date().addingTimeInterval(-172800), type: "Pathology", imageData: nil)
+    ]
     @State private var showingFilterSheet = false
     @State private var selectedFilter: String?
 
@@ -144,12 +142,5 @@ struct MedicalRecordRow: View {
             .shadow(color: Color.black.opacity(0.05), radius: 8, x: 0, y: 2)
         }
         .buttonStyle(PlainButtonStyle())
-    }
-}
-
-// Preview Provider
-#Preview {
-    NavigationView {
-        MedicalRecordsView()
     }
 }

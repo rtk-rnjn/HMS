@@ -187,6 +187,15 @@ class DataController {
         return appointments
     }
 
+    func fetchPrescriptions() async -> [Prescription] {
+        guard let id = UserDefaults.standard.string(forKey: "patientId") else {
+            return []
+        }
+
+        let prescriptions: [Prescription]? = await MiddlewareManager.shared.get(url: "/patient/\(id)/prescription")
+        return prescriptions ?? []
+    }
+
     // MARK: Private
 
     private var accessToken: String = ""

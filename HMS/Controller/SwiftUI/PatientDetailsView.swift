@@ -98,7 +98,7 @@ struct PatientDetailsView: View {
 //                        doctor: "Dr. Smith",
 //                        notes: "Rest and hydration"
 //                    )
-                    MedicalRecordRow(title: "Common Cold", date: Date().humanReadableString(), type: "", report: MedicalReport(name: "Common Cold", date: Date().humanReadableString(), type: ""))
+                    MedicalRecordRow(title: "Common Cold", date: Date().humanReadableString(), type: "", report: MedicalReport(description: "Common Cold", date: Date(), type: ""))
                     .padding(.horizontal)
                 }
             }
@@ -127,21 +127,5 @@ struct InfoRow: View {
                 .fontWeight(.medium)
         }
         .padding(.vertical, 8)
-    }
-}
-
-#Preview {
-    NavigationView {
-        PatientDetailsView(patient: Patient(
-            firstName: "John",
-            lastName: "Doe",
-            emailAddress: "john@example.com",
-            password: "password",
-            dateOfBirth: Calendar.current.date(byAdding: .year, value: -42, to: Date())!,
-            gender: .male,
-            bloodGroup: .aPositive,
-            height: 168,
-            weight: 65
-        ))
     }
 }

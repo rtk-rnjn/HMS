@@ -23,6 +23,8 @@ class InitialTabBarController: UITabBarController, UITabBarControllerDelegate {
 
             await requestAccessForCalendar()
             await requestAccessForReminders()
+
+            await fetchPrescriptions()
         }
 
         navigationController?.setNavigationBarHidden(true, animated: true)
@@ -105,4 +107,59 @@ class InitialTabBarController: UITabBarController, UITabBarControllerDelegate {
         }
     }
 
+    func fetchPrescriptions() async {
+        let prescriptions = await DataController.shared.fetchPrescriptions()
+        for prescription in prescriptions {
+            createReminder(for: prescription)
+        }
+    }
+
+    func createReminder(for prescription: Prescription) {
+        let eventStore = InitialTabBarController.eventStore
+
+        for medicine in prescription.medicines {
+            let reminder = EKReminder(eventStore: eventStore)
+            reminder.title = "\(medicine.name) - \(medicine.dosage)"
+            reminder.notes = "Prescription for: \(prescription.diagnosis)"
+            reminder.calendar = eventStore.defaultCalendarForNewReminders()
+
+            var alarm: EKAlarm? = EKAlarm()
+
+            switch medicine.frequency {
+            case let .interval(hours):
+                let dueDate = Calendar.current.date(byAdding: .hour, value: hours, to: Date())
+                alarm = EKAlarm(absoluteDate: dueDate ?? Date())
+
+            case let .daily(times):
+                for time in times {
+                    let date = Calendar.current.date(from: time) ?? Date()
+                    let dailyAlarm = EKAlarm(absoluteDate: date)
+                    reminder.addAlarm(dailyAlarm)
+                }
+
+            case let .weekly(days, time):
+                for day in days {
+                    var components = time
+                    components.weekday = day
+                    let date = Calendar.current.nextDate(after: Date(), matching: components, matchingPolicy: .nextTime) ?? Date()
+                    let weeklyAlarm = EKAlarm(absoluteDate: date)
+                    reminder.addAlarm(weeklyAlarm)
+                }
+
+            case let .custom(time):
+                let date = Calendar.current.date(from: time) ?? Date()
+                alarm = EKAlarm(absoluteDate: date)
+            }
+
+            if let validAlarm = alarm {
+                reminder.addAlarm(validAlarm)
+            }
+
+            do {
+                try eventStore.save(reminder, commit: true)
+            } catch {
+                print("Error saving reminder: \(error.localizedDescription)")
+            }
+        }
+    }
 }

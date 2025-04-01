@@ -74,8 +74,6 @@ struct AddMedicalReportView: View {
     let reportTypes = [
         "Lab Report",
         "Check-up Report",
-        "Radiology",
-        "Prescription",
         "Vaccination Record",
         "Surgery Report",
         "Other"
@@ -269,5 +267,7 @@ struct AddMedicalReportView: View {
         }
     }
 
-    private func saveReport() async {}
+    private func saveReport() async {
+        let report = MedicalReport(description: description, date: reportDate, type: selectedReportType, imageData: selectedImage?.pngData())
+    }
 }
