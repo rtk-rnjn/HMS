@@ -12,7 +12,7 @@
                 <viewControllerPlaceholder storyboardName="Notifications" id="k7h-eb-pfL" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gXC-2c-XPv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3756" y="411"/>
+            <point key="canvasLocation" x="3812" y="411"/>
         </scene>
         <!--Home-->
         <scene sceneID="0E3-dF-ETf">
@@ -37,7 +37,13 @@
         <scene sceneID="NBE-lg-085">
             <objects>
                 <hostingController id="Inu-Os-LXN" customClass="HomeHostingController" customModule="HMS" customModuleProvider="target" sceneMemberID="viewController">
-                    <navigationItem key="navigationItem" title="Hello!" id="g4C-iQ-RvX"/>
+                    <navigationItem key="navigationItem" title="Hello!" id="g4C-iQ-RvX">
+                        <barButtonItem key="rightBarButtonItem" image="bell.fill" catalog="system" style="done" id="1Xn-rP-35n">
+                            <connections>
+                                <segue destination="k7h-eb-pfL" kind="presentation" id="MJD-oX-Ykn"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <segue destination="wZq-M3-X0a" kind="show" identifier="segueShowDoctorsHostingController" id="UXM-oX-pV3"/>
                     </connections>
@@ -50,7 +56,7 @@
         <scene sceneID="9vS-UE-q7l">
             <objects>
                 <hostingController id="wZq-M3-X0a" customClass="DoctorsHostingController" customModule="HMS" customModuleProvider="target" sceneMemberID="viewController">
-                    <navigationItem key="navigationItem" id="h2q-xK-MHv"/>
+                    <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="h2q-xK-MHv"/>
                 </hostingController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VX3-ta-x6E" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -58,6 +64,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="bell.fill" catalog="system" width="123" height="128"/>
         <image name="house" catalog="system" width="128" height="104"/>
     </resources>
 </document>

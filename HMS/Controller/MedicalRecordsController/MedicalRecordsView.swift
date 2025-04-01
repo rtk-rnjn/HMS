@@ -21,15 +21,22 @@ struct MedicalReport: Codable, Identifiable {
     var date: Date
     var type: String
     var imageData: Data?
+
+    var image: UIImage? {
+        guard let data = imageData else { return nil }
+        return UIImage(data: data)
+    }
 }
 
 struct MedicalRecordsView: View {
 
     // MARK: Internal
 
+    weak var delegate: MedicalRecordsHostingController?
+
     var body: some View {
         List {
-            ForEach(filteredReports) { report in
+            ForEach(reports) { report in
                 MedicalRecordRow(title: report.description, date: report.date.humanReadableString(), type: report.type, report: report)
                 .listRowBackground(Color(.systemGroupedBackground))
                 .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
@@ -39,42 +46,21 @@ struct MedicalRecordsView: View {
         .listStyle(PlainListStyle())
         .background(Color(.systemGroupedBackground))
         .scrollContentBackground(.hidden)
-        .confirmationDialog("Filter by Type", isPresented: $showingFilterSheet, titleVisibility: .visible) {
-            ForEach(uniqueReportTypes, id: \.self) { type in
-                Button(type) {
-                    selectedFilter = type
-                }
-            }
-            if selectedFilter != nil {
-                Button("Show All", role: .cancel) {
-                    selectedFilter = nil
-                }
-            }
-            Button("Cancel", role: .cancel) {}
+        .task {
+            await loadReports()
         }
     }
 
     // MARK: Private
 
-    @State private var showingAddReport = false
-    @State private var reports: [MedicalReport] = [
-        MedicalReport(description: "MRI Scan", date: Date().addingTimeInterval(-86400), type: "Radiology", imageData: nil),
-        MedicalReport(description: "Blood Test", date: Date().addingTimeInterval(-172800), type: "Pathology", imageData: nil)
-    ]
-    @State private var showingFilterSheet = false
-    @State private var selectedFilter: String?
+    @State private var reports: [MedicalReport] = []
 
-    private var filteredReports: [MedicalReport] {
-        if let filter = selectedFilter {
-            return reports.filter { $0.type == filter }
+    private func loadReports() async {
+        let fetchedReports = await DataController.shared.fetchMedicalReports()
+        DispatchQueue.main.async {
+            reports = fetchedReports
         }
-        return reports
     }
-
-    private var uniqueReportTypes: [String] {
-        Array(Set(reports.map { $0.type })).sorted()
-    }
-
 }
 
 struct MedicalRecordRow: View {
