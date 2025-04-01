@@ -46,6 +46,7 @@
                     </navigationItem>
                     <connections>
                         <segue destination="wZq-M3-X0a" kind="show" identifier="segueShowDoctorsHostingController" id="UXM-oX-pV3"/>
+                        <segue destination="i0e-qj-bSO" kind="show" identifier="segueShowAppointmentsViewController" id="UXM-oX-pV4"/>
                     </connections>
                 </hostingController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TUM-L6-fp1" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -62,9 +63,19 @@
             </objects>
             <point key="canvasLocation" x="4856" y="-35"/>
         </scene>
+        <!--Appointments-->
+        <scene sceneID="aTY-Fy-hTJ">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Appointments" id="i0e-qj-bSO" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" title="Appointments" id="cTn-jg-3a4"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Y9y-Ir-2zV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4856" y="100"/>
+        </scene>
     </scenes>
     <resources>
-        <image name="bell.fill" catalog="system" width="123" height="128"/>
         <image name="house" catalog="system" width="128" height="104"/>
+        <image name="bell.fill" catalog="system" width="123" height="128"/>
     </resources>
 </document>
