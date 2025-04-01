@@ -10,10 +10,10 @@ struct AppointmentDetailView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var showingCancelAlert = false
     @State private var showingErrorAlert = false
-    
+
     // Custom colors
     let customBlue: Color = .init(red: 0.27, green: 0.45, blue: 1.0)
-    
+
     var body: some View {
         ScrollView {
             VStack(spacing: 20) {
@@ -99,7 +99,7 @@ struct AppointmentDetailView: View {
                     .shadow(color: Color.black.opacity(0.05), radius: 8, x: 0, y: 2)
                 }
                 .padding(.horizontal)
-                
+
                 // Appointment Details Card
                 VStack(alignment: .leading, spacing: 16) {
                     Text("Appointment Details")
@@ -107,14 +107,14 @@ struct AppointmentDetailView: View {
                         .fontWeight(.semibold)
                         .padding(.horizontal)
                         .padding(.top, 8)
-                    
+
                     VStack(spacing: 16) {
                         AppointmentDetailRow(
                             icon: "calendar",
                             title: "Date",
                             value: appointment.startDate.formatted(date: .long, time: .omitted)
                         )
-                        
+
                         AppointmentDetailRow(
                             icon: "clock",
                             title: "Time",
@@ -128,9 +128,9 @@ struct AppointmentDetailView: View {
                 .cornerRadius(16)
                 .shadow(color: Color.black.opacity(0.05), radius: 8, x: 0, y: 2)
                 .padding(.horizontal)
-                
+
                 Spacer(minLength: 20)
-                
+
                 // Cancel Button
                 Button(action: {
                     showingCancelAlert = true
@@ -164,7 +164,7 @@ struct AppointmentDetailView: View {
             Text("Failed to cancel the appointment. Please try again.")
         }
     }
-    
+
     func cancelAppointment() async {
         if let success = try? await DataController.shared.deleteAppointment(appointment.id) {
             if success {
@@ -185,14 +185,14 @@ struct AppointmentDetailRow: View {
     let icon: String
     let title: String
     let value: String
-    
+
     var body: some View {
         HStack(alignment: .center, spacing: 12) {
             Image(systemName: icon)
                 .font(.system(size: 20))
                 .foregroundColor(.blue)
                 .frame(width: 24)
-            
+
             VStack(alignment: .leading, spacing: 4) {
                 Text(title)
                     .font(.subheadline)
@@ -200,8 +200,8 @@ struct AppointmentDetailRow: View {
                 Text(value)
                     .font(.system(size: 17))
             }
-            
+
             Spacer()
         }
     }
-} 
+}

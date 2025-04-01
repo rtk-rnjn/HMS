@@ -47,7 +47,7 @@ class AppointmentHostingController: UIHostingController<AppointmentView>, UISear
     }
 
     // MARK: - AppointmentDetailDelegate
-    
+
     func refreshAppointments() {
         Task {
             let appointments = await DataController.shared.fetchAppointments()

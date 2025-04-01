@@ -15,16 +15,6 @@ struct AppointmentView: View {
 
     var appointments: [Appointment] = []
 
-    @State private var currentDate: Date = .init()
-
-    private var groupedAppointments: [Date: [Appointment]] {
-        Dictionary(grouping: appointments, by: { Calendar.current.startOfDay(for: $0.startDate) })
-    }
-
-    private var sortedDates: [Date] {
-        groupedAppointments.keys.sorted()
-    }
-
     var body: some View {
         ScrollViewReader { scrollView in
             List {
@@ -41,6 +31,18 @@ struct AppointmentView: View {
                 scrollToToday(using: scrollView)
             }
         }
+    }
+
+    // MARK: Private
+
+    @State private var currentDate: Date = .init()
+
+    private var groupedAppointments: [Date: [Appointment]] {
+        Dictionary(grouping: appointments, by: { Calendar.current.startOfDay(for: $0.startDate) })
+    }
+
+    private var sortedDates: [Date] {
+        groupedAppointments.keys.sorted()
     }
 
     private func appointmentGroup(for date: Date) -> some View {

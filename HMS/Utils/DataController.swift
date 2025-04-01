@@ -243,10 +243,10 @@ class DataController {
             print("Error: No patient ID found")
             return false
         }
-        
+
         let endpoint = "/appointments/\(patientId)/\(appointmentId)"
         print("Making DELETE request to: \(endpoint)")
-        
+
         return await MiddlewareManager.shared.delete(url: endpoint, body: Data())
     }
 

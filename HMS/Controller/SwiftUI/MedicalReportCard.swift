@@ -5,12 +5,11 @@
 //  Created by RITIK RANJAN on 01/04/25.
 //
 
-
 import SwiftUI
 
 struct MedicalReportCard: View {
     let report: MedicalReport
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             if let image = report.image {
@@ -21,17 +20,17 @@ struct MedicalReportCard: View {
                     .clipped()
                     .cornerRadius(12)
             }
-            
+
             Text(report.type)
                 .font(.headline)
                 .foregroundColor(.blue)
-            
+
             Text(report.description)
                 .font(.body)
                 .foregroundColor(.primary)
                 .lineLimit(3)
                 .truncationMode(.tail)
-            
+
             Text(report.date, style: .date)
                 .font(.caption)
                 .foregroundColor(.secondary)
@@ -42,4 +41,3 @@ struct MedicalReportCard: View {
         .shadow(radius: 4)
     }
 }
-
