@@ -15,28 +15,6 @@ struct AppointmentView: View {
 
     var appointments: [Appointment] = []
 
-    var body: some View {
-        ScrollViewReader { scrollView in
-            List {
-                ForEach(sortedDates, id: \..self) { date in
-                    Section(header: headerView(for: date)) {
-                        appointmentList(for: date)
-                    }
-                }
-            }
-            .listRowSeparator(.hidden)
-            .onAppear {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                    if let today = sortedDates.first(where: { Calendar.current.isDate($0, inSameDayAs: currentDate) }) {
-                        scrollView.scrollTo(today, anchor: .top)
-                    }
-                }
-            }
-        }
-    }
-
-    // MARK: Private
-
     @State private var currentDate: Date = .init()
 
     private var groupedAppointments: [Date: [Appointment]] {
@@ -47,11 +25,34 @@ struct AppointmentView: View {
         groupedAppointments.keys.sorted()
     }
 
-    private func appointmentList(for date: Date) -> some View {
+    var body: some View {
+        ScrollViewReader { scrollView in
+            List {
+                ForEach(sortedDates, id: \.self) { date in
+                    Section {
+                        appointmentGroup(for: date)
+                    } header: {
+                        headerView(for: date)
+                    }
+                }
+            }
+            .listStyle(.plain)
+            .onAppear {
+                scrollToToday(using: scrollView)
+            }
+        }
+    }
+
+    private func appointmentGroup(for date: Date) -> some View {
         ForEach(groupedAppointments[date] ?? []) { appointment in
             AppointmentCard(appointment: appointment)
-//            (appointment: appointment, isPast: date < Calendar.current.startOfDay(for: currentDate))
-//                .id(appointment.id)
+                .listRowInsets(EdgeInsets())
+                .listRowSeparator(.hidden)
+                .onTapGesture {
+                    if let doctor = appointment.doctor {
+                        delegate?.showAppointmentDetails(appointment)
+                    }
+                }
         }
     }
 
@@ -59,11 +60,20 @@ struct AppointmentView: View {
         let isPast = date < Calendar.current.startOfDay(for: currentDate)
         return Text(formattedDate(date))
             .font(.headline)
-            .foregroundColor(
-                Calendar.current.isDate(date, inSameDayAs: currentDate) ? .red : (isPast ? .gray : .primary)
-            )
-            .fontWeight(Calendar.current.isDate(date, inSameDayAs: currentDate) ? .bold : .regular)
+            .foregroundColor(headerColor(for: date, isPast: isPast))
+            .fontWeight(isToday(date) ? .bold : .regular)
             .opacity(isPast ? 0.5 : 1.0)
+    }
+
+    private func headerColor(for date: Date, isPast: Bool) -> Color {
+        if isToday(date) {
+            return .red
+        }
+        return isPast ? .gray : .primary
+    }
+
+    private func isToday(_ date: Date) -> Bool {
+        Calendar.current.isDate(date, inSameDayAs: currentDate)
     }
 
     private func formattedDate(_ date: Date) -> String {
@@ -72,6 +82,13 @@ struct AppointmentView: View {
         return formatter.string(from: date)
     }
 
+    private func scrollToToday(using proxy: ScrollViewProxy) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            if let today = sortedDates.first(where: { Calendar.current.isDate($0, inSameDayAs: currentDate) }) {
+                proxy.scrollTo(today, anchor: .top)
+            }
+        }
+    }
 }
 
 struct AppointmentRow: View {

@@ -12,7 +12,7 @@ let currentDate: Date = .init()
 
 let sampleAppointments: [Appointment] = []
 
-class AppointmentHostingController: UIHostingController<AppointmentView>, UISearchBarDelegate, UISearchResultsUpdating {
+class AppointmentHostingController: UIHostingController<AppointmentView>, UISearchBarDelegate, UISearchResultsUpdating, AppointmentDetailDelegate {
 
     // MARK: Lifecycle
 
@@ -39,6 +39,23 @@ class AppointmentHostingController: UIHostingController<AppointmentView>, UISear
     }
 
     func updateSearchResults(for searchController: UISearchController) {}
+
+    func showAppointmentDetails(_ appointment: Appointment) {
+        let detailView = AppointmentDetailView(appointment: appointment, delegate: self)
+        let detailVC = UIHostingController(rootView: detailView)
+        navigationController?.pushViewController(detailVC, animated: true)
+    }
+
+    // MARK: - AppointmentDetailDelegate
+    
+    func refreshAppointments() {
+        Task {
+            let appointments = await DataController.shared.fetchAppointments()
+            DispatchQueue.main.async {
+                self.rootView.appointments = appointments
+            }
+        }
+    }
 
     // MARK: Private
 
