@@ -12,6 +12,8 @@ struct DoctorView: View {
 
     @State private var selectedDate: Date = Calendar.current.startOfDay(for: Date())
     @State private var selectedTimeSlot: Date = .init()
+    @State private var showingBookingSuccess = false
+    @Environment(\.presentationMode) var presentationMode
 
     let now: Date = .init()
 
@@ -212,6 +214,7 @@ struct DoctorView: View {
                         let created = await DataController.shared.bookAppointment(appointment)
                         if created {
                             DataController.createEvent(appointment: appointment)
+                            showingBookingSuccess = true
                         } else {
                             print("Failed to book appointment")
                         }
@@ -231,6 +234,13 @@ struct DoctorView: View {
             .padding(.vertical)
         }
         .background(Color(UIColor.systemGray6))
+        .alert("Booking Confirmed", isPresented: $showingBookingSuccess) {
+            Button("OK") {
+                presentationMode.wrappedValue.dismiss()
+            }
+        } message: {
+            Text("You have confirmed your booking")
+        }
     }
 
     // Prepare time slots
