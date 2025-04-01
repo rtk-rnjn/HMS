@@ -35,17 +35,59 @@ struct MedicalRecordsView: View {
     weak var delegate: MedicalRecordsHostingController?
 
     var body: some View {
-        List {
-            ForEach(reports) { report in
-                MedicalRecordRow(title: report.description, date: report.date.humanReadableString(), type: report.type, report: report)
-                .listRowBackground(Color(.systemGroupedBackground))
-                .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
-                .listRowSeparator(.hidden)
+        VStack(spacing: 0) {
+            // Filter Section
+            VStack(spacing: 16) {
+                // Search bar
+                HStack {
+                    Image(systemName: "magnifyingglass")
+                        .foregroundColor(.gray)
+                    TextField("Search by description", text: $searchText)
+                        .textFieldStyle(PlainTextFieldStyle())
+                }
+                .padding(10)
+                .background(Color.white)
+                .cornerRadius(10)
+                .padding(.horizontal)
+                
+                // Date Filter
+                HStack {
+                    DatePicker("From", selection: $startDate, in: ...Date(), displayedComponents: .date)
+                        .labelsHidden()
+                    Text("-")
+                    DatePicker("To", selection: $endDate, in: ...Date(), displayedComponents: .date)
+                        .labelsHidden()
+                }
+                .padding(.horizontal)
+            }
+            .padding(.vertical)
+            .background(Color.white)
+            
+            if filteredReports.isEmpty {
+                VStack(spacing: 16) {
+                    Image(systemName: "doc.text.magnifyingglass")
+                        .font(.system(size: 50))
+                        .foregroundColor(.gray)
+                    Text("No records found for the selected criteria")
+                        .font(.headline)
+                        .foregroundColor(.gray)
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(Color(.systemGroupedBackground))
+            } else {
+                List {
+                    ForEach(filteredReports) { report in
+                        MedicalRecordRow(title: report.description, date: report.date.humanReadableString(), type: report.type, report: report)
+                            .listRowBackground(Color(.systemGroupedBackground))
+                            .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
+                            .listRowSeparator(.hidden)
+                    }
+                }
+                .listStyle(PlainListStyle())
+                .background(Color(.systemGroupedBackground))
+                .scrollContentBackground(.hidden)
             }
         }
-        .listStyle(PlainListStyle())
-        .background(Color(.systemGroupedBackground))
-        .scrollContentBackground(.hidden)
         .task {
             await loadReports()
         }
@@ -54,6 +96,22 @@ struct MedicalRecordsView: View {
     // MARK: Private
 
     @State private var reports: [MedicalReport] = []
+    @State private var searchText = ""
+    @State private var startDate = Calendar.current.date(byAdding: .month, value: -1, to: Date()) ?? Date()
+    @State private var endDate = Date()
+
+    private var filteredReports: [MedicalReport] {
+        reports.filter { report in
+            let matchesSearch = searchText.isEmpty || 
+                report.description.localizedCaseInsensitiveContains(searchText) ||
+                report.type.localizedCaseInsensitiveContains(searchText)
+            
+            let matchesDate = report.date >= startDate && report.date <= endDate
+            
+            return matchesSearch && matchesDate
+        }
+        .sorted { $0.date > $1.date }
+    }
 
     private func loadReports() async {
         let fetchedReports = await DataController.shared.fetchMedicalReports()
