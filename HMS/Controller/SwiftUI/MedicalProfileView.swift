@@ -193,9 +193,3 @@ struct MedicalProfileView: View {
     ]
 
 }
-
-#Preview {
-    NavigationView {
-        MedicalProfileView(patient: .constant(nil))
-    }
-}
