@@ -196,6 +196,31 @@ class DataController {
         return prescriptions ?? []
     }
 
+    func fetchMedicalReports() async -> [MedicalReport] {
+        if patient == nil {
+            guard await autoLogin() else { fatalError() }
+        }
+
+        guard let patient else {
+            fatalError("Patient is nil")
+        }
+
+        let reports: [MedicalReport]? = await MiddlewareManager.shared.get(url: "/patient/\(patient.id)/medical-reports")
+        return reports ?? []
+    }
+
+    func deleteAppointment(_ appointmentId: String) async -> Bool {
+        guard let patientId = UserDefaults.standard.string(forKey: "patientId") else {
+            print("Error: No patient ID found")
+            return false
+        }
+        
+        let endpoint = "/appointments/\(patientId)/\(appointmentId)"
+        print("Making DELETE request to: \(endpoint)")
+        
+        return await MiddlewareManager.shared.delete(url: endpoint, body: Data())
+    }
+
     // MARK: Private
 
     private var accessToken: String = ""

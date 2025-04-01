@@ -20,7 +20,12 @@ struct AppointmentView: View {
             List {
                 ForEach(sortedDates, id: \..self) { date in
                     Section(header: headerView(for: date)) {
-                        appointmentList(for: date)
+                        ForEach(groupedAppointments[date] ?? [], id: \.id) { appointment in
+                            AppointmentCard(appointment: appointment)
+                                .onTapGesture {
+                                    delegate?.showAppointmentDetails(appointment)
+                                }
+                        }
                     }
                 }
             }
@@ -47,14 +52,6 @@ struct AppointmentView: View {
         groupedAppointments.keys.sorted()
     }
 
-    private func appointmentList(for date: Date) -> some View {
-        ForEach(groupedAppointments[date] ?? []) { appointment in
-            AppointmentCard(appointment: appointment)
-//            (appointment: appointment, isPast: date < Calendar.current.startOfDay(for: currentDate))
-//                .id(appointment.id)
-        }
-    }
-
     private func headerView(for date: Date) -> some View {
         let isPast = date < Calendar.current.startOfDay(for: currentDate)
         return Text(formattedDate(date))
@@ -71,7 +68,6 @@ struct AppointmentView: View {
         formatter.dateStyle = .full
         return formatter.string(from: date)
     }
-
 }
 
 struct AppointmentRow: View {
