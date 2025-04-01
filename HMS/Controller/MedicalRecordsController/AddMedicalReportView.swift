@@ -269,5 +269,8 @@ struct AddMedicalReportView: View {
 
     private func saveReport() async {
         let report = MedicalReport(description: description, date: reportDate, type: selectedReportType, imageData: selectedImage?.pngData())
+        Task {
+            await DataController.shared.createMedicalReport(report)
+        }
     }
 }

@@ -43,8 +43,6 @@ struct MedicalReportDetailView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .background(Color(.systemBackground))
                 .cornerRadius(12)
-                .shadow(color: Color.black.opacity(0.05), radius: 8, x: 0, y: 2)
-
             }
             .padding()
         }
@@ -66,16 +64,17 @@ struct MedicalReportDetailView: View {
                 Text("Report Image")
                     .font(.headline)
 
-                Image(uiImage: UIImage(data: data)!)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .cornerRadius(12)
+                if let image = report.image {
+                    Image(uiImage: image)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .cornerRadius(12)
+                }
             }
             .padding()
             .frame(maxWidth: .infinity, alignment: .leading)
             .background(Color(.systemBackground))
             .cornerRadius(12)
-            .shadow(color: Color.black.opacity(0.05), radius: 8, x: 0, y: 2)
         )
     }
 }

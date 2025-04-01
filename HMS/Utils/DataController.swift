@@ -196,6 +196,48 @@ class DataController {
         return prescriptions ?? []
     }
 
+    func fetchAnnouncements() async -> [Announcement]? {
+        if patient == nil {
+            guard await autoLogin() else { fatalError() }
+        }
+
+        guard let patient else {
+            fatalError("Patient is nil")
+        }
+
+        return await MiddlewareManager.shared.get(url: "/patient/\(patient.id)/announcements")
+    }
+
+    func createMedicalReport(_ report: MedicalReport) async -> Bool {
+        guard let reportData = report.toData() else {
+            fatalError("Could not create report")
+        }
+
+        if patient == nil {
+            guard await autoLogin() else { fatalError() }
+        }
+
+        guard let patient else {
+            fatalError("Patient is nil")
+        }
+
+        let response: ServerResponse? = await MiddlewareManager.shared.post(url: "/patient/\(patient.id)/medical-report", body: reportData)
+        return response?.success ?? false
+    }
+
+    func fetchMedicalReports() async -> [MedicalReport] {
+        if patient == nil {
+            guard await autoLogin() else { fatalError() }
+        }
+
+        guard let patient else {
+            fatalError("Patient is nil")
+        }
+
+        let reports: [MedicalReport]? = await MiddlewareManager.shared.get(url: "/patient/\(patient.id)/medical-reports")
+        return reports ?? []
+    }
+
     // MARK: Private
 
     private var accessToken: String = ""
