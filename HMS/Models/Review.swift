@@ -1,29 +1,28 @@
+//
+//  Review.swift
+//  HMS
+//
+//  Created by RITIK RANJAN on 02/04/25.
+//
+
 import Foundation
 
-struct Review: Identifiable, Codable {
-    let id: String
-    let patientId: String
-    let patientName: String
-    let doctorId: String
-    let rating: Double
-    let comment: String
-    let date: Date
-    
-    init(
-        id: String = UUID().uuidString,
-        patientId: String,
-        patientName: String,
-        doctorId: String,
-        rating: Double,
-        comment: String,
-        date: Date = Date()
-    ) {
-        self.id = id
-        self.patientId = patientId
-        self.patientName = patientName
-        self.doctorId = doctorId
-        self.rating = rating
-        self.comment = comment
-        self.date = date
+struct Review: Codable, Hashable, Identifiable {
+    enum CodingKeys: String, CodingKey {
+        case id = "_id"
+        case patientId = "patient_id"
+        case doctorId = "doctor_id"
+        case stars
+        case review
+        case createdAt = "created_at"
     }
-} 
+
+    var id: String = UUID().uuidString
+    var review: String
+
+    var patientId: String
+    var doctorId: String
+
+    var stars: Int = 0
+    var createdAt: Date = .init()
+}

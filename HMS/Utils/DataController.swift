@@ -229,16 +229,25 @@ class DataController {
         return response?.success ?? false
     }
 
-    func deleteAppointment(_ appointmentId: String) async -> Bool {
-        guard let patientId = UserDefaults.standard.string(forKey: "patientId") else {
-            print("Error: No patient ID found")
+    func createReview(staff: Staff, review: Review) async -> Bool {
+        guard let reviewData = review.toData() else {
             return false
         }
 
-        let endpoint = "/appointments/\(patientId)/\(appointmentId)"
-        print("Making DELETE request to: \(endpoint)")
+        let response: ServerResponse? = await MiddlewareManager.shared.post(url: "/reviews/\(staff.id)/create", body: reviewData)
+        return response?.success ?? false
+    }
 
-        return await MiddlewareManager.shared.delete(url: endpoint, body: Data())
+    func fetchReviews(for staff: Staff) async -> [Review]? {
+        return await MiddlewareManager.shared.get(url: "/reviews/\(staff.id)")
+    }
+
+    func fetchReviews() async -> [Review]? {
+        guard let id = UserDefaults.standard.string(forKey: "patientId") else {
+            return []
+        }
+
+        return await MiddlewareManager.shared.get(url: "/reviews/\(id)")
     }
 
     // MARK: Private
@@ -252,7 +261,6 @@ extension DataController {
         let store = InitialTabBarController.eventStore
 
         let event = EKEvent(eventStore: store)
-        var doctor = appointment.doctor
         event.title = "Appointment with \(appointment.doctor?.fullName ?? "Doctor")"
         event.notes = appointment.notes
         event.startDate = appointment.startDate
