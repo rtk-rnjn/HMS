@@ -54,8 +54,6 @@ struct DoctorView: View {
         return availableSlots
     }
 
-
-
     let customBlue: Color = .init(red: 0.27, green: 0.45, blue: 1.0)
 
     // Get next 14 days

@@ -20,6 +20,10 @@ class AppointmentHostingController: UIHostingController<AppointmentView>, UISear
         super.init(coder: coder, rootView: AppointmentView())
     }
 
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+
     // MARK: Internal
 
     var searchController: UISearchController = .init()
@@ -42,25 +46,6 @@ class AppointmentHostingController: UIHostingController<AppointmentView>, UISear
         )
     }
 
-    deinit {
-        NotificationCenter.default.removeObserver(self)
-    }
-
-    @objc private func handleShowAppointmentDetail(_ notification: Notification) {
-        if let appointment = notification.object as? Appointment {
-            showAppointmentDetails(appointment)
-        }
-    }
-
-    private func loadAppointments() {
-        Task {
-            let appointments = await DataController.shared.fetchAppointments()
-            DispatchQueue.main.async {
-            self.rootView.appointments = appointments
-            }
-        }
-    }
-
     func updateSearchResults(for searchController: UISearchController) {
         // Handle search
     }
@@ -78,6 +63,21 @@ class AppointmentHostingController: UIHostingController<AppointmentView>, UISear
     }
 
     // MARK: Private
+
+    @objc private func handleShowAppointmentDetail(_ notification: Notification) {
+        if let appointment = notification.object as? Appointment {
+            showAppointmentDetails(appointment)
+        }
+    }
+
+    private func loadAppointments() {
+        Task {
+            let appointments = await DataController.shared.fetchAppointments()
+            DispatchQueue.main.async {
+            self.rootView.appointments = appointments
+            }
+        }
+    }
 
     private func prepareSearchController() {
         searchController.searchResultsUpdater = self

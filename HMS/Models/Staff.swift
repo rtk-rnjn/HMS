@@ -63,11 +63,11 @@ struct Staff: Codable, Equatable, Hashable, Identifiable {
 
     var workingHours: WorkingHours?
 
+    var appointments: [Appointment] = []
+
     var fullName: String {
         let lastName = lastName ?? ""
         return "\(firstName) \(lastName)".trimmingCharacters(in: .whitespaces)
     }
-
-    var appointments: [Appointment] = []
 
 }

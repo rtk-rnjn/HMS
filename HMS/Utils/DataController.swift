@@ -62,6 +62,7 @@ struct RazorpayPayload: Codable {
     enum CodingKeys: String, CodingKey {
         case shortURL = "short_url"
     }
+
     var shortURL: String
 }
 

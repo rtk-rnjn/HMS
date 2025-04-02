@@ -8,15 +8,17 @@
 import SwiftUI
 
 struct AppointmentView: View {
+
     // MARK: Internal
+
     weak var delegate: AppointmentHostingController?
     var appointments: [Appointment] = []
-    
+
     var body: some View {
         ZStack {
             Color(.systemGroupedBackground)
                 .ignoresSafeArea()
-            
+
             if appointments.isEmpty {
                 VStack(spacing: 16) {
                     Spacer()
@@ -54,10 +56,11 @@ struct AppointmentView: View {
             delegate?.refreshAppointments()
         }
     }
-    
+
     // MARK: Private
+
     private var sortedAppointments: [Appointment] {
-        appointments.sorted { 
+        appointments.sorted {
             // Sort future appointments first, then by date
             if $0.startDate >= Date() && $1.startDate < Date() {
                 return true

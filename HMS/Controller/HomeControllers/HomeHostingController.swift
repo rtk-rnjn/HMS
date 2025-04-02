@@ -19,10 +19,21 @@ class HomeHostingController: UIHostingController<DashboardView>, UISearchBarDele
 
     var searchController: UISearchController = .init()
 
+    var parentTabBarController: UITabBarController? {
+        var parent: UIViewController? = self
+        while parent != nil {
+            if let tabBarController = parent as? UITabBarController {
+                return tabBarController
+            }
+            parent = parent?.parent
+        }
+        return nil
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         rootView.delegate = self
-        
+
         // Set up the dashboard with specializations and appointments
         Task {
             await loadSpecializations()
@@ -62,15 +73,19 @@ class HomeHostingController: UIHostingController<DashboardView>, UISearchBarDele
 
     func updateSearchResults(for searchController: UISearchController) {}
 
-    var parentTabBarController: UITabBarController? {
-        var parent: UIViewController? = self
-        while parent != nil {
-            if let tabBarController = parent as? UITabBarController {
-                return tabBarController
-            }
-            parent = parent?.parent
+    // MARK: - DashboardViewDelegate
+
+    func showAppointmentDetails(_ appointment: Appointment) {
+        // Switch to the Appointments tab
+        if let tabBarController {
+            tabBarController.selectedIndex = 1 // Index of the Appointments tab
+
+            // Notify the AppointmentHostingController to show the details
+            NotificationCenter.default.post(
+                name: NSNotification.Name("ShowAppointmentDetail"),
+                object: appointment
+            )
         }
-        return nil
     }
 
     // MARK: Private
@@ -93,7 +108,7 @@ class HomeHostingController: UIHostingController<DashboardView>, UISearchBarDele
             }
         }
     }
-    
+
     private func loadAppointments() async {
         let appointments = await DataController.shared.fetchAppointments()
         DispatchQueue.main.async {
@@ -101,18 +116,4 @@ class HomeHostingController: UIHostingController<DashboardView>, UISearchBarDele
         }
     }
 
-    // MARK: - DashboardViewDelegate
-    
-    func showAppointmentDetails(_ appointment: Appointment) {
-        // Switch to the Appointments tab
-        if let tabBarController = self.tabBarController {
-            tabBarController.selectedIndex = 1 // Index of the Appointments tab
-            
-            // Notify the AppointmentHostingController to show the details
-            NotificationCenter.default.post(
-                name: NSNotification.Name("ShowAppointmentDetail"),
-                object: appointment
-            )
-        }
-    }
 }

@@ -112,7 +112,6 @@ struct SpecializationCard: View {
         VStack {
             Spacer()
 
-            
             Circle()
                 .fill(Color("iconBlue"))
                 .frame(width: 46, height: 46)

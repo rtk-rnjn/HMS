@@ -1,8 +1,11 @@
 import SwiftUI
 
 struct AppointmentDetailCard: View {
+
+    // MARK: Internal
+
     let appointment: Appointment
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack(alignment: .top) {
@@ -11,26 +14,26 @@ struct AppointmentDetailCard: View {
                     Text(appointment.doctor?.fullName ?? "Unknown Doctor")
                         .font(.system(size: 17, weight: .semibold))
                         .foregroundColor(.primary)
-                    
+
                     Text(appointment.doctor?.department ?? "Department")
                         .font(.system(size: 15, weight: .regular))
                         .foregroundColor(.secondary)
                 }
-                
+
                 Spacer()
-                
+
                 // Date and time
                 VStack(alignment: .trailing, spacing: 4) {
                     Text(formattedDate())
                         .font(.system(size: 15, weight: .medium))
                         .foregroundColor(.primary)
-                    
+
                     Text("at \(formattedTime())")
                         .font(.system(size: 15, weight: .regular))
                         .foregroundColor(.secondary)
                 }
             }
-            
+
             // Status pill - bottom right
             HStack {
                 Spacer()
@@ -58,17 +61,19 @@ struct AppointmentDetailCard: View {
         .padding(.horizontal, 16)
         .padding(.vertical, 2)
     }
-    
+
+    // MARK: Private
+
     private func formattedDate() -> String {
         let day = Calendar.current.component(.day, from: appointment.startDate)
         let month = Calendar.current.shortMonthSymbols[Calendar.current.component(.month, from: appointment.startDate) - 1]
         let year = Calendar.current.component(.year, from: appointment.startDate)
         return "\(day) \(month) \(year)"
     }
-    
+
     private func formattedTime() -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "h:mm a"
         return formatter.string(from: appointment.startDate).uppercased()
     }
-} 
+}
