@@ -13,32 +13,7 @@ struct DoctorView: View {
     @State private var selectedDate: Date = Calendar.current.startOfDay(for: Date())
     @State private var selectedTimeSlot: Date = .init()
     @State private var showingBookingSuccess = false
-    @State private var reviews: [Review] = [
-        Review(
-            patientId: "1",
-            patientName: "Patient 1",
-            doctorId: "1",
-            rating: 4.5,
-            comment: "Dashing through the snow. On a one horse open sleigh. Over the hills we go, laughing all the way.",
-            date: Calendar.current.date(byAdding: .day, value: -1, to: Date()) ?? Date()
-        ),
-        Review(
-            patientId: "2",
-            patientName: "Patient 1",
-            doctorId: "1",
-            rating: 4.0,
-            comment: "Dashing through the snow. On a one horse open sleigh. Over the hills we go, laughing all the way.",
-            date: Calendar.current.date(byAdding: .day, value: -2, to: Date()) ?? Date()
-        ),
-        Review(
-            patientId: "3",
-            patientName: "Patient 1",
-            doctorId: "1",
-            rating: 4.5,
-            comment: "Dashing through the snow. On a one horse open sleigh. Over the hills we go, laughing all the way.",
-            date: Calendar.current.date(byAdding: .day, value: -3, to: Date()) ?? Date()
-        )
-    ]
+    @State private var reviews: [Review] = []
     @Environment(\.presentationMode) var presentationMode
 
     let now: Date = .init()
@@ -347,10 +322,10 @@ struct ReviewCard: View {
             HStack {
                 // Patient name and date
                 VStack(alignment: .leading, spacing: 4) {
-                    Text(review.patientName)
+                    Text(review.patientId) // TODO: Fetch Patient
                         .font(.system(size: 16, weight: .semibold))
 
-                    Text(review.date.formatted(date: .numeric, time: .omitted))
+                    Text(review.createdAt.formatted(date: .numeric, time: .omitted))
                         .font(.system(size: 14))
                         .foregroundColor(.secondary)
                 }
@@ -359,7 +334,7 @@ struct ReviewCard: View {
 
                 // Rating
                 HStack(spacing: 4) {
-                    Text(String(format: "%.1f", review.rating))
+                    Text(String(format: "%.1f", review.stars))
                         .font(.system(size: 16, weight: .semibold))
                     Image(systemName: "star.fill")
                         .foregroundColor(.yellow)
@@ -367,7 +342,7 @@ struct ReviewCard: View {
             }
 
             // Review text
-            Text(review.comment)
+            Text(review.review)
                 .font(.system(size: 15))
                 .foregroundColor(.secondary)
                 .lineLimit(3)

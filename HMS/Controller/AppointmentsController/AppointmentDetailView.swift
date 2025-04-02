@@ -166,16 +166,9 @@ struct AppointmentDetailView: View {
     }
 
     func cancelAppointment() async {
-        if let success = try? await DataController.shared.deleteAppointment(appointment.id) {
-            if success {
-                delegate?.refreshAppointments()
-                dismiss()
-            } else {
-                showingErrorAlert = true
-            }
-        } else {
-            showingErrorAlert = true
-        }
+//        showingErrorAlert = true
+        delegate?.refreshAppointments()
+        dismiss()
     }
 }
 

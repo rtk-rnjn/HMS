@@ -127,6 +127,10 @@ class DataController {
         return await MiddlewareManager.shared.get(url: endpoint, queryParameters: ["query": specialization])
     }
 
+    func fetchPatient(byId id: String) async -> Patient? {
+        return await MiddlewareManager.shared.get(url: "/patient/\(id)")
+    }
+
     func changePassword(oldPassword: String, newPassword: String) async -> Bool {
         let changePassword = ChangePassword(oldPassword: oldPassword, newPassword: newPassword)
         guard let changePasswordData = changePassword.toData() else {
