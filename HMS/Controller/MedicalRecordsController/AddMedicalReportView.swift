@@ -279,19 +279,12 @@ struct AddMedicalReportView: View {
         isSaving = true
         let report = MedicalReport(description: description, date: reportDate, type: selectedReportType, imageData: selectedImage?.pngData())
 
-        do {
-            let success = await DataController.shared.createMedicalReport(report)
-            DispatchQueue.main.async {
-                isSaving = false
-                if success {
-                    showSuccess = true
-                } else {
-                    showError = true
-                }
-            }
-        } catch {
-            DispatchQueue.main.async {
-                isSaving = false
+        let success = await DataController.shared.createMedicalReport(report)
+        DispatchQueue.main.async {
+            isSaving = false
+            if success {
+                showSuccess = true
+            } else {
                 showError = true
             }
         }

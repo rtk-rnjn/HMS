@@ -27,18 +27,43 @@ class AppointmentHostingController: UIHostingController<AppointmentView>, UISear
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        rootView.appointments = sampleAppointments
         rootView.delegate = self
+        navigationItem.title = "My Appointments"
 
         prepareSearchController()
+        loadAppointments()
 
-        Task {
-            let appointments = await DataController.shared.fetchAppointments()
-            self.rootView.appointments = appointments
+        // Add observer for showing appointment details from home view
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleShowAppointmentDetail(_:)),
+            name: NSNotification.Name("ShowAppointmentDetail"),
+            object: nil
+        )
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+
+    @objc private func handleShowAppointmentDetail(_ notification: Notification) {
+        if let appointment = notification.object as? Appointment {
+            showAppointmentDetails(appointment)
         }
     }
 
-    func updateSearchResults(for searchController: UISearchController) {}
+    private func loadAppointments() {
+        Task {
+            let appointments = await DataController.shared.fetchAppointments()
+            DispatchQueue.main.async {
+            self.rootView.appointments = appointments
+            }
+        }
+    }
+
+    func updateSearchResults(for searchController: UISearchController) {
+        // Handle search
+    }
 
     func showAppointmentDetails(_ appointment: Appointment) {
         let detailView = AppointmentDetailView(appointment: appointment, delegate: self)
@@ -49,18 +74,12 @@ class AppointmentHostingController: UIHostingController<AppointmentView>, UISear
     // MARK: - AppointmentDetailDelegate
 
     func refreshAppointments() {
-        Task {
-            let appointments = await DataController.shared.fetchAppointments()
-            DispatchQueue.main.async {
-                self.rootView.appointments = appointments
-            }
-        }
+        loadAppointments()
     }
 
     // MARK: Private
 
     private func prepareSearchController() {
-        searchController.searchBar.delegate = self
         searchController.searchResultsUpdater = self
         searchController.searchBar.placeholder = "Search Appointments"
 

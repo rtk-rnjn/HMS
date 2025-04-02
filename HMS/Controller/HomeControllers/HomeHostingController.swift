@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-class HomeHostingController: UIHostingController<DashboardView>, UISearchBarDelegate, UISearchResultsUpdating {
+class HomeHostingController: UIHostingController<DashboardView>, UISearchBarDelegate, UISearchResultsUpdating, DashboardViewDelegate {
 
     // MARK: Lifecycle
 
@@ -18,6 +18,17 @@ class HomeHostingController: UIHostingController<DashboardView>, UISearchBarDele
     // MARK: Internal
 
     var searchController: UISearchController = .init()
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        rootView.delegate = self
+        
+        // Set up the dashboard with specializations and appointments
+        Task {
+            await loadSpecializations()
+            await loadAppointments()
+        }
+    }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -51,6 +62,17 @@ class HomeHostingController: UIHostingController<DashboardView>, UISearchBarDele
 
     func updateSearchResults(for searchController: UISearchController) {}
 
+    var parentTabBarController: UITabBarController? {
+        var parent: UIViewController? = self
+        while parent != nil {
+            if let tabBarController = parent as? UITabBarController {
+                return tabBarController
+            }
+            parent = parent?.parent
+        }
+        return nil
+    }
+
     // MARK: Private
 
     private func prepareSearchController() {
@@ -60,5 +82,37 @@ class HomeHostingController: UIHostingController<DashboardView>, UISearchBarDele
 
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
+    }
+
+    private func loadSpecializations() async {
+        if let staffs = await DataController.shared.fetchDoctor(bySpecialization: "") {
+            let specializations = staffs.map { $0.specialization }
+            let uniqueSpecializations = Array(Set(specializations)).sorted()
+            DispatchQueue.main.async {
+                self.rootView.specializations = uniqueSpecializations.map { Specialization(name: $0) }
+            }
+        }
+    }
+    
+    private func loadAppointments() async {
+        let appointments = await DataController.shared.fetchAppointments()
+        DispatchQueue.main.async {
+            self.rootView.appointments = appointments
+        }
+    }
+
+    // MARK: - DashboardViewDelegate
+    
+    func showAppointmentDetails(_ appointment: Appointment) {
+        // Switch to the Appointments tab
+        if let tabBarController = self.tabBarController {
+            tabBarController.selectedIndex = 1 // Index of the Appointments tab
+            
+            // Notify the AppointmentHostingController to show the details
+            NotificationCenter.default.post(
+                name: NSNotification.Name("ShowAppointmentDetail"),
+                object: appointment
+            )
+        }
     }
 }
