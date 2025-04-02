@@ -71,11 +71,11 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Y9y-Ir-2zV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4856" y="100"/>
+            <point key="canvasLocation" x="4415" y="140"/>
         </scene>
     </scenes>
     <resources>
-        <image name="house" catalog="system" width="128" height="104"/>
         <image name="bell.fill" catalog="system" width="123" height="128"/>
+        <image name="house" catalog="system" width="128" height="104"/>
     </resources>
 </document>
