@@ -226,10 +226,7 @@ class DataController {
             return false
         }
 
-        let response: ServerResponse? = await MiddlewareManager.shared.post(
-            url: "/patient/\(id)/medical-reports/create",
-            body: reportData
-        )
+        let response: ServerResponse? = await MiddlewareManager.shared.post(url: "/patient/\(id)/medical-report", body: reportData)
         return response?.success ?? false
     }
 
