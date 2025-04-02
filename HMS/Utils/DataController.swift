@@ -30,6 +30,10 @@ struct UserLogin: Codable {
     var password: String
 }
 
+struct ClientRequest: Codable {
+    var dates: [Date]
+}
+
 struct ServerResponse: Codable {
     var success: Bool
 }
@@ -52,6 +56,13 @@ struct HardPasswordReset: Codable {
 
     var emailAddress: String
     var newPassword: String
+}
+
+struct RazorpayPayload: Codable {
+    enum CodingKeys: String, CodingKey {
+        case shortURL = "short_url"
+    }
+    var shortURL: String
 }
 
 class DataController {
@@ -124,7 +135,16 @@ class DataController {
 
     func fetchDoctor(bySpecialization specialization: String) async -> [Staff]? {
         let endpoint = "/search/doctors/specialization"
-        return await MiddlewareManager.shared.get(url: endpoint, queryParameters: ["query": specialization])
+        let staffs: [Staff]? = await MiddlewareManager.shared.get(url: endpoint, queryParameters: ["query": specialization])
+        guard var staffs else {
+            return []
+        }
+
+        for i in staffs.indices {
+            staffs[i].appointments = await fetchAppointments(ofDoctor: staffs[i])
+        }
+
+        return staffs
     }
 
     func fetchPatient(byId id: String) async -> Patient? {
@@ -177,6 +197,19 @@ class DataController {
         return response?.success ?? false
     }
 
+    func razorpayBookAppointment(_ appointment: Appointment) async -> String {
+        guard let appointmentData = appointment.toData() else {
+            fatalError()
+        }
+
+        let payload: RazorpayPayload? = await MiddlewareManager.shared.post(url: "/razorpay-gateway/create-order-appointment", body: appointmentData)
+        guard let payload else {
+            return ""
+        }
+
+        return payload.shortURL
+    }
+
     func fetchAppointments() async -> [Appointment] {
         let id = UserDefaults.standard.string(forKey: "patientId")
         let appointments: [Appointment]? = await MiddlewareManager.shared.get(url: "/appointments/\(id ?? "")")
@@ -189,6 +222,23 @@ class DataController {
             appointments[i].patient = patient
         }
         return appointments
+    }
+
+    func fetchAppointments(ofDoctor staff: Staff) async -> [Appointment] {
+        let appointments: [Appointment]? = await MiddlewareManager.shared.get(url: "/appointments/\(staff.id)")
+        guard let appointments else {
+            return []
+        }
+
+        return appointments
+    }
+
+    func cancelAppointment(_ appointment: Appointment) async -> Bool {
+        if appointment.startDate.timeIntervalSinceNow < 24 * 60 * 60 {
+            return false
+        }
+
+        return await MiddlewareManager.shared.delete(url: "/appointment/\(appointment.id)/cancel", body: nil)
     }
 
     func fetchPrescriptions() async -> [Prescription] {

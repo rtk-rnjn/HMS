@@ -18,16 +18,45 @@ struct DoctorView: View {
 
     let now: Date = .init()
 
-    var timeSlots: [Date] {
-        return [
-            Calendar.current.date(bySettingHour: 11, minute: 0, second: 0, of: now)!,
-            Calendar.current.date(bySettingHour: 12, minute: 0, second: 0, of: now)!,
-            Calendar.current.date(bySettingHour: 13, minute: 0, second: 0, of: now)!
-        ]
+    func timeSlots() -> [Date] {
+        guard let startWorkingHour = doctor.workingHours?.startTime,
+              let endWorkingHour = doctor.workingHours?.endTime else {
+            return []
+        }
+
+        let calendar = Calendar.current
+
+        let startComponents = calendar.dateComponents([.hour, .minute], from: startWorkingHour)
+        let endComponents = calendar.dateComponents([.hour, .minute], from: endWorkingHour)
+
+        let startWorkingDate = calendar.date(bySettingHour: startComponents.hour ?? 0,
+                                             minute: startComponents.minute ?? 0,
+                                             second: 0,
+                                             of: selectedDate) ?? selectedDate
+
+        let endWorkingDate = calendar.date(bySettingHour: endComponents.hour ?? 0,
+                                           minute: endComponents.minute ?? 0,
+                                           second: 0,
+                                           of: selectedDate) ?? selectedDate
+
+        let bookedTime: Set<Date> = Set(doctor.appointments.map { $0.startDate })
+
+        var availableSlots: [Date] = []
+        var currentSlot = startWorkingDate
+
+        while currentSlot < endWorkingDate {
+            if !bookedTime.contains(currentSlot) {
+                availableSlots.append(currentSlot)
+            }
+            currentSlot = calendar.date(byAdding: .minute, value: 60, to: currentSlot) ?? currentSlot
+        }
+
+        return availableSlots
     }
 
-    // Custom colors to maintain consistency
-    let customBlue: Color = .init(red: 0.27, green: 0.45, blue: 1.0) // Matches the profile section blue
+
+
+    let customBlue: Color = .init(red: 0.27, green: 0.45, blue: 1.0)
 
     // Get next 14 days
     var dates: [Date] {
@@ -171,6 +200,7 @@ struct DoctorView: View {
                                     let components = getDateComponents(date)
                                     Button(action: {
                                         selectedDate = date
+                                        _ = timeSlots()
                                     }) {
                                         Text(components.day)
                                             .font(.system(size: 20))
@@ -213,12 +243,13 @@ struct DoctorView: View {
                             endDate: startDate.addingTimeInterval(60 * 60)
                         )
 
-                        let created = await DataController.shared.bookAppointment(appointment)
-                        if created {
-                            DataController.createEvent(appointment: appointment)
-                            showingBookingSuccess = true
-                        } else {
-                            print("Failed to book appointment")
+                        let shortURL = await DataController.shared.razorpayBookAppointment(appointment)
+//                        print(shortURL)
+                        DispatchQueue.main.async {
+                            guard let url = URL(string: shortURL) else {
+                                fatalError()
+                            }
+                            UIApplication.shared.open(url)
                         }
                     }
                 }) {
@@ -271,7 +302,7 @@ struct DoctorView: View {
     // Prepare time slots
     func prepareTimeSlots() -> some View {
         HStack(spacing: 12) {
-            ForEach(timeSlots, id: \.self) { timeSlot in
+            ForEach(timeSlots(), id: \.self) { timeSlot in
                 prepareTimeSlot(timeSlot: timeSlot)
             }
         }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum AppointmentStatus: String, Codable {
+enum AppointmentStatus: String, Codable, Hashable {
     case confirmed = "Confirmed"
     case completed = "Completed"
 }
@@ -24,6 +24,7 @@ struct Appointment: Codable, Identifiable, Hashable {
         case notes
         case reference
         case createdAt = "created_at"
+        case cancelled
     }
 
     var id: String = UUID().uuidString
@@ -44,4 +45,5 @@ struct Appointment: Codable, Identifiable, Hashable {
     var reference: String?
     var createdAt: Date = .init()
 
+    var cancelled: Bool = false
 }
