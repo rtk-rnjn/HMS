@@ -13,6 +13,32 @@ struct DoctorView: View {
     @State private var selectedDate: Date = Calendar.current.startOfDay(for: Date())
     @State private var selectedTimeSlot: Date = .init()
     @State private var showingBookingSuccess = false
+    @State private var reviews: [Review] = [
+        Review(
+            patientId: "1",
+            patientName: "Patient 1",
+            doctorId: "1",
+            rating: 4.5,
+            comment: "Dashing through the snow. On a one horse open sleigh. Over the hills we go, laughing all the way.",
+            date: Calendar.current.date(byAdding: .day, value: -1, to: Date()) ?? Date()
+        ),
+        Review(
+            patientId: "2",
+            patientName: "Patient 1",
+            doctorId: "1",
+            rating: 4.0,
+            comment: "Dashing through the snow. On a one horse open sleigh. Over the hills we go, laughing all the way.",
+            date: Calendar.current.date(byAdding: .day, value: -2, to: Date()) ?? Date()
+        ),
+        Review(
+            patientId: "3",
+            patientName: "Patient 1",
+            doctorId: "1",
+            rating: 4.5,
+            comment: "Dashing through the snow. On a one horse open sleigh. Over the hills we go, laughing all the way.",
+            date: Calendar.current.date(byAdding: .day, value: -3, to: Date()) ?? Date()
+        )
+    ]
     @Environment(\.presentationMode) var presentationMode
 
     let now: Date = .init()
@@ -231,6 +257,29 @@ struct DoctorView: View {
                 }
                 .padding(.horizontal)
                 .padding(.top)
+
+                // Reviews Section
+                VStack(alignment: .leading, spacing: 16) {
+                    HStack {
+                        Text("Reviews")
+                            .font(.title3)
+                            .fontWeight(.semibold)
+                        
+                        Spacer()
+                        
+                        NavigationLink(destination: ReviewsListView(doctor: doctor)) {
+                            Text("See All")
+                                .font(.system(size: 16, weight: .medium))
+                                .foregroundColor(.blue)
+                        }
+                    }
+                    .padding(.horizontal)
+                    
+                    ForEach(reviews.prefix(3)) { review in
+                        ReviewCard(review: review)
+                    }
+                }
+                .padding(.top, 24)
             }
             .padding(.vertical)
         }
@@ -287,5 +336,46 @@ struct DoctorView: View {
             day: dateComponents.day,
             hour: timeComponents.hour
         ))
+    }
+}
+
+struct ReviewCard: View {
+    let review: Review
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack {
+                // Patient name and date
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(review.patientName)
+                        .font(.system(size: 16, weight: .semibold))
+                    
+                    Text(review.date.formatted(date: .numeric, time: .omitted))
+                        .font(.system(size: 14))
+                        .foregroundColor(.secondary)
+                }
+                
+                Spacer()
+                
+                // Rating
+                HStack(spacing: 4) {
+                    Text(String(format: "%.1f", review.rating))
+                        .font(.system(size: 16, weight: .semibold))
+                    Image(systemName: "star.fill")
+                        .foregroundColor(.yellow)
+                }
+            }
+            
+            // Review text
+            Text(review.comment)
+                .font(.system(size: 15))
+                .foregroundColor(.secondary)
+                .lineLimit(3)
+        }
+        .padding()
+        .background(Color.white)
+        .cornerRadius(12)
+        .shadow(color: Color.black.opacity(0.05), radius: 8, x: 0, y: 2)
+        .padding(.horizontal)
     }
 }
