@@ -8,86 +8,63 @@
 import SwiftUI
 
 struct AppointmentView: View {
-
     // MARK: Internal
-
     weak var delegate: AppointmentHostingController?
-
     var appointments: [Appointment] = []
-
+    
     var body: some View {
-        ScrollViewReader { scrollView in
-            List {
-                ForEach(sortedDates, id: \.self) { date in
-                    Section {
-                        appointmentGroup(for: date)
-                    } header: {
-                        headerView(for: date)
+        ZStack {
+            Color(.systemGroupedBackground)
+                .ignoresSafeArea()
+            
+            if appointments.isEmpty {
+                VStack(spacing: 16) {
+                    Spacer()
+                    Image(systemName: "calendar.badge.exclamationmark")
+                        .font(.system(size: 64))
+                        .foregroundColor(.gray)
+                    Text("No Appointments Found")
+                        .font(.title3)
+                        .fontWeight(.semibold)
+                        .foregroundColor(.gray)
+                    Text("Your scheduled appointments will appear here")
+                        .font(.body)
+                        .foregroundColor(.gray)
+                        .multilineTextAlignment(.center)
+                    Spacer()
+                }
+                .frame(maxWidth: .infinity)
+            } else {
+                ScrollView {
+                    LazyVStack(spacing: 4) {
+                        ForEach(sortedAppointments) { appointment in
+                            AppointmentDetailCard(appointment: appointment)
+                                .onTapGesture {
+                                    delegate?.showAppointmentDetails(appointment)
+                                }
+                        }
                     }
+                    .padding(.top, 12)
+                    .padding(.bottom, 16)
                 }
             }
-            .listStyle(.plain)
-            .onAppear {
-                scrollToToday(using: scrollView)
-            }
+        }
+        .onAppear {
+            // Refresh the appointments when the view appears
+            delegate?.refreshAppointments()
         }
     }
-
+    
     // MARK: Private
-
-    @State private var currentDate: Date = .init()
-
-    private var groupedAppointments: [Date: [Appointment]] {
-        Dictionary(grouping: appointments, by: { Calendar.current.startOfDay(for: $0.startDate) })
-    }
-
-    private var sortedDates: [Date] {
-        groupedAppointments.keys.sorted()
-    }
-
-    private func appointmentGroup(for date: Date) -> some View {
-        ForEach(groupedAppointments[date] ?? []) { appointment in
-            AppointmentCard(appointment: appointment)
-                .listRowInsets(EdgeInsets())
-                .listRowSeparator(.hidden)
-                .onTapGesture {
-                    if let doctor = appointment.doctor {
-                        delegate?.showAppointmentDetails(appointment)
-                    }
-                }
-        }
-    }
-
-    private func headerView(for date: Date) -> some View {
-        let isPast = date < Calendar.current.startOfDay(for: currentDate)
-        return Text(formattedDate(date))
-            .font(.headline)
-            .foregroundColor(headerColor(for: date, isPast: isPast))
-            .fontWeight(isToday(date) ? .bold : .regular)
-            .opacity(isPast ? 0.5 : 1.0)
-    }
-
-    private func headerColor(for date: Date, isPast: Bool) -> Color {
-        if isToday(date) {
-            return .red
-        }
-        return isPast ? .gray : .primary
-    }
-
-    private func isToday(_ date: Date) -> Bool {
-        Calendar.current.isDate(date, inSameDayAs: currentDate)
-    }
-
-    private func formattedDate(_ date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .full
-        return formatter.string(from: date)
-    }
-
-    private func scrollToToday(using proxy: ScrollViewProxy) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            if let today = sortedDates.first(where: { Calendar.current.isDate($0, inSameDayAs: currentDate) }) {
-                proxy.scrollTo(today, anchor: .top)
+    private var sortedAppointments: [Appointment] {
+        appointments.sorted { 
+            // Sort future appointments first, then by date
+            if $0.startDate >= Date() && $1.startDate < Date() {
+                return true
+            } else if $0.startDate < Date() && $1.startDate >= Date() {
+                return false
+            } else {
+                return $0.startDate < $1.startDate
             }
         }
     }

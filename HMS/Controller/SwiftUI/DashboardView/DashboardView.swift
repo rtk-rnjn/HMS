@@ -7,6 +7,10 @@
 
 import SwiftUI
 
+protocol DashboardViewDelegate: AnyObject {
+    func showAppointmentDetails(_ appointment: Appointment)
+}
+
 struct Specialization: Identifiable, Hashable {
     let id: String = UUID().uuidString
     let name: String
@@ -14,7 +18,7 @@ struct Specialization: Identifiable, Hashable {
 }
 
 struct DashboardView: View {
-    weak var delegate: HomeHostingController?
+    weak var delegate: DashboardViewDelegate?
     var specializations: [Specialization] = []
 
     @State private var searchText = ""
@@ -30,19 +34,21 @@ struct DashboardView: View {
                 SpecializationsSection(
                     specializations: specializations,
                     onTap: { specialization in
-                        delegate?.performSegue(withIdentifier: "segueShowDoctorsHostingController", sender: specialization)
+                        if let homeController = delegate as? HomeHostingController {
+                            homeController.performSegue(withIdentifier: "segueShowDoctorsHostingController", sender: specialization)
+                        }
                     }
                 )
 
                 // My Appointments Section
                 VStack(alignment: .leading, spacing: 16) {
                     HStack {
-                        Text("My Appointments")
+                        Text("Today's Appointments")
                             .font(.title2)
-                            .fontWeight(.bold)
+                            .fontWeight(.semibold)
                         Spacer()
                     }
-                    .padding(.horizontal)
+                    .padding(.horizontal, 16)
 
                     let todayAppointments = appointments
                         .filter {
@@ -56,11 +62,11 @@ struct DashboardView: View {
                         VStack(spacing: 12) {
                             Image(systemName: "calendar.badge.exclamationmark")
                                 .font(.system(size: 40))
-                                .foregroundColor(Color("iconBlue"))
+                                .foregroundColor(.gray)
                             Text("No Appointments Today")
                                 .font(.headline)
                                 .foregroundColor(.gray)
-                            Text("")
+                            Text("Check the Appointments tab for upcoming visits")
                                 .font(.subheadline)
                                 .foregroundColor(.gray.opacity(0.8))
                                 .multilineTextAlignment(.center)
@@ -69,12 +75,19 @@ struct DashboardView: View {
                         .padding(.vertical, 30)
                         .background(Color.white)
                         .cornerRadius(12)
-                        .padding(.horizontal)
+                        .padding(.horizontal, 16)
                     } else {
-                        ForEach(Array(todayAppointments)) { appointment in
-                            AppointmentCard(appointment: appointment)
+                        LazyVStack(spacing: 4) {
+                            ForEach(Array(todayAppointments)) { appointment in
+                                AppointmentCard(appointment: appointment)
+                                    .onTapGesture {
+                                        delegate?.showAppointmentDetails(appointment)
+                                    }
+                            }
                         }
-                        .padding(.horizontal)
+                        .padding(.horizontal, 0)
+                        .padding(.top, 8)
+                        .padding(.bottom, 8)
                     }
                 }
 
@@ -137,7 +150,7 @@ struct SpecializationsSection: View {
         VStack(alignment: .leading, spacing: 16) {
             Text("Specializations")
                 .font(.title2)
-                .fontWeight(.bold)
+                .fontWeight(.semibold)
                 .padding(.horizontal)
 
             ScrollView(.horizontal, showsIndicators: false) {
@@ -184,7 +197,7 @@ struct QuickActionsSection: View {
         VStack(alignment: .leading, spacing: 16) {
             Text("Quick Actions")
                 .font(.title2)
-                .fontWeight(.bold)
+                .fontWeight(.semibold)
                 .padding(.horizontal)
 
             LazyVGrid(
