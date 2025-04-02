@@ -55,7 +55,7 @@ struct MedicalReportDetailView: View {
     @State private var showingShareSheet = false
 
     private func imageData() -> some View {
-        guard let data = report.imageData else {
+        guard report.imageData == nil else {
             return AnyView(EmptyView())
         }
 
