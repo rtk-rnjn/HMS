@@ -4,60 +4,42 @@ struct AppointmentCard: View {
     let appointment: Appointment
 
     var body: some View {
-        HStack(spacing: 12) {
-            VStack(alignment: .leading, spacing: 4) {
-                Text(appointment.patient?.fullName ?? "Unknown Patient")
-                    .font(.system(size: 16, weight: .semibold))
-                    .foregroundColor(.primary)
-
-                Text(appointment.doctor?.fullName ?? "Unknown Doctor")
-                    .font(.system(size: 14))
-                    .foregroundColor(Color(.systemGray))
-            }
-
-            Spacer()
-
-            // Right side - Time and status
-            VStack(alignment: .trailing, spacing: 8) {
-                Text(appointment.startDate.humanReadableString())
-                    .font(.system(size: 16, weight: .semibold))
-                    .foregroundColor(.primary)
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 4)
-                    .background(
-                        RoundedRectangle(cornerRadius: 8)
-                            .fill(Color(.systemGray6))
-                    )
-
-                // Status tag
-                if appointment.status == .completed {
-                    Text("Completed")
-                        .font(.system(size: 11, weight: .medium))
-                        .foregroundColor(.blue)
-                        .padding(.horizontal, 10)
-                        .padding(.vertical, 4)
-                        .background(Color.blue.opacity(0.12))
-                        .clipShape(Capsule())
-                } else if appointment.status == .confirmed {
-                    Text("Confirmed")
-                        .font(.system(size: 11, weight: .medium))
-                        .foregroundColor(.blue)
-                        .padding(.horizontal, 10)
-                        .padding(.vertical, 4)
-                        .background(Color.blue.opacity(0.12))
-                        .clipShape(Capsule())
-                } else {
-                    StatusTag(status: appointment.status)
+        VStack(alignment: .leading, spacing: 16) {
+            HStack {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(appointment.doctor?.fullName ?? "Unknown Doctor")
+                        .font(.system(size: 20, weight: .semibold))
+                        .foregroundColor(.black)
+                    
+                    Text(appointment.doctor?.specialization ?? "")
+                        .font(.system(size: 16))
+                        .foregroundColor(.gray)
                 }
+                
+                Spacer()
+                
+                Text("Confirmed")
+                    .font(.system(size: 14))
+                    .foregroundColor(Color.white)
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 6)
+                    .background(Color("successBlue"))
+                    .cornerRadius(16)
+            }
+            
+            HStack(spacing: 8) {
+                Image(systemName: "calendar")
+                    .font(.system(size: 16))
+                    .foregroundColor(Color("iconBlue"))
+                
+                Text(appointment.startDate.formatted(date: .abbreviated, time: .shortened))
+                    .font(.system(size: 16))
+                    .foregroundColor(.gray)
             }
         }
-        .padding(.vertical, 14)
-        .padding(.horizontal, 14)
-        .background(
-            RoundedRectangle(cornerRadius: 16)
-                .fill(Color(.systemBackground))
-                .shadow(color: Color.black.opacity(0.04), radius: 2, x: 0, y: 1)
-        )
+        .padding(16)
+        .background(Color.white)
+        .cornerRadius(16)
     }
 }
 
@@ -99,7 +81,7 @@ struct QuickActionButton: View {
             VStack(spacing: 12) {
                 Image(systemName: icon)
                     .font(.system(size: 24))
-                    .foregroundColor(color)
+                    .foregroundColor(Color("iconBlue"))
                 Text(title)
                     .font(.system(size: 16))
                     .foregroundColor(.primary)

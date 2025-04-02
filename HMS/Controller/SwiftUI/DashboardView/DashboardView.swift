@@ -56,7 +56,7 @@ struct DashboardView: View {
                         VStack(spacing: 12) {
                             Image(systemName: "calendar.badge.exclamationmark")
                                 .font(.system(size: 40))
-                                .foregroundColor(.gray)
+                                .foregroundColor(Color("iconBlue"))
                             Text("No Appointments Today")
                                 .font(.headline)
                                 .foregroundColor(.gray)
@@ -101,14 +101,7 @@ struct SpecializationCard: View {
 
             // Icon with gradient background
             Circle()
-                .fill(LinearGradient(
-                    gradient: Gradient(colors: [
-                        Color(red: 0.27, green: 0.53, blue: 1.0),
-                        Color(red: 0.37, green: 0.63, blue: 1.0)
-                    ]),
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
-                ))
+                .fill(Color("iconBlue"))
                 .frame(width: 46, height: 46)
                 .overlay(
                     Image(systemName: specialization.image)
