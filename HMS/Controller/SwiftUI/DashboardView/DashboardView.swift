@@ -99,7 +99,7 @@ struct SpecializationCard: View {
         VStack {
             Spacer()
 
-            // Icon with gradient background
+            
             Circle()
                 .fill(Color("iconBlue"))
                 .frame(width: 46, height: 46)
