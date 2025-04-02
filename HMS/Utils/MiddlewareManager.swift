@@ -33,7 +33,7 @@ actor MiddlewareManager {
         return await request(url: url, method: "PATCH", body: body)
     }
 
-    func delete(url: String, body: Data) async -> Bool {
+    func delete(url: String, body: Data?) async -> Bool {
         let result: Bool? = await request(url: url, method: "DELETE", body: body)
         return result != nil
     }
