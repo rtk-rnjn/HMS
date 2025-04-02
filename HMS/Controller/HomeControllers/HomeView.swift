@@ -20,17 +20,17 @@ struct AppointmentCard: View {
                 
                 Text("Confirmed")
                     .font(.system(size: 14))
-                    .foregroundColor(.green)
+                    .foregroundColor(Color.white)
                     .padding(.horizontal, 12)
                     .padding(.vertical, 6)
-                    .background(Color.green.opacity(0.15))
+                    .background(Color("successBlue"))
                     .cornerRadius(16)
             }
             
             HStack(spacing: 8) {
                 Image(systemName: "calendar")
                     .font(.system(size: 16))
-                    .foregroundColor(.blue)
+                    .foregroundColor(Color("iconBlue"))
                 
                 Text(appointment.startDate.formatted(date: .abbreviated, time: .shortened))
                     .font(.system(size: 16))
@@ -81,7 +81,7 @@ struct QuickActionButton: View {
             VStack(spacing: 12) {
                 Image(systemName: icon)
                     .font(.system(size: 24))
-                    .foregroundColor(color)
+                    .foregroundColor(Color("iconBlue"))
                 Text(title)
                     .font(.system(size: 16))
                     .foregroundColor(.primary)

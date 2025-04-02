@@ -151,7 +151,7 @@ struct AddMedicalReportView: View {
 
                                     Image(systemName: "calendar")
                                         .font(.system(size: 20))
-                                        .foregroundColor(.blue)
+                                        .foregroundColor(Color("iconBlue"))
                                 }
                                 .padding()
                                 .background(Color.white)
@@ -182,11 +182,11 @@ struct AddMedicalReportView: View {
                                         } else {
                                             Image(systemName: "arrow.up.doc")
                                                 .font(.system(size: 24))
-                                                .foregroundColor(.blue)
+                                                .foregroundColor(Color("iconBlue"))
 
                                             Text("Upload files")
                                                 .font(.subheadline)
-                                                .foregroundColor(.blue)
+                                                .foregroundColor(Color("iconBlue"))
 
                                             Text("PDF, JPG, PNG up to 10MB")
                                                 .font(.caption)
@@ -221,7 +221,7 @@ struct AddMedicalReportView: View {
                             .foregroundColor(.white)
                             .frame(maxWidth: .infinity)
                             .padding()
-                            .background(Color.blue)
+                            .background(Color("primaryBlue"))
                             .cornerRadius(10)
                             .disabled(selectedReportType.isEmpty || description.isEmpty || isSaving)
                             .padding(.top, 24)
