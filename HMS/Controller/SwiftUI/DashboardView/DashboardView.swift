@@ -98,7 +98,7 @@ struct SpecializationCard: View {
     var body: some View {
         VStack {
             Spacer()
-            
+
             // Icon with gradient background
             Circle()
                 .fill(LinearGradient(
@@ -117,7 +117,7 @@ struct SpecializationCard: View {
                 )
 
             Spacer()
-            
+
             // Title
             Text(specialization.name)
                 .font(.system(size: 13, weight: .medium))

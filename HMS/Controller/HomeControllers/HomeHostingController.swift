@@ -21,9 +21,9 @@ class HomeHostingController: UIHostingController<DashboardView>, UISearchBarDele
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+
         navigationItem.title = "Home"
-        
+
         rootView.delegate = self
 
         Task {

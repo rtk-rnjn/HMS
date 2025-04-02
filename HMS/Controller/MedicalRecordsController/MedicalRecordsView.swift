@@ -28,7 +28,7 @@ struct MedicalRecordsView: View {
                 .background(Color.gray.opacity(0.2))
                 .cornerRadius(10)
                 .padding(.horizontal)
-                
+
                 // Date Filter
                 HStack {
                     DatePicker("From", selection: $startDate, in: ...Date(), displayedComponents: .date)
@@ -41,7 +41,7 @@ struct MedicalRecordsView: View {
             }
             .padding(.vertical)
             .background(Color.white)
-            
+
             if filteredReports.isEmpty {
                 VStack(spacing: 16) {
                     Image(systemName: "doc.text.magnifyingglass")
@@ -82,16 +82,16 @@ struct MedicalRecordsView: View {
     @State private var reports: [MedicalReport] = []
     @State private var searchText = ""
     @State private var startDate = Calendar.current.date(byAdding: .month, value: -1, to: Date()) ?? Date()
-    @State private var endDate = Date()
+    @State private var endDate: Date = .init()
 
     private var filteredReports: [MedicalReport] {
         reports.filter { report in
-            let matchesSearch = searchText.isEmpty || 
+            let matchesSearch = searchText.isEmpty ||
                 report.description.localizedCaseInsensitiveContains(searchText) ||
                 report.type.localizedCaseInsensitiveContains(searchText)
-            
+
             let matchesDate = report.date >= startDate && report.date <= endDate
-            
+
             return matchesSearch && matchesDate
         }
         .sorted { $0.date > $1.date }
@@ -110,7 +110,7 @@ struct MedicalRecordRow: View {
     let date: String
     let type: String
     let report: MedicalReport
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             HStack(alignment: .top, spacing: 16) {
@@ -130,9 +130,9 @@ struct MedicalRecordRow: View {
                         Text(title)
                             .font(.system(size: 18, weight: .semibold))
                             .foregroundColor(.black)
-                        
+
                         Spacer()
-                        
+
                         Text(date)
                             .font(.system(size: 15))
                             .foregroundColor(.gray)
@@ -185,4 +185,3 @@ struct MedicalRecordRow: View {
         .shadow(color: Color.black.opacity(0.06), radius: 10, x: 0, y: 4)
     }
 }
-

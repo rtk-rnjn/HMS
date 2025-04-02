@@ -264,9 +264,9 @@ struct DoctorView: View {
                         Text("Reviews")
                             .font(.title3)
                             .fontWeight(.semibold)
-                        
+
                         Spacer()
-                        
+
                         NavigationLink(destination: ReviewsListView(doctor: doctor)) {
                             Text("See All")
                                 .font(.system(size: 16, weight: .medium))
@@ -274,7 +274,7 @@ struct DoctorView: View {
                         }
                     }
                     .padding(.horizontal)
-                    
+
                     ForEach(reviews.prefix(3)) { review in
                         ReviewCard(review: review)
                     }
@@ -341,7 +341,7 @@ struct DoctorView: View {
 
 struct ReviewCard: View {
     let review: Review
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack {
@@ -349,14 +349,14 @@ struct ReviewCard: View {
                 VStack(alignment: .leading, spacing: 4) {
                     Text(review.patientName)
                         .font(.system(size: 16, weight: .semibold))
-                    
+
                     Text(review.date.formatted(date: .numeric, time: .omitted))
                         .font(.system(size: 14))
                         .foregroundColor(.secondary)
                 }
-                
+
                 Spacer()
-                
+
                 // Rating
                 HStack(spacing: 4) {
                     Text(String(format: "%.1f", review.rating))
@@ -365,7 +365,7 @@ struct ReviewCard: View {
                         .foregroundColor(.yellow)
                 }
             }
-            
+
             // Review text
             Text(review.comment)
                 .font(.system(size: 15))

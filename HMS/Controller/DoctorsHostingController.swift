@@ -24,7 +24,7 @@ class DoctorsHostingController: UIHostingController<DoctorListView> {
         super.viewDidLoad()
 
         navigationItem.title = specialization
-        
+
         Task {
             if let doctors = await DataController.shared.fetchDoctor(bySpecialization: specialization) {
                 rootView.filteredDoctors = doctors

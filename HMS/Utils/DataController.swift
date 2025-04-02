@@ -221,7 +221,7 @@ class DataController {
               let reportData = report.toData() else {
             return false
         }
-        
+
         let response: ServerResponse? = await MiddlewareManager.shared.post(
             url: "/patient/\(id)/medical-reports/create",
             body: reportData

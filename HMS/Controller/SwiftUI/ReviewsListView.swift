@@ -1,23 +1,11 @@
 import SwiftUI
 
 struct ReviewsListView: View {
+
+    // MARK: Internal
+
     let doctor: Staff
-    @Environment(\.dismiss) private var dismiss
-    @State private var reviews: [Review] = []
-    
-    @State private var sortOrder: SortOrder = .none
-    
-    private var sortedReviews: [Review] {
-        switch sortOrder {
-        case .highest:
-            return reviews.sorted { $0.stars > $1.stars }
-        case .lowest:
-            return reviews.sorted { $0.stars < $1.stars }
-        case .none:
-            return reviews
-        }
-    }
-    
+
     var body: some View {
         ScrollView {
             VStack(spacing: 16) {
@@ -51,6 +39,25 @@ struct ReviewsListView: View {
             }
         }
     }
+
+    // MARK: Private
+
+    @Environment(\.dismiss) private var dismiss
+    @State private var reviews: [Review] = []
+
+    @State private var sortOrder: SortOrder = .none
+
+    private var sortedReviews: [Review] {
+        switch sortOrder {
+        case .highest:
+            return reviews.sorted { $0.stars > $1.stars }
+        case .lowest:
+            return reviews.sorted { $0.stars < $1.stars }
+        case .none:
+            return reviews
+        }
+    }
+
 }
 
 enum SortOrder {
@@ -61,26 +68,26 @@ enum SortOrder {
 
 struct ReviewRow: View {
     let review: Review
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack {
-                Text(review.patientId) // TODO:  Fetch Patient
+                Text(review.patientId) // TODO: Fetch Patient
                     .font(.system(size: 16, weight: .semibold))
                     .foregroundColor(.primary)
-                
+
                 Spacer()
-                
+
                 Text(review.createdAt.formatted(date: .numeric, time: .omitted))
                     .font(.system(size: 14))
                     .foregroundColor(.secondary)
             }
-            
+
             Text(review.review)
                 .font(.system(size: 15))
                 .foregroundColor(.secondary)
                 .fixedSize(horizontal: false, vertical: true)
-            
+
             HStack(spacing: 4) {
                 Text(String(format: "%.1f", review.stars))
                     .font(.system(size: 16, weight: .semibold))
@@ -94,4 +101,4 @@ struct ReviewRow: View {
         .cornerRadius(12)
         .padding(.horizontal)
     }
-} 
+}
