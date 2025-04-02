@@ -210,7 +210,7 @@ struct QuickActionsSection: View {
                     }
                 )
                 QuickActionButton(
-                    icon: "folder.fill", title: "My Medical\nRecords",
+                    icon: "folder.fill", title: "Add Medical\nRecords",
                     color: .green,
                     action: { showingMedicalRecords = true }
                 )
@@ -221,7 +221,7 @@ struct QuickActionsSection: View {
             BookAppointmentView()
         }
         .sheet(isPresented: $showingMedicalRecords) {
-            MedicalRecordsView()
+            AddMedicalReportView()
         }
     }
 
