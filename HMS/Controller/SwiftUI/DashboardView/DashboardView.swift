@@ -8,6 +8,7 @@ import SwiftUI
 
 protocol DashboardViewDelegate: AnyObject {
     func showAppointmentDetails(_ appointment: Appointment)
+    func customPerformSegue(withIdentifier: String)
 }
 
 struct Department: Identifiable, Hashable {
@@ -89,7 +90,7 @@ struct DashboardView: View {
                     }
                 }
 
-                QuickActionsSection()
+                QuickActionsSection(delegate: delegate)
             }
             .padding(.vertical)
         }
@@ -186,7 +187,7 @@ struct SpecializationDetailView: View {
 
 struct QuickActionsSection: View {
 
-    // MARK: Internal
+    weak var delegate: DashboardViewDelegate?
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
@@ -204,25 +205,22 @@ struct QuickActionsSection: View {
             ) {
                 QuickActionButton(
                     icon: "calendar.badge.plus",
-                    title: "Book New\nAppointment",
+                    title: "Billing",
                     color: .unselectedBlue,
                     action: {
-                        showingBookAppointment = true
+                        delegate?.customPerformSegue(withIdentifier: "segueShowBillingHostingController")
                     }
                 )
                 QuickActionButton(
-                    icon: "folder.fill", title: "Add Medical\nRecords",
+                    icon: "folder.fill", title: "Emergency",
                     color: .unselectedBlue,
-                    action: { showingMedicalRecords = true }
+                    action: {
+
+                        UIApplication.shared.open(URL(string: "tel://9119701017")!)
+                    }
                 )
             }
             .padding(.horizontal)
-        }
-        .sheet(isPresented: $showingBookAppointment) {
-            BookAppointmentView()
-        }
-        .sheet(isPresented: $showingMedicalRecords) {
-            AddMedicalReportView()
         }
     }
 

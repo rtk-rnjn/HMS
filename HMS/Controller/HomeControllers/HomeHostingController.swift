@@ -8,6 +8,10 @@ import SwiftUI
 import UIKit
 
 class HomeHostingController: UIHostingController<DashboardView>, UISearchBarDelegate, UISearchResultsUpdating, DashboardViewDelegate {
+    func customPerformSegue(withIdentifier id: String) {
+        performSegue(withIdentifier: id, sender: nil)
+    }
+    
 
     // MARK: Lifecycle
 

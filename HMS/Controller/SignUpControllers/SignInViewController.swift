@@ -34,6 +34,12 @@ class SignInViewController: UIViewController {
         passwordTextField.configureEyeButton(with: eyeButton)
 
         navigationItem.hidesBackButton = true
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tapGesture)
+    }
+
+    @objc private func dismissKeyboard() {
+        view.endEditing(true)
     }
 
     @IBAction func textFieldEditingChanged(_ sender: UITextField) {

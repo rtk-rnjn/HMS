@@ -318,6 +318,18 @@ class DataController {
         return reports ?? []
     }
 
+    func fetchBills() async -> [RazorpayPaymentlinkResponse]? {
+        if patient == nil {
+            guard await autoLogin() else { fatalError() }
+        }
+
+        guard let patient else {
+            fatalError("Patient is nil")
+        }
+
+        return await MiddlewareManager.shared.get(url: "/razorpay-gateway/bills/patient/\(patient.id)")
+    }
+
     func createMedicalReport(_ report: MedicalReport) async -> Bool {
         guard let id = UserDefaults.standard.string(forKey: "patientId"),
               let reportData = report.toData() else {
