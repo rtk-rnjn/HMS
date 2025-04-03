@@ -59,234 +59,270 @@ struct ImagePicker: UIViewControllerRepresentable {
 
 struct AddMedicalReportView: View {
     @Environment(\.dismiss) private var dismiss
-    @State private var selectedReportType: String = ""
-    @State private var description: String = ""
-    @State private var reportDate: Date = .init()
-    @State private var showingImagePicker = false
-    @State private var selectedImage: UIImage?
-    @State private var showingSourceTypeSheet = false
-    @State private var sourceType: UIImagePickerController.SourceType = .photoLibrary
-    @State private var isSaving = false
-    @State private var showError = false
-    @State private var showSuccess = false
-
-    var onSave: ((MedicalReport) -> Void)?
-
-    let reportTypes = [
-        "Lab Report",
-        "Check-up Report",
-        "Vaccination Record",
-        "Surgery Report",
-        "Other"
-    ]
-
+    @StateObject private var viewModel = AddMedicalReportViewModel()
+    var onAdd: (() -> Void)?
+    
     var body: some View {
         NavigationView {
-            ZStack {
-                Color(.systemGray6)
-                    .ignoresSafeArea()
-
-                ScrollView {
-                    VStack(spacing: 0) {
-                        VStack(alignment: .leading, spacing: 24) {
-                            // Report Type
-                            VStack(alignment: .leading, spacing: 8) {
-                                Text("Report Type")
-                                    .font(.headline)
-                                    .foregroundColor(.primary)
-
-                                Menu {
-                                    ForEach(reportTypes, id: \.self) { type in
-                                        Button(type) {
-                                            selectedReportType = type
-                                        }
-                                    }
-                                } label: {
-                                    HStack {
-                                        Text(selectedReportType.isEmpty ? "Select report type" : selectedReportType)
-                                            .foregroundColor(selectedReportType.isEmpty ? .gray : .primary)
-                                        Spacer()
-                                        Image(systemName: "chevron.down")
-                                            .foregroundColor(.gray)
-                                    }
-                                    .padding()
-                                    .background(Color.white)
-                                    .cornerRadius(10)
-                                }
-                            }
-
-                            // Description
-                            VStack(alignment: .leading, spacing: 8) {
-                                Text("Description")
-                                    .font(.headline)
-                                    .foregroundColor(.primary)
-
-                                TextEditor(text: $description)
-                                    .frame(height: 120)
-                                    .padding(8)
-                                    .background(Color.white)
-                                    .cornerRadius(10)
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: 10)
-                                            .stroke(Color(.systemGray4), lineWidth: 1)
-                                    )
-                            }
-
-                            // Report Date
-                            VStack(alignment: .leading, spacing: 8) {
-                                Text("Report Date")
-                                    .font(.headline)
-                                    .foregroundColor(.primary)
-
-                                HStack {
-                                    DatePicker(
-                                        "",
-                                        selection: $reportDate,
-                                        displayedComponents: .date
-                                    )
-                                    .datePickerStyle(.compact)
-                                    .labelsHidden()
-
-                                    Spacer()
-
-                                    Image(systemName: "calendar")
-                                        .font(.system(size: 20))
-                                        .foregroundColor(Color("iconBlue"))
-                                }
-                                .padding()
-                                .background(Color.white)
-                                .cornerRadius(10)
-                                .shadow(color: Color.black.opacity(0.05), radius: 4, x: 0, y: 2)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 10)
-                                        .stroke(Color(.systemGray4), lineWidth: 1)
-                                )
-                            }
-
-                            // Attachments
-                            VStack(alignment: .leading, spacing: 8) {
-                                Text("Attachments")
-                                    .font(.headline)
-                                    .foregroundColor(.primary)
-
+            ScrollView {
+                VStack(spacing: 24) {
+                    // Report Type Section
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Report Type")
+                            .font(.system(size: 17, weight: .semibold))
+                        
+                        Menu {
+                            ForEach(ReportType.allCases, id: \.self) { type in
                                 Button(action: {
-                                    showingSourceTypeSheet = true
+                                    viewModel.selectedType = type
                                 }) {
-                                    VStack(spacing: 12) {
-                                        if let selectedImage {
-                                            Image(uiImage: selectedImage)
-                                                .resizable()
-                                                .scaledToFit()
-                                                .frame(maxHeight: 200)
-                                                .cornerRadius(8)
-                                        } else {
-                                            Image(systemName: "arrow.up.doc")
-                                                .font(.system(size: 24))
-                                                .foregroundColor(Color("iconBlue"))
-
-                                            Text("Upload files")
-                                                .font(.subheadline)
-                                                .foregroundColor(Color("iconBlue"))
-
-                                            Text("PDF, JPG, PNG up to 10MB")
-                                                .font(.caption)
-                                                .foregroundColor(.gray)
-                                        }
+                                    Text(type.rawValue)
+                                }
+                            }
+                        } label: {
+                            HStack {
+                                Text(viewModel.selectedType?.rawValue ?? "Select report type")
+                                    .foregroundColor(viewModel.selectedType == nil ? .secondary : .primary)
+                                Spacer()
+                                Image(systemName: "chevron.down")
+                                    .foregroundColor(.secondary)
+                            }
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .background(Color(.systemBackground))
+                            .cornerRadius(10)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(Color(.systemGray4), lineWidth: 1)
+                            )
+                        }
+                    }
+                    
+                    // Status Section
+                    VStack(alignment: .leading, spacing: 8) {
+                        HStack {
+                            Image(systemName: "circle.fill")
+                                .foregroundColor(viewModel.status.color)
+                            Text("Status")
+                                .font(.system(size: 17, weight: .semibold))
+                        }
+                        
+                        Menu {
+                            ForEach(ReportStatus.allCases, id: \.self) { status in
+                                Button(action: {
+                                    viewModel.status = status
+                                }) {
+                                    HStack {
+                                        Circle()
+                                            .fill(status.color)
+                                            .frame(width: 8, height: 8)
+                                        Text(status.rawValue)
                                     }
-                                    .frame(maxWidth: .infinity)
-                                    .padding(.vertical, 24)
-                                    .background(Color.white)
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: 10)
-                                            .stroke(style: StrokeStyle(lineWidth: 1, dash: [5]))
-                                            .foregroundColor(Color(.systemGray4))
-                                    )
                                 }
                             }
-
-                            // Submit Button
-                            Button(action: {
-                                Task {
-                                    await saveReport()
-                                }
-                            }) {
-                                if isSaving {
-                                    ProgressView()
-                                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                                } else {
-                                    Text("Submit Report")
-                                        .font(.headline)
-                                }
+                        } label: {
+                            HStack {
+                                Circle()
+                                    .fill(viewModel.status.color)
+                                    .frame(width: 8, height: 8)
+                                Text(viewModel.status.rawValue)
+                                    .foregroundColor(.primary)
+                                Spacer()
+                                Image(systemName: "chevron.down")
+                                    .foregroundColor(.secondary)
                             }
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .background(Color(.systemBackground))
+                            .cornerRadius(10)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(Color(.systemGray4), lineWidth: 1)
+                            )
+                        }
+                    }
+                    
+                    // Description Section
+                    VStack(alignment: .leading, spacing: 8) {
+                        HStack {
+                            Image(systemName: "text.quote")
+                                .foregroundColor(.blue)
+                            Text("Doctor's Notes")
+                                .font(.system(size: 17, weight: .semibold))
+                        }
+                        
+                        TextEditor(text: $viewModel.description)
+                            .frame(minHeight: 100)
+                            .padding(8)
+                            .background(Color(.systemBackground))
+                            .cornerRadius(10)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(Color(.systemGray4), lineWidth: 1)
+                            )
+                    }
+                    
+                    // Report Date Section
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Report Date")
+                            .font(.system(size: 17, weight: .semibold))
+                        
+                        DatePicker("", selection: $viewModel.date, displayedComponents: [.date, .hourAndMinute])
+                            .datePickerStyle(.compact)
+                            .labelsHidden()
+                            .padding()
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .background(Color(.systemBackground))
+                            .cornerRadius(10)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(Color(.systemGray4), lineWidth: 1)
+                            )
+                    }
+                    
+                    // Attachments Section
+                    VStack(alignment: .leading, spacing: 8) {
+                        HStack {
+                            Image(systemName: "photo")
+                                .foregroundColor(.blue)
+                            Text("Attachments")
+                                .font(.system(size: 17, weight: .semibold))
+                        }
+                        
+                        if let selectedImage = viewModel.selectedImage {
+                            Image(uiImage: selectedImage)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(maxHeight: 200)
+                                .frame(maxWidth: .infinity)
+                                .cornerRadius(10)
+                        }
+                        
+                        PhotosPicker(selection: $viewModel.imageSelection,
+                                   matching: .images) {
+                            HStack {
+                                Image(systemName: "arrow.up.doc")
+                                    .foregroundColor(.blue)
+                                VStack(alignment: .leading) {
+                                    Text("Upload files")
+                                        .foregroundColor(.blue)
+                                    Text("PDF, JPG, PNG up to 10MB")
+                                        .font(.caption)
+                                        .foregroundColor(.secondary)
+                                }
+                                Spacer()
+                            }
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .background(Color(.systemBackground))
+                            .cornerRadius(10)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(style: StrokeStyle(lineWidth: 1, dash: [5]))
+                                    .foregroundColor(.secondary)
+                            )
+                        }
+                    }
+                    
+                    // Submit Button
+                    Button(action: {
+                        Task {
+                            if await viewModel.submitReport() {
+                                onAdd?()
+                                dismiss()
+                            }
+                        }
+                    }) {
+                        Text("Submit Report")
+                            .font(.system(size: 17, weight: .semibold))
                             .foregroundColor(.white)
                             .frame(maxWidth: .infinity)
                             .padding()
-                            .background(Color("primaryBlue"))
+                            .background(viewModel.isValid ? Color.blue : Color.blue.opacity(0.5))
                             .cornerRadius(10)
-                            .disabled(selectedReportType.isEmpty || description.isEmpty || isSaving)
-                            .padding(.top, 24)
-                        }
-                        .padding(20)
                     }
+                    .disabled(!viewModel.isValid)
                 }
+                .padding()
             }
-            .navigationBarTitleDisplayMode(.inline)
+            .background(Color(.systemGroupedBackground))
             .navigationTitle("Add Medical Report")
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Cancel", role: .cancel) {
+                    Button("Cancel") {
                         dismiss()
                     }
-                    .foregroundColor(.blue)
                 }
-            }
-            .sheet(isPresented: $showingImagePicker) {
-                ImagePicker(selectedImage: $selectedImage, sourceType: sourceType)
-            }
-            .actionSheet(isPresented: $showingSourceTypeSheet) {
-                ActionSheet(
-                    title: Text("Add Medical Record"),
-                    message: Text("Choose a source"),
-                    buttons: [
-                        .default(Text("Camera")) {
-                            sourceType = .camera
-                            showingImagePicker = true
-                        },
-                        .default(Text("Photo Library")) {
-                            sourceType = .photoLibrary
-                            showingImagePicker = true
-                        },
-                        .cancel()
-                    ]
-                )
-            }
-            .alert("Error", isPresented: $showError) {
-                Button("OK", role: .cancel) {}
-            } message: {
-                Text("Failed to save the medical report. Please try again.")
-            }
-            .alert("Success", isPresented: $showSuccess) {
-                Button("OK", role: .cancel) {
-                    dismiss()
-                }
-            } message: {
-                Text("Medical report has been successfully added.")
             }
         }
     }
+}
 
-    private func saveReport() async {
-        isSaving = true
-        let report = MedicalReport(description: description, date: reportDate, type: selectedReportType, imageData: selectedImage?.pngData())
+// ViewModel
+class AddMedicalReportViewModel: ObservableObject {
+    @Published var selectedType: ReportType?
+    @Published var description = ""
+    @Published var date = Date()
+    @Published var status: ReportStatus = .pending
+    @Published var imageSelection: PhotosPickerItem? = nil {
+        didSet { Task { await loadImage() } }
+    }
+    @Published var selectedImage: UIImage?
+    
+    var isValid: Bool {
+        selectedType != nil && !description.isEmpty
+    }
+    
+    @MainActor
+    private func loadImage() async {
+        guard let imageSelection else { return }
+        do {
+            let data = try await imageSelection.loadTransferable(type: Data.self)
+            guard let data, let image = UIImage(data: data) else { return }
+            selectedImage = image
+        } catch {
+            print("Error loading image: \(error)")
+        }
+    }
+    
+    func submitReport() async -> Bool {
+        guard let type = selectedType?.rawValue else { return false }
+        
+        let report = MedicalReport(
+            description: description,
+            date: date,
+            type: type,
+            imageData: selectedImage?.pngData()
+        )
+        
+        return await DataController.shared.createMedicalReport(report)
+    }
+}
 
-        let success = await DataController.shared.createMedicalReport(report)
-        DispatchQueue.main.async {
-            isSaving = false
-            if success {
-                showSuccess = true
-            } else {
-                showError = true
-            }
+// Report Types
+enum ReportType: String, CaseIterable {
+    case labReport = "Lab Report"
+    case prescription = "Prescription"
+    case diagnosis = "Diagnosis"
+    case imaging = "Imaging"
+    case vaccination = "Vaccination"
+    case other = "Other"
+}
+
+// Report Status
+enum ReportStatus: String, CaseIterable {
+    case completed = "Completed"
+    case pending = "Pending"
+    case inProgress = "In Progress"
+    case cancelled = "Cancelled"
+    
+    var color: Color {
+        switch self {
+        case .completed: return .green
+        case .pending: return .orange
+        case .inProgress: return .blue
+        case .cancelled: return .red
         }
     }
 }
