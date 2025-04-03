@@ -10,9 +10,23 @@ import SwiftUI
 class DoctorSearchHostigController: UIHostingController<DoctorListView>, UISearchResultsUpdating, UISearchBarDelegate {
     func updateSearchResults(for searchController: UISearchController) {
         let searchText = searchController.searchBar.text ?? ""
-        Task {
-            self.starStaff = await DataController.shared.fetchDoctor(bySymptom: searchText)
+
+        guard let staffs else {
+            return
         }
+
+        if searchText.isEmpty || searchText ==  "" {
+            self.rootView.filteredDoctors = staffs
+            return
+        }
+        self.rootView.filteredDoctors = staffs.filter {
+            $0.fullName.lowercased().contains(searchText.lowercased()) ||
+            $0.department.lowercased().contains(searchText.lowercased()) ||
+            $0.specialization.lowercased().contains(searchText.lowercased())
+        }
+//        Task {
+//            self.starStaff = await DataController.shared.fetchDoctor(bySymptom: searchText)
+//        }
     }
 
     var staffs: [Staff]? = []
