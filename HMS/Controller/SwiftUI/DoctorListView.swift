@@ -52,7 +52,7 @@ struct DoctorCard: View {
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 60, height: 60)
-                    .foregroundColor(Color(.systemGray3))
+                    .foregroundColor(Color("iconBlue"))
                     .clipShape(Circle())
                     .overlay(
                         Circle()

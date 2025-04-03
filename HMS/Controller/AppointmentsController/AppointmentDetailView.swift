@@ -29,7 +29,7 @@ struct AppointmentDetailView: View {
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
                                     .frame(width: 100, height: 100)
-                                    .foregroundColor(.white)
+                                    .foregroundColor(Color("iconBlue"))
                             )
                             .padding(.bottom, 4)
 

@@ -121,7 +121,7 @@ struct MedicalRecordRow: View {
                     .overlay(
                         Image(systemName: "doc.text.fill")
                             .font(.system(size: 20))
-                            .foregroundColor(.blue)
+                            .foregroundColor(Color("iconBlue"))
                     )
 
                 VStack(alignment: .leading, spacing: 12) {
@@ -142,7 +142,7 @@ struct MedicalRecordRow: View {
                     HStack(spacing: 6) {
                         Image(systemName: "stethoscope")
                             .font(.system(size: 14))
-                            .foregroundColor(.gray)
+                            .foregroundColor(Color("iconBlue"))
                         Text(type)
                             .font(.system(size: 15))
                             .foregroundColor(.gray)
