@@ -31,21 +31,37 @@ struct MedicalProfileView: View {
                     Text("Blood Type")
                         .font(.title3)
 
-                    LazyVGrid(columns: columns, spacing: 12) {
-                        ForEach(orderedBloodGroups, id: \.self) { group in
-                            Button(action: {
-                                selectedBloodGroup = group
-                            }) {
-                                Text(group.rawValue)
-                                    .font(.body)
-                                    .frame(maxWidth: .infinity)
-                                    .frame(height: 48)
-                                    .background(
-                                        RoundedRectangle(cornerRadius: 16)
-                                            .fill(selectedBloodGroup == group ? Color.blue : Color(.systemGray6))
-                                    )
-                                    .foregroundColor(selectedBloodGroup == group ? .white : .primary)
+                    VStack(spacing: 12) {
+                        LazyVGrid(columns: columns, spacing: 12) {
+                            ForEach(orderedBloodGroups.filter { $0 != .unknown }, id: \.self) { group in
+                                Button(action: {
+                                    selectedBloodGroup = group
+                                }) {
+                                    Text(group.rawValue)
+                                        .font(.body)
+                                        .frame(maxWidth: .infinity)
+                                        .frame(height: 48)
+                                        .background(
+                                            RoundedRectangle(cornerRadius: 16)
+                                                .fill(selectedBloodGroup == group ? Color.blue : Color(.systemGray6))
+                                        )
+                                        .foregroundColor(selectedBloodGroup == group ? .white : .primary)
+                                }
                             }
+                        }
+                        
+                        Button(action: {
+                            selectedBloodGroup = .unknown
+                        }) {
+                            Text(BloodGroup.unknown.rawValue)
+                                .font(.body)
+                                .frame(maxWidth: .infinity)
+                                .frame(height: 48)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 16)
+                                        .fill(selectedBloodGroup == .unknown ? Color.blue : Color(.systemGray6))
+                                )
+                                .foregroundColor(selectedBloodGroup == .unknown ? .white : .primary)
                         }
                     }
                 }
@@ -139,7 +155,7 @@ struct MedicalProfileView: View {
         .safeAreaInset(edge: .bottom) {
             Button(action: {
                 if var patient {
-                    patient.bloodGroup = selectedBloodGroup ?? .aNegative
+                    patient.bloodGroup = selectedBloodGroup ?? .unknown
                     patient.height = Int(height) ?? 0
                     patient.weight = Int(weight) ?? 0
                     patient.allergies = allergies.isEmpty ? [] : allergies.components(separatedBy: ",").map { $0.trimmingCharacters(in: .whitespaces) }
@@ -173,13 +189,13 @@ struct MedicalProfileView: View {
     @State private var disorders: String = ""
 
     private let orderedBloodGroups: [BloodGroup] = [
-        .aPositive, .aNegative, .bPositive,
-        .bNegative, .abPositive, .abNegative,
-        .oPositive, .oNegative, .oh,
-        .na
+        .aPositive, .bPositive, .abPositive, .oPositive,
+        .aNegative, .bNegative, .abNegative, .oNegative,
+        .unknown
     ]
 
     private let columns = [
+        GridItem(.flexible()),
         GridItem(.flexible()),
         GridItem(.flexible()),
         GridItem(.flexible())

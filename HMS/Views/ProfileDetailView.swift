@@ -22,21 +22,21 @@ struct ProfileDetailView: View {
         List {
             // Profile Image Section
             Section {
-                VStack(spacing: 4) {
+                VStack(spacing: 8) {
                     ZStack(alignment: .bottomTrailing) {
                         if let selectedImage = selectedImage {
                             Image(uiImage: selectedImage)
                                 .resizable()
                                 .aspectRatio(contentMode: .fill)
-                                .frame(width: 80, height: 80)
+                                .frame(width: 100, height: 100)
                                 .clipShape(Circle())
                         } else {
                             Image(systemName: "person.circle.fill")
                                 .resizable()
                                 .aspectRatio(contentMode: .fill)
-                                .frame(width: 80, height: 80)
+                                .frame(width: 100, height: 100)
                                 .clipShape(Circle())
-                                .foregroundColor(.gray)
+                                .foregroundColor(Color(.systemGray4))
                         }
                         
                         Button(action: {
@@ -44,7 +44,7 @@ struct ProfileDetailView: View {
                         }) {
                             Image(systemName: "pencil.circle.fill")
                                 .resizable()
-                                .frame(width: 24, height: 24)
+                                .frame(width: 28, height: 28)
                                 .background(Color.white)
                                 .clipShape(Circle())
                                 .foregroundColor(.blue)
@@ -52,18 +52,23 @@ struct ProfileDetailView: View {
                     }
                     
                     Text(patient?.fullName ?? "")
-                        .font(.headline)
+                        .font(.title2)
+                        .fontWeight(.medium)
+                        .foregroundColor(.primary)
                 }
                 .frame(maxWidth: .infinity)
+                .padding(.vertical, 8)
                 .listRowBackground(Color(.systemGroupedBackground))
             }
-            .listRowInsets(EdgeInsets(top: 8, leading: 0, bottom: 8, trailing: 0))
+            .listRowInsets(EdgeInsets(top: 16, leading: 0, bottom: 16, trailing: 0))
             
             // Personal Information Section
             Section {
                 if isEditing {
                     TextField("Full Name", text: $editedFullName)
+                        .foregroundColor(.primary)
                     TextField("Email", text: $editedEmail)
+                        .foregroundColor(.primary)
                     DatePicker("Date of Birth", selection: $editedDateOfBirth, in: ...Date(), displayedComponents: .date)
                     Picker("Gender", selection: $selectedGender) {
                         Text("Male").tag("Male")
@@ -81,18 +86,23 @@ struct ProfileDetailView: View {
                         Text("O-").tag("O-")
                     }
                 } else {
-                    InfoRowView(title: "Full Name", value: patient?.fullName ?? "-")
-                    InfoRowView(title: "Email", value: patient?.emailAddress ?? "-")
-                    InfoRowView(title: "Date of Birth", value: formatDate(patient?.dateOfBirth))
-                    InfoRowView(title: "Gender", value: patient?.gender.rawValue ?? "-")
-                    InfoRowView(title: "Blood Group", value: patient?.bloodGroup.rawValue ?? "-")
+                    InfoRowView(title: "Full Name", value: patient?.fullName ?? "-", icon: "person")
+                    InfoRowView(title: "Email", value: patient?.emailAddress ?? "-", icon: "envelope")
+                    InfoRowView(title: "Date of Birth", value: formatDate(patient?.dateOfBirth), icon: "calendar")
+                    InfoRowView(title: "Gender", value: patient?.gender.rawValue ?? "-", icon: "person.2")
+                    InfoRowView(title: "Blood Group", value: patient?.bloodGroup.rawValue ?? "-", icon: "drop")
                 }
             } header: {
-                Label("Personal Information", systemImage: "person.fill")
-                    .foregroundColor(.gray)
-                    .textCase(nil)
-                    .font(.system(size: 16, weight: .regular))
+                HStack(spacing: 6) {
+                    Image(systemName: "person")
+                        .foregroundColor(Color(.systemGray))
+                    Text("PERSONAL INFORMATION")
+                        .font(.system(size: 13, weight: .regular))
+                        .foregroundColor(Color(.systemGray))
+                }
+                .padding(.bottom, 8)
             }
+            .listSectionSpacing(24)
             
             // Health Information Section
             Section {
@@ -100,58 +110,73 @@ struct ProfileDetailView: View {
                     HStack {
                         TextField("Height", text: $editedHeight)
                             .keyboardType(.numberPad)
+                            .foregroundColor(.primary)
                         Text("cm")
+                            .foregroundColor(.primary)
                     }
                     HStack {
                         TextField("Weight", text: $editedWeight)
                             .keyboardType(.numberPad)
+                            .foregroundColor(.primary)
                         Text("kg")
+                            .foregroundColor(.primary)
                     }
                 } else {
-                    InfoRowView(title: "Height", value: "\(patient?.height ?? 0) cm")
-                    InfoRowView(title: "Weight", value: "\(patient?.weight ?? 0) kg")
+                    InfoRowView(title: "Height", value: "\(patient?.height ?? 0) cm", icon: "ruler")
+                    InfoRowView(title: "Weight", value: "\(patient?.weight ?? 0) kg", icon: "scalemass")
                 }
             } header: {
-                Label("Health Information", systemImage: "heart.fill")
-                    .foregroundColor(.gray)
-                    .textCase(nil)
-                    .font(.system(size: 16, weight: .regular))
+                HStack(spacing: 6) {
+                    Image(systemName: "heart")
+                        .foregroundColor(Color(.systemGray))
+                    Text("HEALTH INFORMATION")
+                        .font(.system(size: 13, weight: .regular))
+                        .foregroundColor(Color(.systemGray))
+                }
+                .padding(.bottom, 8)
             }
+            .listSectionSpacing(24)
             
-            // Buttons Section
+            // Account Section
             Section {
                 Button(action: {
                     delegate?.showChangePassword()
                 }) {
                     HStack {
-                        Spacer()
+                        Image(systemName: "lock")
+                            .frame(width: 24)
+                            .foregroundColor(.primary)
                         Text("Change Password")
-                            .foregroundColor(.white)
+                            .foregroundColor(.primary)
                         Spacer()
+                        Image(systemName: "chevron.right")
+                            .foregroundColor(Color(.systemGray))
                     }
-                    .padding(.vertical, 12)
-                    .background(Color.blue)
-                    .cornerRadius(8)
                 }
-                .listRowBackground(Color.clear)
-                .listRowInsets(EdgeInsets(top: 4, leading: 0, bottom: 4, trailing: 0))
                 
                 Button(action: {
                     delegate?.logout()
                 }) {
                     HStack {
-                        Spacer()
+                        Image(systemName: "rectangle.portrait.and.arrow.right")
+                            .frame(width: 24)
+                            .foregroundColor(.red)
                         Text("Logout")
-                            .foregroundColor(.white)
+                            .foregroundColor(.red)
                         Spacer()
                     }
-                    .padding(.vertical, 12)
-                    .background(Color.red)
-                    .cornerRadius(8)
                 }
-                .listRowBackground(Color.clear)
-                .listRowInsets(EdgeInsets(top: 4, leading: 0, bottom: 4, trailing: 0))
+            } header: {
+                HStack(spacing: 6) {
+                    Image(systemName: "person.circle")
+                        .foregroundColor(Color(.systemGray))
+                    Text("ACCOUNT")
+                        .font(.system(size: 13, weight: .regular))
+                        .foregroundColor(Color(.systemGray))
+                }
+                .padding(.bottom, 8)
             }
+            .listSectionSpacing(24)
         }
         .listStyle(InsetGroupedListStyle())
         .sheet(isPresented: $showingImagePicker) {
