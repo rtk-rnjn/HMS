@@ -341,6 +341,39 @@ class DataController {
         return await fetchDoctor(bySpecialization: query)
     }
 
+    func updatePatient(with values: [String: Any]) async throws -> Bool {
+        guard let id = UserDefaults.standard.string(forKey: "patientId") else {
+            return false
+        }
+        
+        // Convert the values to proper types
+        var updatedPatient = Patient(
+            firstName: (values["fullName"] as? String)?.components(separatedBy: " ").first ?? "",
+            lastName: (values["fullName"] as? String)?.components(separatedBy: " ").dropFirst().joined(separator: " "),
+            emailAddress: values["emailAddress"] as? String ?? "",
+            password: patient?.password ?? "",
+            dateOfBirth: values["dateOfBirth"] as? Date ?? Date(),
+            gender: Gender(rawValue: values["gender"] as? String ?? "") ?? .other,
+            bloodGroup: BloodGroup(rawValue: values["bloodGroup"] as? String ?? "") ?? .na,
+            height: values["height"] as? Int ?? 0,
+            weight: values["weight"] as? Int ?? 0
+        )
+        updatedPatient.id = id
+        
+        guard let patientData = updatedPatient.toData() else {
+            return false
+        }
+
+        let response: ServerResponse? = await MiddlewareManager.shared.patch(url: "/patient/\(id)/update", body: patientData)
+        let success = response?.success ?? false
+        
+        if success {
+            self.patient = updatedPatient
+        }
+        
+        return success
+    }
+
     // MARK: Private
 
     private var accessToken: String = ""
