@@ -12,7 +12,7 @@ struct ReviewPopupView: View {
     @State private var rating: Int = 5
     @State private var reviewText: String = ""
     var onSubmit: (Int, String) -> Void
-    
+
     var body: some View {
         ZStack {
             // Overlay background
@@ -23,7 +23,7 @@ struct ReviewPopupView: View {
                         // Optional: close on outside tap
                         // isPresented = false
                     }
-                
+
                 // Popup content
                 VStack(spacing: 24) {
                     // Title
@@ -31,12 +31,12 @@ struct ReviewPopupView: View {
                         .font(.headline)
                         .fontWeight(.semibold)
                         .padding(.top, 8)
-                    
+
                     // Rating section
                     VStack(alignment: .leading, spacing: 12) {
                         Text("Score:")
                             .foregroundColor(.secondary)
-                        
+
                         // Star rating
                         HStack(spacing: 8) {
                             ForEach(1...5, id: \.self) { star in
@@ -49,12 +49,12 @@ struct ReviewPopupView: View {
                         }
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    
+
                     // Review text section
                     VStack(alignment: .leading, spacing: 12) {
                         Text("Review:")
                             .foregroundColor(.secondary)
-                        
+
                         ZStack(alignment: .topLeading) {
                             TextEditor(text: $reviewText)
                                 .frame(height: 100)
@@ -64,7 +64,7 @@ struct ReviewPopupView: View {
                                     RoundedRectangle(cornerRadius: 4)
                                         .stroke(Color(.systemGray4), lineWidth: 1)
                                 )
-                            
+
                             if reviewText.isEmpty {
                                 Text("Excellent Service!")
                                     .foregroundColor(.gray.opacity(0.5))
@@ -74,7 +74,7 @@ struct ReviewPopupView: View {
                         }
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    
+
                     // Buttons
                     HStack(spacing: 12) {
                         Button("Cancel") {
@@ -89,7 +89,7 @@ struct ReviewPopupView: View {
                             RoundedRectangle(cornerRadius: 8)
                                 .stroke(Color.blue, lineWidth: 1)
                         )
-                        
+
                         Button("Post") {
                             onSubmit(rating, reviewText)
                             isPresented = false
@@ -114,8 +114,9 @@ struct ReviewPopupView: View {
 
 // Usage example
 struct ReviewPopupExample: View {
-    @State private var showReview = false
-    
+
+    // MARK: Internal
+
     var body: some View {
         ZStack {
             // Your regular content
@@ -128,7 +129,7 @@ struct ReviewPopupExample: View {
                 .foregroundColor(.white)
                 .cornerRadius(8)
             }
-            
+
             // Review popup
             ReviewPopupView(isPresented: $showReview) { rating, review in
                 print("Rating: \(rating), Review: \(review)")
@@ -136,4 +137,9 @@ struct ReviewPopupExample: View {
             }
         }
     }
-} 
+
+    // MARK: Private
+
+    @State private var showReview = false
+
+}
