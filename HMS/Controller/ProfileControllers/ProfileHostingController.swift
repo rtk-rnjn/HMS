@@ -6,25 +6,27 @@
 
 import SwiftUI
 
-class ProfileHostingController: UIHostingController<PatientProfileView> {
+class ProfileHostingController: UIHostingController<ProfileDetailView> {
 
     // MARK: Lifecycle
 
     required init?(coder: NSCoder) {
-        super.init(coder: coder, rootView: PatientProfileView(patient: DataController.shared.patient))
+        let patient = DataController.shared.patient
+        super.init(coder: coder, rootView: ProfileDetailView(patient: patient))
+        rootView.delegate = self
     }
 
     // MARK: Internal
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        rootView.delegate = self
-
-        if let patient = DataController.shared.patient {
-            rootView.patient = patient
-        }
-
         navigationItem.title = "Profile"
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        // Update patient data when view appears
+        rootView.patient = DataController.shared.patient
     }
 
     func profileComplete() {

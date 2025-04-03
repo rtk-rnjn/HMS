@@ -49,9 +49,9 @@ struct PatientDetailsView: View {
                 }
 
                 VStack(alignment: .leading, spacing: 16) {
-                    InfoRow(title: "Age", value: "\(Calendar.current.dateComponents([.year], from: patient.dateOfBirth, to: Date()).year ?? 0) years")
-                    InfoRow(title: "Gender", value: patient.gender.rawValue)
-                    InfoRow(title: "Phone", value: "+1 (555) 123-4567")
+                    InfoRowView(title: "Age", value: "\(Calendar.current.dateComponents([.year], from: patient.dateOfBirth, to: Date()).year ?? 0) years")
+                    InfoRowView(title: "Gender", value: patient.gender.rawValue)
+                    InfoRowView(title: "Phone", value: "+1 (555) 123-4567")
                 }
                 .padding(.horizontal)
 
@@ -101,21 +101,4 @@ struct PatientDetailsView: View {
     // MARK: Private
 
     @State private var selectedTab = "Records"
-
-}
-
-struct InfoRow: View {
-    let title: String
-    let value: String
-
-    var body: some View {
-        HStack {
-            Text(title)
-                .foregroundColor(.gray)
-            Spacer()
-            Text(value)
-                .fontWeight(.medium)
-        }
-        .padding(.vertical, 8)
-    }
 }
