@@ -323,8 +323,9 @@ class DataController {
         return await MiddlewareManager.shared.get(url: "/reviews/\(id)")
     }
 
-
-
+    func searchDoctors(query: String) async -> [Staff]? {
+        return await fetchDoctor(bySpecialization: query)
+    }
 
     // MARK: Private
 

@@ -19,18 +19,43 @@ class DoctorsHostingController: UIHostingController<DoctorListView> {
     // MARK: Internal
 
     var specialization: String = ""
+    var isSearchMode: Bool = false
+    var searchQuery: String = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        navigationItem.title = specialization
+        if isSearchMode {
+            navigationItem.title = "Search Results"
+            loadDoctorsForSearch()
+        } else {
+            navigationItem.title = specialization
+            loadDoctorsForSpecialization()
+        }
+        
+        rootView.delegate = self
+    }
 
+    // MARK: Private
+    
+    private func loadDoctorsForSearch() {
         Task {
-            if let doctors = await DataController.shared.fetchDoctor(bySpecialization: specialization) {
-                rootView.filteredDoctors = doctors
+            if let doctors = await DataController.shared.searchDoctors(query: searchQuery) {
+                DispatchQueue.main.async {
+                    self.rootView.filteredDoctors = doctors
+                }
             }
         }
-        rootView.delegate = self
+    }
+    
+    private func loadDoctorsForSpecialization() {
+        Task {
+            if let doctors = await DataController.shared.fetchDoctor(bySpecialization: specialization) {
+                DispatchQueue.main.async {
+                    self.rootView.filteredDoctors = doctors
+                }
+            }
+        }
     }
 
     func doctorsComplete() {
