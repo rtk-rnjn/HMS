@@ -73,24 +73,24 @@ struct ReviewRow: View {
         VStack(alignment: .leading, spacing: 12) {
             HStack {
                 Text(review.patientId)
-                    .font(.system(size: 16, weight: .semibold))
+                    .font(.callout)
                     .foregroundColor(.primary)
 
                 Spacer()
 
                 Text(review.createdAt.formatted(date: .numeric, time: .omitted))
-                    .font(.system(size: 14))
+                    .font(.footnote)
                     .foregroundColor(.secondary)
             }
 
             Text(review.review)
-                .font(.system(size: 15))
+                .font(.footnote)
                 .foregroundColor(.secondary)
                 .fixedSize(horizontal: false, vertical: true)
 
             HStack(spacing: 4) {
                 Text(String(format: "%.1f", review.stars))
-                    .font(.system(size: 16, weight: .semibold))
+                    .font(.callout)
                     .foregroundColor(.primary)
                 Image(systemName: "star.fill")
                     .foregroundColor(.yellow)

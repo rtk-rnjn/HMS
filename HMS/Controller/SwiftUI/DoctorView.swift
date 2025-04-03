@@ -111,7 +111,7 @@ struct DoctorView: View {
                         Spacer()
                         VStack(spacing: 8) {
                             Image(systemName: "person.3.fill")
-                                .font(.system(size: 24))
+                                .font(.title2)
                                 .foregroundColor(Color("iconBlue"))
                             Text("0")
                                 .font(.title3)
@@ -126,7 +126,7 @@ struct DoctorView: View {
                         Spacer()
                         VStack(spacing: 8) {
                             Image(systemName: "clock.fill")
-                                .font(.system(size: 24))
+                                .font(.title2)
                                 .foregroundColor(Color("iconBlue"))
                             Text("\(doctor.yearOfExperience) yrs")
                                 .font(.title3)
@@ -141,7 +141,7 @@ struct DoctorView: View {
                         Spacer()
                         VStack(spacing: 8) {
                             Image(systemName: "star.fill")
-                                .font(.system(size: 24))
+                                .font(.title2)
                                 .foregroundColor(Color("iconBlue"))
                             Text("4.8")
                                 .font(.title3)
@@ -172,7 +172,7 @@ struct DoctorView: View {
                                 ForEach(dates, id: \.self) { date in
                                     let components = getDateComponents(date)
                                     Text(components.weekday)
-                                        .font(.system(size: 15))
+                                        .font(.subheadline)
                                         .foregroundColor(Color(UIColor.systemGray))
                                         .frame(width: 45)
                                 }
@@ -186,7 +186,7 @@ struct DoctorView: View {
                                         _ = timeSlots()
                                     }) {
                                         Text(components.day)
-                                            .font(.system(size: 20))
+                                            .font(.title3)
                                             .frame(width: 40, height: 40)
                                             .background(
                                                 Circle()
@@ -255,7 +255,7 @@ struct DoctorView: View {
 
                         NavigationLink(destination: ReviewsListView(doctor: doctor)) {
                             Text("See All")
-                                .font(.system(size: 16, weight: .medium))
+                                .font(.callout)
                                 .foregroundColor(.blue)
                         }
                     }
@@ -298,7 +298,7 @@ struct DoctorView: View {
             formatter.dateFormat = "HH:mm"
 
             return Text(formatter.string(from: timeSlot))
-                .font(.system(size: 16))
+                .font(.callout)
                 .fontWeight(.semibold)
                 .frame(width: 100, height: 40)
                 .background(
@@ -333,10 +333,10 @@ struct ReviewCard: View {
 
                 VStack(alignment: .leading, spacing: 4) {
                     Text(review.patientId)
-                        .font(.system(size: 16, weight: .semibold))
+                        .font(.callout)
 
                     Text(review.createdAt.formatted(date: .numeric, time: .omitted))
-                        .font(.system(size: 14))
+                        .font(.footnote)
                         .foregroundColor(.secondary)
                 }
 
@@ -344,14 +344,14 @@ struct ReviewCard: View {
 
                 HStack(spacing: 4) {
                     Text(String(format: "%.1f", review.stars))
-                        .font(.system(size: 16, weight: .semibold))
+                        .font(.callout)
                     Image(systemName: "star.fill")
                         .foregroundColor(.yellow)
                 }
             }
 
             Text(review.review)
-                .font(.system(size: 15))
+                .font(.subheadline)
                 .foregroundColor(.secondary)
                 .lineLimit(3)
         }

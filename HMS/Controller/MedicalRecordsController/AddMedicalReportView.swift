@@ -68,7 +68,7 @@ struct AddMedicalReportView: View {
 
                     VStack(alignment: .leading, spacing: 8) {
                         Text("Report Type")
-                            .font(.system(size: 17, weight: .semibold))
+                            .font(.headline)
 
                         Menu {
                             ForEach(ReportType.allCases, id: \.self) { type in
@@ -102,7 +102,7 @@ struct AddMedicalReportView: View {
                             Image(systemName: "text.quote")
                                 .foregroundColor(.blue)
                             Text("Description")
-                                .font(.system(size: 17, weight: .semibold))
+                                .font(.headline)
                         }
 
                         TextEditor(text: $viewModel.description)
@@ -118,7 +118,7 @@ struct AddMedicalReportView: View {
 
                     VStack(alignment: .leading, spacing: 8) {
                         Text("Report Date")
-                            .font(.system(size: 17, weight: .semibold))
+                            .font(.headline)
 
                         DatePicker("", selection: $viewModel.date, displayedComponents: [.date, .hourAndMinute])
                             .datePickerStyle(.compact)
@@ -138,7 +138,7 @@ struct AddMedicalReportView: View {
                             Image(systemName: "photo")
                                 .foregroundColor(.blue)
                             Text("Attachments")
-                                .font(.system(size: 17, weight: .semibold))
+                                .font(.headline)
                         }
 
                         if let selectedImage = viewModel.selectedImage {
@@ -185,7 +185,7 @@ struct AddMedicalReportView: View {
                         }
                     }) {
                         Text("Submit Report")
-                            .font(.system(size: 17, weight: .semibold))
+                            .font(.headline)
                             .foregroundColor(.white)
                             .frame(maxWidth: .infinity)
                             .padding()

@@ -61,15 +61,15 @@ struct DoctorCard: View {
                 VStack(alignment: .leading, spacing: 4) {
 
                     Text(doctor.fullName)
-                        .font(.system(size: 17, weight: .semibold))
+                        .font(.headline)
                         .foregroundColor(.primary)
 
                     Text(doctor.department)
-                        .font(.system(size: 14, weight: .regular))
+                        .font(.footnote)
                         .foregroundColor(.secondary)
 
                     Text(doctor.specialization)
-                        .font(.system(size: 14, weight: .regular))
+                        .font(.footnote)
                         .foregroundColor(.secondary)
                 }
 
