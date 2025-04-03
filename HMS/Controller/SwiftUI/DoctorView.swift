@@ -224,9 +224,10 @@ struct DoctorView: View {
                 // Continue Button
                 Button(action: {
                     Task {
+                        let patient = DataController.shared.patient
                         let startDate = mergeDateAndTime(selectedDate: selectedDate, selectedTimeSlot: selectedTimeSlot)!
                         let appointment = Appointment(
-                            patientId: "",
+                            patientId: patient?.id ?? "",
                             doctorId: doctor.id,
                             doctor: doctor,
                             startDate: startDate,
@@ -234,7 +235,6 @@ struct DoctorView: View {
                         )
 
                         let shortURL = await DataController.shared.razorpayBookAppointment(appointment)
-//                        print(shortURL)
                         DispatchQueue.main.async {
                             guard let url = URL(string: shortURL) else {
                                 fatalError()
