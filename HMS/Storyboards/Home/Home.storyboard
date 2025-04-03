@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="9nK-A2-ilp">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="9nK-A2-ilp">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--Notifications-->
         <scene sceneID="n2Q-ht-fTT">
             <objects>
-                <viewControllerPlaceholder storyboardName="Notifications" id="k7h-eb-pfL" sceneMemberID="viewController"/>
+                <viewControllerPlaceholder storyboardName="Notifications" id="k7h-eb-pfL" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="f6k-m6-m6f"/>
+                </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gXC-2c-XPv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3812" y="411"/>
@@ -21,7 +23,7 @@
                     <tabBarItem key="tabBarItem" title="Home" image="house" catalog="system" id="jlZ-te-xbj"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="lr4-Qu-2ap">
-                        <rect key="frame" x="0.0" y="59" width="393" height="96"/>
+                        <rect key="frame" x="0.0" y="118" width="393" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -40,7 +42,7 @@
                     <navigationItem key="navigationItem" title="Hello!" id="g4C-iQ-RvX">
                         <barButtonItem key="rightBarButtonItem" image="bell.fill" catalog="system" style="done" id="1Xn-rP-35n">
                             <connections>
-                                <segue destination="k7h-eb-pfL" kind="presentation" id="MJD-oX-Ykn"/>
+                                <segue destination="k7h-eb-pfL" kind="show" id="Pl1-0Y-PWK"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>

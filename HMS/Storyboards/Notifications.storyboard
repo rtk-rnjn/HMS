@@ -1,34 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="lrJ-Ct-aGK">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ath-st-l0X">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
-        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
     </dependencies>
     <scenes>
-        <!--Navigation Controller-->
-        <scene sceneID="hDk-c0-MdE">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="lrJ-Ct-aGK" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="jTl-2s-huj">
-                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="ath-st-l0X" kind="relationship" relationship="rootViewController" id="WeJ-I9-6nW"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Bfi-4x-Mv9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="130.53435114503816" y="-28.169014084507044"/>
-        </scene>
-        <!--Hosting Controller-->
+        <!--Notifications-->
         <scene sceneID="7R3-at-GbJ">
             <objects>
-                <hostingController id="ath-st-l0X" sceneMemberID="viewController">
-                    <navigationItem key="navigationItem" id="d0s-eG-zPq"/>
+                <hostingController id="ath-st-l0X" customClass="AnnouncementHostingController" customModule="HMS" customModuleProvider="target" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" title="Notifications" largeTitleDisplayMode="never" id="d0s-eG-zPq"/>
                 </hostingController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LQt-DH-Twk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
