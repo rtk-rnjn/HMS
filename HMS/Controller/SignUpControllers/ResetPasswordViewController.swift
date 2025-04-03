@@ -76,13 +76,13 @@ class ResetPasswordViewController: UIViewController {
         emailTextField.isEnabled = !isValidEmail
         otpTextField.isEnabled = true
 
-        showAlert(error: "Alert", message: "OTP sent to your email")
+        showAlert(error: "Success", message: "OTP has been sent to your email")
 
         Task {
             let otpSent = await DataController.shared.requestOtp(emailAddress: email)
             DispatchQueue.main.async {
                 if !otpSent {
-                    self.showAlert(message: "Failed to send OTP")
+                    self.showAlert(error: "Error",message: "Failed to send OTP")
                 }
             }
         }
@@ -92,7 +92,7 @@ class ResetPasswordViewController: UIViewController {
     // MARK: Private
 
     private func showAlert(error: String = "Error", message: String) {
-        let alert = Utils.getAlert(title: "Error", message: message)
+        let alert = Utils.getAlert(title: "", message: message)
         present(alert, animated: true, completion: nil)
     }
 
