@@ -11,13 +11,10 @@ class SearchViewController: UIViewController, UISearchBarDelegate {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        searchBar.becomeFirstResponder() // Show keyboard automatically
+        searchBar.becomeFirstResponder()
     }
 
-    // UISearchBarDelegate
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        // You can implement the search functionality here later
-    }
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {}
 
     // MARK: Private
 
@@ -40,11 +37,9 @@ class SearchViewController: UIViewController, UISearchBarDelegate {
         title = "Search"
         navigationItem.largeTitleDisplayMode = .never
 
-        // Add search bar and table view
         view.addSubview(searchBar)
         view.addSubview(resultsTableView)
 
-        // Setup constraints
         NSLayoutConstraint.activate([
             searchBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             searchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -56,10 +51,8 @@ class SearchViewController: UIViewController, UISearchBarDelegate {
             resultsTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
 
-        // Also update table view background color to match
         resultsTableView.backgroundColor = .systemGroupedBackground
 
-        // Setup delegates
         searchBar.delegate = self
     }
 

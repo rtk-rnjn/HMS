@@ -1,8 +1,7 @@
 //
-//  AddMedicalReportView.swift
-//  HMS
+
 //
-//  Created by RITIK RANJAN on 31/03/25.
+
 //
 
 import SwiftUI
@@ -66,7 +65,7 @@ struct AddMedicalReportView: View {
         NavigationView {
             ScrollView {
                 VStack(spacing: 24) {
-                    // Report Type Section
+
                     VStack(alignment: .leading, spacing: 8) {
                         Text("Report Type")
                             .font(.system(size: 17, weight: .semibold))
@@ -98,56 +97,11 @@ struct AddMedicalReportView: View {
                         }
                     }
 
-                    // Status Section
-                    VStack(alignment: .leading, spacing: 8) {
-                        HStack {
-                            Image(systemName: "circle.fill")
-                                .foregroundColor(viewModel.status.color)
-                            Text("Status")
-                                .font(.system(size: 17, weight: .semibold))
-                        }
-
-                        Menu {
-                            ForEach(ReportStatus.allCases, id: \.self) { status in
-                                Button(action: {
-                                    viewModel.status = status
-                                }) {
-                                    HStack {
-                                        Circle()
-                                            .fill(status.color)
-                                            .frame(width: 8, height: 8)
-                                        Text(status.rawValue)
-                                    }
-                                }
-                            }
-                        } label: {
-                            HStack {
-                                Circle()
-                                    .fill(viewModel.status.color)
-                                    .frame(width: 8, height: 8)
-                                Text(viewModel.status.rawValue)
-                                    .foregroundColor(.primary)
-                                Spacer()
-                                Image(systemName: "chevron.down")
-                                    .foregroundColor(.secondary)
-                            }
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .background(Color(.systemBackground))
-                            .cornerRadius(10)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 10)
-                                    .stroke(Color(.systemGray4), lineWidth: 1)
-                            )
-                        }
-                    }
-
-                    // Description Section
                     VStack(alignment: .leading, spacing: 8) {
                         HStack {
                             Image(systemName: "text.quote")
                                 .foregroundColor(.blue)
-                            Text("Doctor's Notes")
+                            Text("Description")
                                 .font(.system(size: 17, weight: .semibold))
                         }
 
@@ -162,7 +116,6 @@ struct AddMedicalReportView: View {
                             )
                     }
 
-                    // Report Date Section
                     VStack(alignment: .leading, spacing: 8) {
                         Text("Report Date")
                             .font(.system(size: 17, weight: .semibold))
@@ -180,7 +133,6 @@ struct AddMedicalReportView: View {
                             )
                     }
 
-                    // Attachments Section
                     VStack(alignment: .leading, spacing: 8) {
                         HStack {
                             Image(systemName: "photo")
@@ -224,7 +176,6 @@ struct AddMedicalReportView: View {
                         }
                     }
 
-                    // Submit Button
                     Button(action: {
                         Task {
                             if await viewModel.submitReport() {
@@ -259,7 +210,6 @@ struct AddMedicalReportView: View {
     }
 }
 
-// ViewModel
 class AddMedicalReportViewModel: ObservableObject {
 
     // MARK: Internal
@@ -307,17 +257,14 @@ class AddMedicalReportViewModel: ObservableObject {
 
 }
 
-// Report Types
 enum ReportType: String, CaseIterable {
     case labReport = "Lab Report"
-    case prescription = "Prescription"
     case diagnosis = "Diagnosis"
     case imaging = "Imaging"
     case vaccination = "Vaccination"
     case other = "Other"
 }
 
-// Report Status
 enum ReportStatus: String, CaseIterable {
     case completed = "Completed"
     case pending = "Pending"

@@ -42,18 +42,18 @@ class MedicalInformationTableViewController: UIViewController {
                 }
 
                 Task {
-                    // Create the patient first
+
                     let success = await DataController.shared.createPatient(patient: patient)
 
                     DispatchQueue.main.async {
                         if success {
-                            // If patient creation is successful, try to log in
+
                             Task {
                                 let loginSuccess = await DataController.shared.login(emailAddress: patient.emailAddress, password: patient.password)
 
                                 DispatchQueue.main.async {
                                     if loginSuccess {
-                                        // Navigate to Initial storyboard
+
                                         if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
                                            let window = windowScene.windows.first {
                                             let storyboard = UIStoryboard(name: "Initial", bundle: nil)
@@ -80,12 +80,10 @@ class MedicalInformationTableViewController: UIViewController {
         let hostingController = UIHostingController(rootView: medicalProfileView)
         self.hostingController = hostingController
 
-        // Add the hosting controller as a child
         addChild(hostingController)
         view.addSubview(hostingController.view)
         hostingController.view.translatesAutoresizingMaskIntoConstraints = false
 
-        // Set up constraints
         NSLayoutConstraint.activate([
             hostingController.view.topAnchor.constraint(equalTo: view.topAnchor),
             hostingController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -116,18 +114,18 @@ class MedicalInformationTableViewController: UIViewController {
                 }
 
                 Task {
-                    // Create the patient first
+
                     let success = await DataController.shared.createPatient(patient: patient)
 
                     DispatchQueue.main.async {
                         if success {
-                            // If patient creation is successful, try to log in
+
                             Task {
                                 let loginSuccess = await DataController.shared.login(emailAddress: patient.emailAddress, password: patient.password)
 
                                 DispatchQueue.main.async {
                                     if loginSuccess {
-                                        // Navigate to Initial storyboard
+
                                         if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
                                            let window = windowScene.windows.first {
                                             let storyboard = UIStoryboard(name: "Initial", bundle: nil)

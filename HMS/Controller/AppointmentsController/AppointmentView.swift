@@ -1,8 +1,7 @@
 //
-//  AppointmentView.swift
-//  HMS
+
 //
-//  Created by RITIK RANJAN on 28/03/25.
+
 //
 
 import SwiftUI
@@ -52,7 +51,7 @@ struct AppointmentView: View {
             }
         }
         .onAppear {
-            // Refresh the appointments when the view appears
+
             delegate?.refreshAppointments()
         }
     }
@@ -61,7 +60,7 @@ struct AppointmentView: View {
 
     private var sortedAppointments: [Appointment] {
         appointments.sorted {
-            // Sort future appointments first, then by date
+
             if $0.startDate >= Date() && $1.startDate < Date() {
                 return true
             } else if $0.startDate < Date() && $1.startDate >= Date() {

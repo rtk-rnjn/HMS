@@ -37,7 +37,7 @@ struct PatientDetailsView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 24) {
-                // Profile Image and Name
+
                 VStack {
                     Image(systemName: "person.circle.fill")
                         .resizable()
@@ -48,7 +48,6 @@ struct PatientDetailsView: View {
                         .fontWeight(.bold)
                 }
 
-                // Basic Information
                 VStack(alignment: .leading, spacing: 16) {
                     InfoRow(title: "Age", value: "\(Calendar.current.dateComponents([.year], from: patient.dateOfBirth, to: Date()).year ?? 0) years")
                     InfoRow(title: "Gender", value: patient.gender.rawValue)
@@ -56,7 +55,6 @@ struct PatientDetailsView: View {
                 }
                 .padding(.horizontal)
 
-                // Basic Info Cards
                 Text("Basic Info")
                     .font(.title2)
                     .fontWeight(.bold)
@@ -70,7 +68,6 @@ struct PatientDetailsView: View {
                 }
                 .padding(.horizontal)
 
-                // Records Tabs
                 HStack {
                     ForEach(["Records", "Medications", "Lab Results", "Notes"], id: \.self) { tab in
                         Button(action: {

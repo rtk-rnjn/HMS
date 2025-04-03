@@ -1,8 +1,7 @@
 //
-//  AppointmentHostingController.swift
-//  HMS
+
 //
-//  Created by RITIK RANJAN on 28/03/25.
+
 //
 
 import SwiftUI
@@ -37,7 +36,6 @@ class AppointmentHostingController: UIHostingController<AppointmentView>, UISear
         prepareSearchController()
         loadAppointments()
 
-        // Add observer for showing appointment details from home view
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(handleShowAppointmentDetail(_:)),
@@ -46,17 +44,13 @@ class AppointmentHostingController: UIHostingController<AppointmentView>, UISear
         )
     }
 
-    func updateSearchResults(for searchController: UISearchController) {
-        // Handle search
-    }
+    func updateSearchResults(for searchController: UISearchController) {}
 
     func showAppointmentDetails(_ appointment: Appointment) {
         let detailView = AppointmentDetailView(appointment: appointment, delegate: self)
         let detailVC = UIHostingController(rootView: detailView)
         navigationController?.pushViewController(detailVC, animated: true)
     }
-
-    // MARK: - AppointmentDetailDelegate
 
     func refreshAppointments() {
         loadAppointments()

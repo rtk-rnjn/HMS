@@ -11,15 +11,14 @@ struct AppointmentDetailView: View {
     @State private var showingCancelAlert = false
     @State private var showingErrorAlert = false
 
-    // Custom colors
     let customBlue: Color = .init(red: 0.27, green: 0.45, blue: 1.0)
 
     var body: some View {
         ScrollView {
             VStack(spacing: 20) {
-                // Doctor Profile Section
+
                 VStack(spacing: 12) {
-                    // Profile Card
+
                     VStack(spacing: 8) {
                         Circle()
                             .fill(Color(UIColor.systemGray4))
@@ -47,7 +46,6 @@ struct AppointmentDetailView: View {
                     .cornerRadius(16)
                     .shadow(color: Color.black.opacity(0.05), radius: 8, x: 0, y: 2)
 
-                    // Stats Section
                     HStack {
                         Spacer()
                         VStack(spacing: 8) {
@@ -100,7 +98,6 @@ struct AppointmentDetailView: View {
                 }
                 .padding(.horizontal)
 
-                // Appointment Details Card
                 VStack(alignment: .leading, spacing: 16) {
                     Text("Appointment Details")
                         .font(.title3)
@@ -131,7 +128,6 @@ struct AppointmentDetailView: View {
 
                 Spacer(minLength: 20)
 
-                // Cancel Button
                 Button(action: {
                     showingCancelAlert = true
                 }) {
@@ -175,8 +171,6 @@ struct AppointmentDetailView: View {
         }
     }
 }
-
-// MARK: - Supporting Views
 
 struct AppointmentDetailRow: View {
     let icon: String

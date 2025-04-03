@@ -1,8 +1,7 @@
 //
-//  HomeHostingController.swift
-//  HMS
+
 //
-//  Created by RITIK RANJAN on 28/03/25.
+
 //
 
 import SwiftUI
@@ -35,15 +34,8 @@ class HomeHostingController: UIHostingController<DashboardView>, UISearchBarDele
         super.viewDidLoad()
         rootView.delegate = self
 
-        // Configure back button to show only arrow
         navigationItem.backButtonTitle = ""
         navigationController?.navigationBar.topItem?.backButtonTitle = ""
-
-        // Set up the dashboard with specializations and appointments
-        Task {
-            await loadSpecializations()
-            await loadAppointments()
-        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -52,17 +44,11 @@ class HomeHostingController: UIHostingController<DashboardView>, UISearchBarDele
         navigationItem.title = "Home"
         rootView.delegate = self
 
-        Task {
-            if let staffs = await DataController.shared.fetchDoctor(bySpecialization: "") {
-                let specializations = staffs.map { $0.specialization }
-                rootView.departments = specializations.map { Department(name: $0) }
-            }
-        }
         prepareSearchController()
 
         Task {
-            let appointments = await DataController.shared.fetchAppointments()
-            self.rootView.appointments = appointments
+            await loadDepartments()
+            await loadAppointments()
         }
     }
 
@@ -70,33 +56,28 @@ class HomeHostingController: UIHostingController<DashboardView>, UISearchBarDele
         if segue.identifier == "segueShowDoctorsHostingController" {
             let destination = segue.destination as? DoctorsHostingController
             if let specialization = sender as? Department {
-                destination?.specialization = specialization.name
+                destination?.department = specialization.name
             } else if let searchText = sender as? String {
                 destination?.searchQuery = searchText
                 destination?.isSearchMode = true
             }
-        } else if segue.identifier == "segueShowAppointmentsViewController" {
-            // No need to pass any data as the appointments view controller will fetch its own data
-        }
+        } else if segue.identifier == "segueShowAppointmentsViewController" {}
     }
 
     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
-        // Push the search view controller onto the navigation stack
+
         let searchVC = SearchViewController()
         navigationController?.pushViewController(searchVC, animated: true)
-        return false // Prevent the search bar from becoming first responder
+        return false
     }
 
     func updateSearchResults(for searchController: UISearchController) {}
 
-    // MARK: - DashboardViewDelegate
-
     func showAppointmentDetails(_ appointment: Appointment) {
-        // Switch to the Appointments tab
-        if let tabBarController {
-            tabBarController.selectedIndex = 1 // Index of the Appointments tab
 
-            // Notify the AppointmentHostingController to show the details
+        if let tabBarController {
+            tabBarController.selectedIndex = 1
+
             NotificationCenter.default.post(
                 name: NSNotification.Name("ShowAppointmentDetail"),
                 object: appointment
@@ -118,7 +99,7 @@ class HomeHostingController: UIHostingController<DashboardView>, UISearchBarDele
         navigationItem.hidesSearchBarWhenScrolling = false
     }
 
-    private func loadSpecializations() async {
+    private func loadDepartments() async {
         if let staffs = await DataController.shared.fetchDoctors() {
             let departments = staffs.map { $0.department }
             let uniqueDepartments = Array(Set(departments)).sorted()

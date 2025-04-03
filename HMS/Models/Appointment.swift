@@ -1,8 +1,7 @@
 //
-//  Appointment.swift
-//  HMS
+
 //
-//  Created by RITIK RANJAN on 26/03/25.
+
 //
 
 import Foundation

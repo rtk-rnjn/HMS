@@ -1,8 +1,7 @@
 //
-//  AnnouncementView.swift
-//  HMS
+
 //
-//  Created by RITIK RANJAN on 01/04/25.
+
 //
 
 import SwiftUI

@@ -1,8 +1,7 @@
 //
-//  DashboardView.swift
-//  HMS
+
 //
-//  Created by RITIK RANJAN on 28/03/25.
+
 //
 
 import SwiftUI
@@ -30,17 +29,16 @@ struct DashboardView: View {
 
         ScrollView {
             VStack(alignment: .leading, spacing: 24) {
-                // Specializations Section
+
                 SpecializationsSection(
-                    specializations: departments,
-                    onTap: { specialization in
+                    departments: departments,
+                    onTap: { department in
                         if let homeController = delegate as? HomeHostingController {
-                            homeController.performSegue(withIdentifier: "segueShowDoctorsHostingController", sender: specialization)
+                            homeController.performSegue(withIdentifier: "segueShowDoctorsHostingController", sender: department)
                         }
                     }
                 )
 
-                // My Appointments Section
                 VStack(alignment: .leading, spacing: 16) {
                     HStack {
                         Text("Today's Appointments")
@@ -91,7 +89,6 @@ struct DashboardView: View {
                     }
                 }
 
-                // Quick Actions Section
                 QuickActionsSection()
             }
             .padding(.vertical)
@@ -105,8 +102,8 @@ struct DashboardView: View {
     }
 }
 
-struct SpecializationCard: View {
-    let specialization: Department
+struct DepartmentCard: View {
+    let department: Department
 
     var body: some View {
         VStack {
@@ -116,15 +113,14 @@ struct SpecializationCard: View {
                 .fill(Color("iconBlue"))
                 .frame(width: 46, height: 46)
                 .overlay(
-                    Image(systemName: specialization.image)
+                    Image(systemName: department.image)
                         .font(.system(size: 20, weight: .medium))
                         .foregroundColor(.white)
                 )
 
             Spacer()
 
-            // Title
-            Text(specialization.name)
+            Text(department.name)
                 .font(.system(size: 13, weight: .medium))
                 .foregroundColor(.primary)
                 .multilineTextAlignment(.center)
@@ -142,7 +138,7 @@ struct SpecializationCard: View {
 }
 
 struct SpecializationsSection: View {
-    let specializations: [Department]
+    let departments: [Department]
     let onTap: (Department) -> Void
 
     var body: some View {
@@ -154,10 +150,10 @@ struct SpecializationsSection: View {
 
             ScrollView(.horizontal, showsIndicators: false) {
                 LazyHStack(spacing: 12) {
-                    ForEach(specializations) { specialization in
-                        SpecializationCard(specialization: specialization)
+                    ForEach(departments) { department in
+                        DepartmentCard(department: department)
                             .onTapGesture {
-                                onTap(specialization)
+                                onTap(department)
                             }
                     }
                 }
@@ -245,7 +241,7 @@ struct BookAppointmentView: View {
 
         ScrollView {
             VStack(spacing: 20) {
-                // Date Selection
+
                 DatePicker(
                     "Select Date",
                     selection: $selectedDate,

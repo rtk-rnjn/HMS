@@ -72,7 +72,7 @@ struct ReviewRow: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack {
-                Text(review.patientId) // TODO: Fetch Patient
+                Text(review.patientId)
                     .font(.system(size: 16, weight: .semibold))
                     .foregroundColor(.primary)
 

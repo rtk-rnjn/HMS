@@ -1,8 +1,7 @@
 //
-//  OnboardingView.swift
-//  HMS
+
 //
-//  Created by Dhruvi on 20/03/25.
+
 //
 import Foundation
 import SwiftUI
@@ -72,7 +71,7 @@ struct OnboardingView: View {
                    }
                }.padding(.bottom)
             }
-            // MARK: - Next and Get Started Button
+
             Button(action: {
                 if isLastPage {
                     isOnboardingComplete = true

@@ -1,8 +1,7 @@
 //
-//  ReviewPopupView.swift
-//  HMS
+
 //
-//  Created on 01/05/25.
+
 //
 
 import SwiftUI
@@ -15,29 +14,23 @@ struct ReviewPopupView: View {
 
     var body: some View {
         ZStack {
-            // Overlay background
+
             if isPresented {
                 Color.black.opacity(0.4)
                     .ignoresSafeArea()
-                    .onTapGesture {
-                        // Optional: close on outside tap
-                        // isPresented = false
-                    }
+                    .onTapGesture {}
 
-                // Popup content
                 VStack(spacing: 24) {
-                    // Title
+
                     Text("WRITE A REVIEW")
                         .font(.headline)
                         .fontWeight(.semibold)
                         .padding(.top, 8)
 
-                    // Rating section
                     VStack(alignment: .leading, spacing: 12) {
                         Text("Score:")
                             .foregroundColor(.secondary)
 
-                        // Star rating
                         HStack(spacing: 8) {
                             ForEach(1...5, id: \.self) { star in
                                 Image(systemName: star <= rating ? "star.fill" : "star")
@@ -50,7 +43,6 @@ struct ReviewPopupView: View {
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
 
-                    // Review text section
                     VStack(alignment: .leading, spacing: 12) {
                         Text("Review:")
                             .foregroundColor(.secondary)
@@ -75,7 +67,6 @@ struct ReviewPopupView: View {
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
 
-                    // Buttons
                     HStack(spacing: 12) {
                         Button("Cancel") {
                             isPresented = false
@@ -112,14 +103,13 @@ struct ReviewPopupView: View {
     }
 }
 
-// Usage example
 struct ReviewPopupExample: View {
 
     // MARK: Internal
 
     var body: some View {
         ZStack {
-            // Your regular content
+
             VStack {
                 Button("Show Review Popup") {
                     showReview = true
@@ -130,10 +120,9 @@ struct ReviewPopupExample: View {
                 .cornerRadius(8)
             }
 
-            // Review popup
             ReviewPopupView(isPresented: $showReview) { rating, review in
                 print("Rating: \(rating), Review: \(review)")
-                // Handle submission here
+
             }
         }
     }

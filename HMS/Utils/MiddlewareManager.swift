@@ -1,13 +1,12 @@
 //
-//  MiddlewareManager.swift
-//  HMS-Doctor
+
 //
-//  Created by RITIK RANJAN on 19/03/25.
+
 //
 
 import Foundation
 
-private let endpoint = "http://13.233.139.216:8080"
+private let endpoint = "http://localhost:8080"
 
 actor MiddlewareManager {
 
@@ -58,7 +57,7 @@ actor MiddlewareManager {
         request.httpMethod = method
         if let body {
             request.httpBody = body
-            // Print the request body for debugging
+
             if let jsonString = String(data: body, encoding: .utf8) {
                 Utils.logger.debug("Request Data: \(jsonString)")
             }

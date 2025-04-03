@@ -9,7 +9,7 @@ struct AppointmentDetailCard: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack(alignment: .top) {
-                // Doctor info
+
                 VStack(alignment: .leading, spacing: 4) {
                     Text(appointment.doctor?.fullName ?? "Unknown Doctor")
                         .font(.system(size: 17, weight: .semibold))
@@ -22,7 +22,6 @@ struct AppointmentDetailCard: View {
 
                 Spacer()
 
-                // Date and time
                 VStack(alignment: .trailing, spacing: 4) {
                     Text(formattedDate())
                         .font(.system(size: 15, weight: .medium))
@@ -34,7 +33,6 @@ struct AppointmentDetailCard: View {
                 }
             }
 
-            // Status pill - bottom right
             HStack {
                 Spacer()
                 Text(appointment.status.rawValue)

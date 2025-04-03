@@ -1,8 +1,7 @@
 //
-//  DataController.swift
-//  HMS
+
 //
-//  Created by RITIK RANJAN on 23/03/25.
+
 //
 
 import Foundation
@@ -157,6 +156,8 @@ class DataController {
 
         return staffs
     }
+
+    
 
     func fetchPatient(byId id: String) async -> Patient? {
         return await MiddlewareManager.shared.get(url: "/patient/\(id)")

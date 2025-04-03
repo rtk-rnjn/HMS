@@ -1,8 +1,7 @@
 //
-//  Patient.swift
-//  HMS
+
 //
-//  Created by RITIK RANJAN on 19/03/25.
+
 //
 
 import Foundation

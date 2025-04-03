@@ -1,8 +1,7 @@
 //
-//  DoctorsHostingController.swift
-//  HMS
+
 //
-//  Created by RITIK RANJAN on 28/03/25.
+
 //
 
 import SwiftUI
@@ -18,7 +17,7 @@ class DoctorsHostingController: UIHostingController<DoctorListView> {
 
     // MARK: Internal
 
-    var specialization: String = ""
+    var department: String = ""
     var isSearchMode: Bool = false
     var searchQuery: String = ""
 
@@ -29,7 +28,7 @@ class DoctorsHostingController: UIHostingController<DoctorListView> {
             navigationItem.title = "Search Results"
             loadDoctorsForSearch()
         } else {
-            navigationItem.title = specialization
+            navigationItem.title = department
             loadDoctorsForSpecialization()
         }
 
@@ -73,7 +72,7 @@ class DoctorsHostingController: UIHostingController<DoctorListView> {
 
     private func loadDoctorsForSpecialization() {
         Task {
-            if let doctors = await DataController.shared.fetchDoctor(bySpecialization: specialization) {
+            if let doctors = await DataController.shared.fetchDoctor(bySpecialization: department) {
                 DispatchQueue.main.async {
                     self.rootView.filteredDoctors = doctors
                 }

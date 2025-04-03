@@ -1,8 +1,7 @@
 //
-//  DoctorListView.swift
-//  HMS
+
 //
-//  Created by RITIK RANJAN on 28/03/25.
+
 //
 
 import SwiftUI
@@ -17,9 +16,9 @@ struct DoctorListView: View {
     var body: some View {
 
         ZStack {
-            // Background color that covers the entire screen
+
             Color(.systemGroupedBackground).edgesIgnoringSafeArea(.all)
-            // Main content
+
             VStack(alignment: .leading, spacing: 0) {
                 ScrollView {
                     VStack(spacing: 16) {
@@ -47,7 +46,7 @@ struct DoctorCard: View {
     var body: some View {
         NavigationLink(destination: DoctorView(doctor: doctor)) {
             HStack(spacing: 12) {
-                // Profile image
+
                 Image(systemName: "person.circle.fill")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
@@ -60,12 +59,11 @@ struct DoctorCard: View {
                     )
 
                 VStack(alignment: .leading, spacing: 4) {
-                    // Name
+
                     Text(doctor.fullName)
                         .font(.system(size: 17, weight: .semibold))
                         .foregroundColor(.primary)
 
-                    // Department and specialization
                     Text(doctor.department)
                         .font(.system(size: 14, weight: .regular))
                         .foregroundColor(.secondary)
@@ -77,7 +75,6 @@ struct DoctorCard: View {
 
                 Spacer()
 
-                // Status indicator - small dot instead of badge for cleaner list
                 Circle()
                     .fill(doctor.onLeave ? Color.orange : Color.green)
                     .frame(width: 10, height: 10)

@@ -1,8 +1,7 @@
 //
-//  ChangePasswordTableViewController.swift
-//  HMS
+
 //
-//  Created by RITIK RANJAN on 22/03/25.
+
 //
 
 import UIKit
@@ -75,7 +74,7 @@ class ChangePasswordTableViewController: UITableViewController {
 
            textField.rightView = eyeButton
            textField.rightViewMode = .always
-           textField.isSecureTextEntry = true // Ensure secure entry initially
+           textField.isSecureTextEntry = true
        }
 
        @objc private func togglePasswordVisibility(_ sender: UIButton) {

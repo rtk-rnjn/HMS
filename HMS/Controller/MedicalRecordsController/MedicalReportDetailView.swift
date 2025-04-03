@@ -1,8 +1,7 @@
 //
-//  MedicalReportDetailView.swift
-//  HMS
+
 //
-//  Created by RITIK RANJAN on 31/03/25.
+
 //
 
 import SwiftUI
@@ -154,7 +153,6 @@ struct MedicalReportDetailView: View {
     private func prepareShareContent() -> [Any] {
         var items: [Any] = []
 
-        // Create text content
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .full
         dateFormatter.timeStyle = .short
@@ -172,7 +170,6 @@ struct MedicalReportDetailView: View {
 
         items.append(reportText)
 
-        // Add image if available
         if let image = report.image {
             items.append(image)
         }
@@ -181,7 +178,7 @@ struct MedicalReportDetailView: View {
     }
 
     private func deleteReport() {
-        // Implement delete logic here
+
         dismiss()
     }
 
@@ -205,7 +202,6 @@ struct InfoCell: View {
     }
 }
 
-// ShareSheet UIViewControllerRepresentable
 struct ShareSheet: UIViewControllerRepresentable {
     let activityItems: [Any]
 

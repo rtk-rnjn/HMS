@@ -7,7 +7,7 @@ struct MedicalProfileView: View {
     init(patient: Binding<Patient?>, onComplete: (() -> Void)? = nil) {
         _patient = patient
         self.onComplete = onComplete
-        // Initialize state with patient data if available
+
         if let patient = patient.wrappedValue {
             _selectedBloodGroup = State(initialValue: patient.bloodGroup)
             _height = State(initialValue: patient.height > 0 ? String(patient.height) : "")
@@ -26,7 +26,7 @@ struct MedicalProfileView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 40) {
-                // Blood Type Section
+
                 VStack(alignment: .leading, spacing: 20) {
                     Text("Blood Type")
                         .font(.system(size: 20, weight: .semibold))
@@ -50,7 +50,6 @@ struct MedicalProfileView: View {
                     }
                 }
 
-                // Height Section
                 VStack(alignment: .leading, spacing: 16) {
                     Text("Height")
                         .font(.system(size: 20, weight: .semibold))
@@ -69,7 +68,6 @@ struct MedicalProfileView: View {
                     .cornerRadius(16)
                 }
 
-                // Weight Section
                 VStack(alignment: .leading, spacing: 16) {
                     Text("Weight")
                         .font(.system(size: 20, weight: .semibold))
@@ -88,7 +86,6 @@ struct MedicalProfileView: View {
                     .cornerRadius(16)
                 }
 
-                // Allergies Section
                 VStack(alignment: .leading, spacing: 16) {
                     Text("Allergies (Optional)")
                         .font(.system(size: 20, weight: .semibold))
@@ -112,7 +109,6 @@ struct MedicalProfileView: View {
                     .cornerRadius(16)
                 }
 
-                // Disorders Section
                 VStack(alignment: .leading, spacing: 16) {
                     Text("Disorders (Optional)")
                         .font(.system(size: 20, weight: .semibold))
@@ -150,7 +146,6 @@ struct MedicalProfileView: View {
                     patient.disorders = disorders.isEmpty ? nil : disorders.components(separatedBy: ",").map { $0.trimmingCharacters(in: .whitespaces) }
                     self.patient = patient
 
-                    // Call the completion handler only
                     onComplete?()
                 }
             }) {
@@ -177,7 +172,6 @@ struct MedicalProfileView: View {
     @State private var allergies: String = ""
     @State private var disorders: String = ""
 
-    // Define the order of blood groups to match the screenshot
     private let orderedBloodGroups: [BloodGroup] = [
         .aPositive, .aNegative, .bPositive,
         .bNegative, .abPositive, .abNegative,
@@ -185,7 +179,6 @@ struct MedicalProfileView: View {
         .na
     ]
 
-    // Create columns for the blood group grid
     private let columns = [
         GridItem(.flexible()),
         GridItem(.flexible()),

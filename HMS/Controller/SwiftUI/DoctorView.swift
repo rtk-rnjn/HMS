@@ -1,8 +1,7 @@
 //
-//  DoctorView.swift
-//  HMS
+
 //
-//  Created by RITIK RANJAN on 28/03/25.
+
 //
 
 import SwiftUI
@@ -56,7 +55,6 @@ struct DoctorView: View {
 
     let customBlue: Color = .init(red: 0.27, green: 0.45, blue: 1.0)
 
-    // Get next 14 days
     var dates: [Date] {
         let calendar = Calendar.current
         let today = calendar.startOfDay(for: Date())
@@ -65,7 +63,6 @@ struct DoctorView: View {
         }
     }
 
-    // Format date components
     func getDateComponents(_ date: Date) -> (weekday: String, day: String) {
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "en_US")
@@ -82,9 +79,9 @@ struct DoctorView: View {
     var body: some View {
         ScrollView {
             VStack {
-                // Doctor Profile Section
+
                 VStack(spacing: 12) {
-                    // Profile Card
+
                     VStack(spacing: 8) {
                         ZStack(alignment: .bottomTrailing) {
                             Image(systemName: "person.circle.fill")
@@ -110,7 +107,6 @@ struct DoctorView: View {
                     .cornerRadius(16)
                     .shadow(color: Color.black.opacity(0.05), radius: 8, x: 0, y: 2)
 
-                    // Stats Section
                     HStack {
                         Spacer()
                         VStack(spacing: 8) {
@@ -163,17 +159,15 @@ struct DoctorView: View {
                 }
                 .padding(.horizontal)
 
-                // Date Selection
                 VStack(alignment: .leading, spacing: 12) {
                     Text("Select Date")
                         .font(.title3)
                         .fontWeight(.semibold)
                         .padding(.horizontal)
 
-                    // Calendar View
                     ScrollView(.horizontal, showsIndicators: false) {
                         VStack(spacing: 10) {
-                            // Weekday headers
+
                             HStack(spacing: 0) {
                                 ForEach(dates, id: \.self) { date in
                                     let components = getDateComponents(date)
@@ -184,7 +178,6 @@ struct DoctorView: View {
                                 }
                             }
 
-                            // Date buttons
                             HStack(spacing: 0) {
                                 ForEach(dates, id: \.self) { date in
                                     let components = getDateComponents(date)
@@ -209,7 +202,6 @@ struct DoctorView: View {
                     }
                 }
 
-                // Time Slots
                 VStack(alignment: .leading) {
                     Text("Available Time Slots")
                         .font(.title3)
@@ -221,7 +213,6 @@ struct DoctorView: View {
                     }
                 }
 
-                // Continue Button
                 Button(action: {
                     Task {
                         let patient = DataController.shared.patient
@@ -254,7 +245,6 @@ struct DoctorView: View {
                 .padding(.horizontal)
                 .padding(.top)
 
-                // Reviews Section
                 VStack(alignment: .leading, spacing: 16) {
                     HStack {
                         Text("Reviews")
@@ -289,7 +279,6 @@ struct DoctorView: View {
         }
     }
 
-    // Prepare time slots
     func prepareTimeSlots() -> some View {
         HStack(spacing: 12) {
             ForEach(timeSlots(), id: \.self) { timeSlot in
@@ -341,9 +330,9 @@ struct ReviewCard: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack {
-                // Patient name and date
+
                 VStack(alignment: .leading, spacing: 4) {
-                    Text(review.patientId) // TODO: Fetch Patient
+                    Text(review.patientId)
                         .font(.system(size: 16, weight: .semibold))
 
                     Text(review.createdAt.formatted(date: .numeric, time: .omitted))
@@ -353,7 +342,6 @@ struct ReviewCard: View {
 
                 Spacer()
 
-                // Rating
                 HStack(spacing: 4) {
                     Text(String(format: "%.1f", review.stars))
                         .font(.system(size: 16, weight: .semibold))
@@ -362,7 +350,6 @@ struct ReviewCard: View {
                 }
             }
 
-            // Review text
             Text(review.review)
                 .font(.system(size: 15))
                 .foregroundColor(.secondary)

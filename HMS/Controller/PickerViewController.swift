@@ -1,8 +1,7 @@
 //
-//  PickerViewController.swift
-//  HMS
+
 //
-//  Created by RITIK RANJAN on 22/03/25.
+
 //
 
 import UIKit
@@ -13,7 +12,6 @@ class PickerViewController: UIViewController, UIPickerViewDelegate, UIPickerView
 
     @IBOutlet var pickerView: UIPickerView!
 
-    // Value: Display Name
     var options: [String: String] = ["": ""]
     var completionHandler: ((String, String) -> Void)?
 

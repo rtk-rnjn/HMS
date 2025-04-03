@@ -1,8 +1,7 @@
 //
-//  MedicalRecordsView.swift
-//  HMS
+
 //
-//  Created by RITIK RANJAN on 31/03/25.
+
 //
 
 import SwiftUI
@@ -20,7 +19,7 @@ struct MedicalRecordRow: View {
         NavigationLink(destination: MedicalReportDetailView(report: report)) {
             VStack(alignment: .leading, spacing: 0) {
                 HStack(alignment: .top, spacing: 16) {
-                    // Icon with background
+
                     ZStack {
                         Circle()
                             .fill(Color.blue.opacity(0.1))
@@ -32,7 +31,7 @@ struct MedicalRecordRow: View {
                     }
 
                     VStack(alignment: .leading, spacing: 12) {
-                        // Title and Date
+
                         HStack(alignment: .center) {
                             Text(type)
                                 .font(.system(size: 17, weight: .semibold))
@@ -46,7 +45,6 @@ struct MedicalRecordRow: View {
                                 .foregroundColor(.gray)
                         }
 
-                        // Description
                         if !title.isEmpty {
                             Text(title)
                                 .font(.system(size: 14))
@@ -54,7 +52,6 @@ struct MedicalRecordRow: View {
                                 .lineLimit(2)
                         }
 
-                        // Preview image if available
                         if let image = report.image {
                             Image(uiImage: image)
                                 .resizable()
@@ -64,7 +61,6 @@ struct MedicalRecordRow: View {
                                 .cornerRadius(8)
                         }
 
-                        // Only show status if it's set
                         if let status = report.status {
                             HStack(spacing: 6) {
                                 Circle()
@@ -183,10 +179,10 @@ struct MedicalRecordsView: View {
                 .ignoresSafeArea()
 
             VStack(spacing: 0) {
-                // Filter Section
+
                 VStack(spacing: 16) {
                     HStack(spacing: 12) {
-                        // Search bar with animation
+
                         HStack {
                             Image(systemName: "magnifyingglass")
                                 .foregroundColor(.gray)
@@ -210,7 +206,6 @@ struct MedicalRecordsView: View {
                         .background(Color.white)
                         .cornerRadius(12)
 
-                        // Filter Button
                         Button(action: {
                             showingFilterSheet = true
                         }) {
@@ -238,7 +233,7 @@ struct MedicalRecordsView: View {
                 .background(Color.white)
 
                 if filteredReports.isEmpty {
-                    // Enhanced empty state
+
                     VStack(spacing: 20) {
                         Image(systemName: "doc.text.magnifyingglass")
                             .font(.system(size: 60))
@@ -265,7 +260,7 @@ struct MedicalRecordsView: View {
                     .background(Color(.systemGroupedBackground))
                     .transition(.opacity)
                 } else {
-                    // Records List with animations
+
                     ScrollView {
                         LazyVStack(spacing: 16) {
                             ForEach(filteredReports) { report in
