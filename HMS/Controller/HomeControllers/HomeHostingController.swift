@@ -35,6 +35,10 @@ class HomeHostingController: UIHostingController<DashboardView>, UISearchBarDele
         super.viewDidLoad()
         rootView.delegate = self
 
+        // Configure back button to show only arrow
+        navigationItem.backButtonTitle = ""
+        navigationController?.navigationBar.topItem?.backButtonTitle = ""
+        
         // Set up the dashboard with specializations and appointments
         Task {
             await loadSpecializations()
