@@ -157,7 +157,19 @@ class DataController {
         return staffs
     }
 
-    
+    func fetchDoctor(byDepartment department: String) async -> [Staff]? {
+        let endpoint = "/search/doctors/department"
+        let staffs: [Staff]? = await MiddlewareManager.shared.get(url: endpoint, queryParameters: ["query": department])
+        guard var staffs else {
+            return []
+        }
+
+        for i in staffs.indices {
+            staffs[i].appointments = await fetchAppointments(ofDoctor: staffs[i])
+        }
+
+        return staffs
+    }
 
     func fetchPatient(byId id: String) async -> Patient? {
         return await MiddlewareManager.shared.get(url: "/patient/\(id)")
