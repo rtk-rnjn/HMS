@@ -209,14 +209,14 @@ struct QuickActionsSection: View {
                 QuickActionButton(
                     icon: "calendar.badge.plus",
                     title: "Book New\nAppointment",
-                    color: .blue,
+                    color: .unselectedBlue,
                     action: {
                         showingBookAppointment = true
                     }
                 )
                 QuickActionButton(
                     icon: "folder.fill", title: "Add Medical\nRecords",
-                    color: .green,
+                    color: .unselectedBlue,
                     action: { showingMedicalRecords = true }
                 )
             }
@@ -256,20 +256,31 @@ struct BookAppointmentView: View {
                 .padding()
                 .background(Color(.secondarySystemGroupedBackground))
                 .cornerRadius(12)
+                Button(action: {
+                    navigateToSearch()
+                }) {
+                    Text("Next")
+                        .font(.headline)
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(canProceed ? Color.blue : Color.gray.opacity(0.5))
+                        .foregroundColor(.white)
+                        .cornerRadius(12)
+                }
+                .disabled(!canProceed)
+                .padding()
             }
-            .padding()
-        }
-        .background(Color(.systemGroupedBackground))
-        .navigationTitle("Book Appointment")
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            ToolbarItem(placement: .topBarLeading) {
-                Button("Cancel") {
-                    dismiss()
+            .background(Color(.systemGroupedBackground))
+            .navigationTitle("Book Appointment")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button("Cancel") {
+                        dismiss()
+                    }
                 }
             }
         }
-
     }
 
     // MARK: Private
@@ -277,5 +288,19 @@ struct BookAppointmentView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var selectedSpecialization: Specialization?
     @State private var selectedDate: Date = .init()
+        private var canProceed: Bool {
+               selectedDate != nil
+           }
 
-}
+           private func navigateToSearch() {
+               if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+                  let rootViewController = windowScene.windows.first?.rootViewController {
+                   
+                   let searchController = UISearchController()
+                   searchController.obscuresBackgroundDuringPresentation = false
+                   searchController.searchBar.placeholder = "Search doctors or specializations"
+
+                   rootViewController.present(searchController, animated: true, completion: nil)
+               }
+           }
+       }
