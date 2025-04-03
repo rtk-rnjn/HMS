@@ -24,6 +24,7 @@ struct MedicalRecordRow: View {
                         Circle()
                             .fill(Color.blue.opacity(0.1))
                             .frame(width: 48, height: 48)
+                            .colorInvert()
 
                         Image(systemName: getIconName(for: type))
                             .font(.title3)
@@ -42,13 +43,13 @@ struct MedicalRecordRow: View {
 
                             Text(date)
                                 .font(.system(size: 14))
-                                .foregroundColor(.gray)
+                                .foregroundColor(Color(.systemGray))
                         }
 
                         if !title.isEmpty {
                             Text(title)
                                 .font(.footnote)
-                                .foregroundColor(.gray)
+                                .foregroundColor(Color(.systemGray))
                                 .lineLimit(2)
                         }
 
@@ -60,28 +61,17 @@ struct MedicalRecordRow: View {
                                 .frame(maxWidth: .infinity)
                                 .cornerRadius(8)
                         }
-
-                        if let status = report.status {
-                            HStack(spacing: 6) {
-                                Circle()
-                                    .fill(getStatusColor(status))
-                                    .frame(width: 8, height: 8)
-                                Text(status)
-                                    .font(.footnote)
-                                    .foregroundColor(getStatusColor(status))
-                            }
-                            .padding(.horizontal, 8)
-                            .padding(.vertical, 4)
-                            .background(getStatusColor(status).opacity(0.1))
-                            .cornerRadius(12)
-                        }
                     }
                 }
                 .padding(.horizontal, 16)
                 .padding(.vertical, 16)
             }
-            .background(Color.white)
+            .background(Color(.systemBackground))
             .cornerRadius(16)
+            .overlay(
+                RoundedRectangle(cornerRadius: 16)
+                    .stroke(Color(.systemGray4), lineWidth: 1)
+            )
             .shadow(color: Color.black.opacity(0.05), radius: 8, x: 0, y: 4)
         }
     }
@@ -104,21 +94,6 @@ struct MedicalRecordRow: View {
             return "heart.text.square.fill"
         default:
             return "doc.text.fill"
-        }
-    }
-
-    private func getStatusColor(_ status: String) -> Color {
-        switch status.lowercased() {
-        case "completed":
-            return .green
-        case "pending":
-            return .orange
-        case "in progress":
-            return .blue
-        case "cancelled":
-            return .red
-        default:
-            return .gray
         }
     }
 }
@@ -185,7 +160,7 @@ struct MedicalRecordsView: View {
 
                         HStack {
                             Image(systemName: "magnifyingglass")
-                                .foregroundColor(.gray)
+                                .foregroundColor(Color(.systemGray))
                                 .font(.callout)
                             TextField("Search medical records", text: $searchText)
                                 .textFieldStyle(PlainTextFieldStyle())
@@ -197,14 +172,18 @@ struct MedicalRecordsView: View {
                                     }
                                 }) {
                                     Image(systemName: "xmark.circle.fill")
-                                        .foregroundColor(.gray)
+                                        .foregroundColor(Color(.systemGray))
                                         .font(.callout)
                                 }
                             }
                         }
                         .padding(12)
-                        .background(Color.white)
+                        .background(Color(.systemBackground))
                         .cornerRadius(12)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 12)
+                                .stroke(Color(.systemGray4), lineWidth: 1)
+                        )
 
                         Button(action: {
                             showingFilterSheet = true
@@ -230,18 +209,18 @@ struct MedicalRecordsView: View {
                     .padding(.horizontal)
                 }
                 .padding(.vertical, 8)
-                .background(Color.white)
+                .background(Color(.systemBackground))
 
                 if filteredReports.isEmpty {
 
                     VStack(spacing: 20) {
                         Image(systemName: "doc.text.magnifyingglass")
                             .font(.largeTitle)
-                            .foregroundColor(.gray)
+                            .foregroundColor(Color(.systemGray))
                             .padding()
                             .background(
                                 Circle()
-                                    .fill(Color.gray.opacity(0.1))
+                                    .fill(Color(.systemGray6))
                                     .frame(width: 100, height: 100)
                             )
 
@@ -252,12 +231,12 @@ struct MedicalRecordsView: View {
 
                             Text("Try adjusting your search or filters")
                                 .font(.callout)
-                                .foregroundColor(.gray)
+                                .foregroundColor(Color(.systemGray))
                                 .multilineTextAlignment(.center)
                         }
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .background(Color(.systemGroupedBackground))
+                    .background(Color(.systemBackground))
                     .transition(.opacity)
                 } else {
 
@@ -271,7 +250,7 @@ struct MedicalRecordsView: View {
                         }
                         .padding(.vertical, 16)
                     }
-                    .background(Color(.systemGroupedBackground))
+                    .background(Color(.systemBackground))
                 }
             }
         }
@@ -351,12 +330,25 @@ struct MedicalRecordsView: View {
     }
 
     private func loadReports() async {
-        let fetchedReports = await DataController.shared.fetchMedicalReports()
+        let controller: DataController
+        #if DEBUG
+        if ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1",
+           let mockController = _mockDataController {
+            controller = mockController
+        } else {
+            controller = DataController.shared
+        }
+        #else
+        controller = DataController.shared
+        #endif
+        
+        let fetchedReports = await controller.fetchMedicalReports()
         withAnimation {
             reports = fetchedReports
         }
     }
 
+    @Environment(\.mockDataController) private var _mockDataController
 }
 
 struct FilterChip: View {
@@ -370,12 +362,12 @@ struct FilterChip: View {
                 .font(.footnote)
                 .padding(.horizontal, 16)
                 .padding(.vertical, 8)
-                .background(isSelected ? Color.blue : Color.white)
+                .background(isSelected ? Color.blue : Color(.secondarySystemGroupedBackground))
                 .foregroundColor(isSelected ? .white : .primary)
                 .cornerRadius(16)
                 .overlay(
                     RoundedRectangle(cornerRadius: 16)
-                        .stroke(isSelected ? Color.blue : Color.gray.opacity(0.3), lineWidth: 1)
+                        .stroke(isSelected ? Color.blue : Color(.systemGray4), lineWidth: 1)
                 )
         }
     }
@@ -470,7 +462,7 @@ struct DatePickerView: View {
             }
             .padding()
         }
-        .background(Color(.systemGroupedBackground))
+        .background(Color(.systemBackground))
     }
 
     // MARK: Private
@@ -479,3 +471,69 @@ struct DatePickerView: View {
     @State private var tempDate: Date
 
 }
+
+#if DEBUG
+struct MedicalRecordsView_Previews: PreviewProvider {
+    static var previews: some View {
+        NavigationView {
+            MedicalRecordsView()
+        }
+        .preferredColorScheme(.light)
+        .environment(\.mockDataController, MockDataController())
+        
+        NavigationView {
+            MedicalRecordsView()
+        }
+        .preferredColorScheme(.dark)
+        .environment(\.mockDataController, MockDataController())
+    }
+}
+
+// Sample Data Extension
+extension MedicalReport {
+    static var sampleReports: [MedicalReport] = [
+        MedicalReport(
+            description: "Complete Blood Count (CBC) Test Results",
+            date: Date(),
+            type: "Lab Report"
+        ),
+        MedicalReport(
+            description: "Annual Physical Examination",
+            date: Calendar.current.date(byAdding: .day, value: -2, to: Date()) ?? Date(),
+            type: "Check-up Report"
+        ),
+        MedicalReport(
+            description: "COVID-19 Booster Shot",
+            date: Calendar.current.date(byAdding: .day, value: -5, to: Date()) ?? Date(),
+            type: "Vaccination Record"
+        ),
+        MedicalReport(
+            description: "Appendectomy Post-Operation Report",
+            date: Calendar.current.date(byAdding: .month, value: -1, to: Date()) ?? Date(),
+            type: "Surgery Report"
+        ),
+        MedicalReport(
+            description: "Antibiotics for Upper Respiratory Infection",
+            date: Calendar.current.date(byAdding: .day, value: -1, to: Date()) ?? Date(),
+            type: "Prescription"
+        )
+    ]
+}
+
+class MockDataController: DataController {
+    override func fetchMedicalReports() async -> [MedicalReport] {
+        return MedicalReport.sampleReports
+    }
+}
+
+private struct MockDataControllerKey: EnvironmentKey {
+    static let defaultValue: DataController? = nil
+}
+
+extension EnvironmentValues {
+    var mockDataController: DataController? {
+        get { self[MockDataControllerKey.self] }
+        set { self[MockDataControllerKey.self] = newValue }
+    }
+}
+#endif

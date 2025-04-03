@@ -168,7 +168,6 @@ class AddMedicalReportViewModel: ObservableObject {
     @Published var selectedType: ReportType?
     @Published var description = ""
     @Published var date: Date = .init()
-    @Published var status: ReportStatus = .pending
     @Published var selectedImage: UIImage?
 
     @Published var imageSelection: PhotosPickerItem? {
@@ -214,22 +213,4 @@ enum ReportType: String, CaseIterable {
     case imaging = "Imaging"
     case vaccination = "Vaccination"
     case other = "Other"
-}
-
-enum ReportStatus: String, CaseIterable {
-    case completed = "Completed"
-    case pending = "Pending"
-    case inProgress = "In Progress"
-    case cancelled = "Cancelled"
-
-    // MARK: Internal
-
-    var color: Color {
-        switch self {
-        case .completed: return .green
-        case .pending: return .orange
-        case .inProgress: return .blue
-        case .cancelled: return .red
-        }
-    }
 }

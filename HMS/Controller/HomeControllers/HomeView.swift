@@ -103,31 +103,6 @@ struct StatusTag: View {
     }
 }
 
-struct QuickActionButton: View {
-    let icon: String
-    let title: String
-    let color: Color
-    let action: () -> Void
-
-    var body: some View {
-        Button(action: action) {
-            VStack(spacing: 12) {
-                Image(systemName: icon)
-                    .font(.title2)
-                    .foregroundColor(Color("iconBlue"))
-                Text(title)
-                    .font(.callout)
-                    .foregroundColor(.primary)
-                    .multilineTextAlignment(.center)
-            }
-            .frame(maxWidth: .infinity)
-            .padding(.vertical, 20)
-            .background(color.opacity(0.1))
-            .cornerRadius(16)
-        }
-    }
-}
-
 struct LabReportCard: View {
     let title: String
     let date: String
