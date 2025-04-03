@@ -14,7 +14,7 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gXC-2c-XPv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4444" y="-316"/>
+            <point key="canvasLocation" x="5005" y="256"/>
         </scene>
         <!--Home-->
         <scene sceneID="0E3-dF-ETf">
@@ -50,6 +50,7 @@
                         <segue destination="wZq-M3-X0a" kind="show" identifier="segueShowDoctorsHostingController" id="UXM-oX-pV3"/>
                         <segue destination="i0e-qj-bSO" kind="show" identifier="segueShowAppointmentsViewController" id="UXM-oX-pV4"/>
                         <segue destination="U16-AD-q0y" kind="presentation" identifier="segueShowBillingHostingController" id="Vbh-SA-8ta"/>
+                        <segue destination="TFW-tK-Nxy" kind="show" identifier="segueShowDoctorSearchHostigController" id="aSy-va-8mh"/>
                     </connections>
                 </hostingController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TUM-L6-fp1" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -64,7 +65,17 @@
                 </hostingController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VX3-ta-x6E" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4856" y="-35"/>
+            <point key="canvasLocation" x="5517" y="-35"/>
+        </scene>
+        <!--Search-->
+        <scene sceneID="wVt-Kx-ASo">
+            <objects>
+                <hostingController id="TFW-tK-Nxy" customClass="DoctorSearchHostigController" customModule="HMS" customModuleProvider="target" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" title="Search" largeTitleDisplayMode="never" id="PhD-rU-Hj1"/>
+                </hostingController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="NoO-Cm-D49" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4818" y="-787"/>
         </scene>
         <!--Appointments-->
         <scene sceneID="aTY-Fy-hTJ">
@@ -74,7 +85,7 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Y9y-Ir-2zV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4406" y="180"/>
+            <point key="canvasLocation" x="4675" y="-306"/>
         </scene>
         <!--Billing-->
         <scene sceneID="vnD-1u-081">
@@ -102,7 +113,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Mor-va-Hor" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3812.9770992366412" y="721.83098591549299"/>
+            <point key="canvasLocation" x="3813" y="722"/>
         </scene>
     </scenes>
     <resources>

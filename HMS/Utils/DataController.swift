@@ -171,6 +171,10 @@ class DataController {
         return staffs
     }
 
+    func fetchDoctor(bySymptom symptoms: String) async -> Staff? {
+        return await MiddlewareManager.shared.get(url: "/search/doctors/symptoms", queryParameters: ["symptoms": symptoms])
+    }
+
     func fetchPatient(byId id: String) async -> Patient? {
         return await MiddlewareManager.shared.get(url: "/patient/\(id)")
     }

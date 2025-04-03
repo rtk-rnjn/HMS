@@ -10,7 +10,7 @@ struct DoctorListView: View {
 
     // MARK: Internal
 
-    var delegate: DoctorsHostingController?
+    var delegate: UIHostingController<DoctorListView>?
     var filteredDoctors: [Staff] = []
 
     var body: some View {

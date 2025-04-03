@@ -11,7 +11,6 @@ class HomeHostingController: UIHostingController<DashboardView>, UISearchBarDele
     func customPerformSegue(withIdentifier id: String) {
         performSegue(withIdentifier: id, sender: nil)
     }
-    
 
     // MARK: Lifecycle
 
@@ -69,9 +68,8 @@ class HomeHostingController: UIHostingController<DashboardView>, UISearchBarDele
     }
 
     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
-
         let searchVC = SearchViewController()
-        navigationController?.pushViewController(searchVC, animated: true)
+        performSegue(withIdentifier: "segueShowDoctorSearchHostigController", sender: nil)
         return false
     }
 
