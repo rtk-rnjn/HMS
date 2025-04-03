@@ -59,7 +59,7 @@ struct DashboardView: View {
                     if todayAppointments.isEmpty {
                         VStack(spacing: 12) {
                             Image(systemName: "calendar.badge.exclamationmark")
-                                .font(.system(size: 40))
+                                .font(.largeTitle)
                                 .foregroundColor(Color("iconBlue"))
                             Text("No Appointments Today")
                                 .font(.headline)
@@ -114,14 +114,14 @@ struct DepartmentCard: View {
                 .frame(width: 46, height: 46)
                 .overlay(
                     Image(systemName: department.image)
-                        .font(.system(size: 20, weight: .medium))
+                        .font(.title3)
                         .foregroundColor(.white)
                 )
 
             Spacer()
 
             Text(department.name)
-                .font(.system(size: 13, weight: .medium))
+                .font(.footnote)
                 .foregroundColor(.primary)
                 .multilineTextAlignment(.center)
                 .lineLimit(2)

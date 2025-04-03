@@ -29,7 +29,7 @@ struct MedicalProfileView: View {
 
                 VStack(alignment: .leading, spacing: 20) {
                     Text("Blood Type")
-                        .font(.system(size: 20, weight: .semibold))
+                        .font(.title3)
 
                     LazyVGrid(columns: columns, spacing: 12) {
                         ForEach(orderedBloodGroups, id: \.self) { group in
@@ -37,7 +37,7 @@ struct MedicalProfileView: View {
                                 selectedBloodGroup = group
                             }) {
                                 Text(group.rawValue)
-                                    .font(.system(.body, design: .rounded))
+                                    .font(.body)
                                     .frame(maxWidth: .infinity)
                                     .frame(height: 48)
                                     .background(
@@ -52,7 +52,7 @@ struct MedicalProfileView: View {
 
                 VStack(alignment: .leading, spacing: 16) {
                     Text("Height")
-                        .font(.system(size: 20, weight: .semibold))
+                        .font(.title3)
 
                     HStack {
                         TextField("Enter your height", text: $height)
@@ -70,7 +70,7 @@ struct MedicalProfileView: View {
 
                 VStack(alignment: .leading, spacing: 16) {
                     Text("Weight")
-                        .font(.system(size: 20, weight: .semibold))
+                        .font(.title3)
 
                     HStack {
                         TextField("Enter your weight", text: $weight)
@@ -88,7 +88,7 @@ struct MedicalProfileView: View {
 
                 VStack(alignment: .leading, spacing: 16) {
                     Text("Allergies (Optional)")
-                        .font(.system(size: 20, weight: .semibold))
+                        .font(.title3)
 
                     ZStack(alignment: .topLeading) {
                         if allergies.isEmpty {
@@ -111,7 +111,7 @@ struct MedicalProfileView: View {
 
                 VStack(alignment: .leading, spacing: 16) {
                     Text("Disorders (Optional)")
-                        .font(.system(size: 20, weight: .semibold))
+                        .font(.title3)
 
                     ZStack(alignment: .topLeading) {
                         if disorders.isEmpty {

@@ -50,7 +50,7 @@ struct AppointmentDetailView: View {
                         Spacer()
                         VStack(spacing: 8) {
                             Image(systemName: "person.3.fill")
-                                .font(.system(size: 24))
+                                .font(.title2)
                                 .foregroundColor(customBlue)
                             Text("0")
                                 .font(.title3)
@@ -65,7 +65,7 @@ struct AppointmentDetailView: View {
                         Spacer()
                         VStack(spacing: 8) {
                             Image(systemName: "clock.fill")
-                                .font(.system(size: 24))
+                                .font(.title2)
                                 .foregroundColor(customBlue)
                             Text("\(appointment.doctor?.yearOfExperience ?? 4) yrs")
                                 .font(.title3)
@@ -80,7 +80,7 @@ struct AppointmentDetailView: View {
                         Spacer()
                         VStack(spacing: 8) {
                             Image(systemName: "star.fill")
-                                .font(.system(size: 24))
+                                .font(.title2)
                                 .foregroundColor(customBlue)
                             Text("4.8")
                                 .font(.title3)
@@ -132,7 +132,7 @@ struct AppointmentDetailView: View {
                     showingCancelAlert = true
                 }) {
                     Text("Cancel Appointment")
-                        .font(.system(size: 17, weight: .semibold))
+                        .font(.headline)
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
                         .padding()
@@ -180,7 +180,7 @@ struct AppointmentDetailRow: View {
     var body: some View {
         HStack(alignment: .center, spacing: 12) {
             Image(systemName: icon)
-                .font(.system(size: 20))
+                .font(.title3)
                 .foregroundColor(.blue)
                 .frame(width: 24)
 
@@ -189,7 +189,7 @@ struct AppointmentDetailRow: View {
                     .font(.subheadline)
                     .foregroundColor(.gray)
                 Text(value)
-                    .font(.system(size: 17))
+                    .font(.headline)
             }
 
             Spacer()

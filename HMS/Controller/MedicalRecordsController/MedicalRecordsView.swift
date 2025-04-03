@@ -26,7 +26,7 @@ struct MedicalRecordRow: View {
                             .frame(width: 48, height: 48)
 
                         Image(systemName: getIconName(for: type))
-                            .font(.system(size: 20))
+                            .font(.title3)
                             .foregroundColor(.blue)
                     }
 
@@ -34,7 +34,7 @@ struct MedicalRecordRow: View {
 
                         HStack(alignment: .center) {
                             Text(type)
-                                .font(.system(size: 17, weight: .semibold))
+                                .font(.headline)
                                 .foregroundColor(.primary)
                                 .lineLimit(1)
 
@@ -47,7 +47,7 @@ struct MedicalRecordRow: View {
 
                         if !title.isEmpty {
                             Text(title)
-                                .font(.system(size: 14))
+                                .font(.footnote)
                                 .foregroundColor(.gray)
                                 .lineLimit(2)
                         }
@@ -67,7 +67,7 @@ struct MedicalRecordRow: View {
                                     .fill(getStatusColor(status))
                                     .frame(width: 8, height: 8)
                                 Text(status)
-                                    .font(.system(size: 13, weight: .medium))
+                                    .font(.footnote)
                                     .foregroundColor(getStatusColor(status))
                             }
                             .padding(.horizontal, 8)
@@ -186,10 +186,10 @@ struct MedicalRecordsView: View {
                         HStack {
                             Image(systemName: "magnifyingglass")
                                 .foregroundColor(.gray)
-                                .font(.system(size: 16))
+                                .font(.callout)
                             TextField("Search medical records", text: $searchText)
                                 .textFieldStyle(PlainTextFieldStyle())
-                                .font(.system(size: 16))
+                                .font(.callout)
                             if !searchText.isEmpty {
                                 Button(action: {
                                     withAnimation {
@@ -198,7 +198,7 @@ struct MedicalRecordsView: View {
                                 }) {
                                     Image(systemName: "xmark.circle.fill")
                                         .foregroundColor(.gray)
-                                        .font(.system(size: 16))
+                                        .font(.callout)
                                 }
                             }
                         }
@@ -210,13 +210,13 @@ struct MedicalRecordsView: View {
                             showingFilterSheet = true
                         }) {
                             Image(systemName: "line.3.horizontal.decrease.circle")
-                                .font(.system(size: 24))
+                                .font(.title2)
                                 .foregroundColor(hasActiveFilters ? .blue : .gray)
                                 .overlay(
                                     Group {
                                         if !activeFiltersCount.isEmpty {
                                             Text(activeFiltersCount)
-                                                .font(.system(size: 12, weight: .bold))
+                                                .font(.caption)
                                                 .foregroundColor(.white)
                                                 .padding(4)
                                                 .background(Color.blue)
@@ -236,7 +236,7 @@ struct MedicalRecordsView: View {
 
                     VStack(spacing: 20) {
                         Image(systemName: "doc.text.magnifyingglass")
-                            .font(.system(size: 60))
+                            .font(.largeTitle)
                             .foregroundColor(.gray)
                             .padding()
                             .background(
@@ -247,11 +247,11 @@ struct MedicalRecordsView: View {
 
                         VStack(spacing: 8) {
                             Text("No Records Found")
-                                .font(.system(size: 20, weight: .semibold))
+                                .font(.title3)
                                 .foregroundColor(.primary)
 
                             Text("Try adjusting your search or filters")
-                                .font(.system(size: 16))
+                                .font(.callout)
                                 .foregroundColor(.gray)
                                 .multilineTextAlignment(.center)
                         }
@@ -367,7 +367,7 @@ struct FilterChip: View {
     var body: some View {
         Button(action: action) {
             Text(title)
-                .font(.system(size: 14, weight: .medium))
+                .font(.footnote)
                 .padding(.horizontal, 16)
                 .padding(.vertical, 8)
                 .background(isSelected ? Color.blue : Color.white)
@@ -392,7 +392,7 @@ struct DateFilterButton: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
             Text(title)
-                .font(.system(size: 13))
+                .font(.footnote)
                 .foregroundColor(.gray)
 
             Button(action: {
@@ -400,13 +400,13 @@ struct DateFilterButton: View {
             }) {
                 HStack {
                     Text(date.formatted(.dateTime.day().month().year()))
-                        .font(.system(size: 15))
+                        .font(.subheadline)
                         .foregroundColor(.primary)
 
                     Spacer()
 
                     Image(systemName: "chevron.down")
-                        .font(.system(size: 12, weight: .medium))
+                        .font(.caption)
                         .foregroundColor(.gray)
                 }
             }
