@@ -20,8 +20,7 @@ enum BloodGroup: String, Codable, CaseIterable {
     case abNegative = "AB-"
     case oPositive = "O+"
     case oNegative = "O-"
-    case oh = "Oh"
-    case na = "N/A"
+    case unknown = "Unknown"
 }
 
 enum Gender: String, Codable {

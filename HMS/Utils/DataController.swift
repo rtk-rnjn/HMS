@@ -378,7 +378,7 @@ class DataController {
             password: patient?.password ?? "",
             dateOfBirth: values["dateOfBirth"] as? Date ?? Date(),
             gender: Gender(rawValue: values["gender"] as? String ?? "") ?? .other,
-            bloodGroup: BloodGroup(rawValue: values["bloodGroup"] as? String ?? "") ?? .na,
+            bloodGroup: BloodGroup(rawValue: values["bloodGroup"] as? String ?? "") ?? .unknown,
             height: values["height"] as? Int ?? 0,
             weight: values["weight"] as? Int ?? 0
         )

@@ -149,7 +149,7 @@ class PersonalInformationTableViewController: UITableViewController {
 
         let gender = Gender(rawValue: selectedGender) ?? .other
 
-        patient = Patient(firstName: firstName, lastName: lastName, emailAddress: email, password: newPassword, dateOfBirth: dateOfBirthPicker.date, gender: gender, bloodGroup: .aNegative, height: 0, weight: 0, allergies: [], medications: [])
+        patient = Patient(firstName: firstName, lastName: lastName, emailAddress: email, password: newPassword, dateOfBirth: dateOfBirthPicker.date, gender: gender, bloodGroup: .unknown, height: 0, weight: 0, allergies: [], medications: [])
 
         return true
     }
