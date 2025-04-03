@@ -16,9 +16,9 @@ struct BasicInfoCard: View {
             }
             HStack(alignment: .firstTextBaseline) {
                 Text(value)
-                    .font(.system(size: 32, weight: .bold))
+                    .font(.title)
                 Text(unit)
-                    .font(.system(size: 16))
+                    .font(.callout)
                     .foregroundColor(.gray)
             }
         }

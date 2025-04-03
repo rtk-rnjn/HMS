@@ -16,12 +16,12 @@ struct MedicalReportDetailView: View {
         VStack(alignment: .leading, spacing: 16) {
             HStack {
                 Text(report.type)
-                    .font(.system(size: 28, weight: .bold))
+                    .font(.title)
                 Spacer()
             }
 
             Text(report.date.formatted(date: .complete, time: .shortened))
-                .font(.system(size: 16))
+                .font(.callout)
                 .foregroundColor(.secondary)
         }
         .padding()
@@ -36,14 +36,14 @@ struct MedicalReportDetailView: View {
                 VStack(alignment: .leading, spacing: 16) {
                     HStack {
                         Image(systemName: "text.quote")
-                            .font(.system(size: 18))
+                            .font(.body)
                             .foregroundColor(.blue)
                         Text("Doctor's Notes")
-                            .font(.system(size: 20, weight: .semibold))
+                            .font(.title3)
                     }
 
                     Text(report.description)
-                        .font(.system(size: 16))
+                        .font(.callout)
                         .foregroundColor(.secondary)
                         .fixedSize(horizontal: false, vertical: true)
                 }
@@ -61,10 +61,10 @@ struct MedicalReportDetailView: View {
                 VStack(alignment: .leading, spacing: 16) {
                     HStack {
                         Image(systemName: "photo")
-                            .font(.system(size: 18))
+                            .font(.body)
                             .foregroundColor(.blue)
                         Text("Report Image")
-                            .font(.system(size: 20, weight: .semibold))
+                            .font(.title3)
                     }
 
                     ZStack {
@@ -94,10 +94,10 @@ struct MedicalReportDetailView: View {
         VStack(alignment: .leading, spacing: 16) {
             HStack {
                 Image(systemName: "info.circle")
-                    .font(.system(size: 18))
+                    .font(.body)
                     .foregroundColor(.blue)
                 Text("Additional Information")
-                    .font(.system(size: 20, weight: .semibold))
+                    .font(.title3)
             }
 
             LazyVGrid(columns: [
@@ -192,10 +192,10 @@ struct InfoCell: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
             Text(title)
-                .font(.system(size: 14))
+                .font(.footnote)
                 .foregroundColor(.secondary)
             Text(value)
-                .font(.system(size: 16, weight: .medium))
+                .font(.callout)
                 .foregroundColor(color)
         }
         .frame(maxWidth: .infinity, alignment: .leading)

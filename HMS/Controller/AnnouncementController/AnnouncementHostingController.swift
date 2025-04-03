@@ -22,6 +22,12 @@ class AnnouncementHostingController: UIHostingController<AnnouncementView> {
             if let announcements = await DataController.shared.fetchAnnouncements() {
                 rootView.announcements = announcements
             }
+
+            if let myAnnouncements = await DataController.shared.fetchMyAnnouncements() {
+                rootView.announcements.append(contentsOf: myAnnouncements)
+            }
+
+            rootView.announcements.sort { $0.createdAt > $1.createdAt }
         }
     }
 }

@@ -13,23 +13,23 @@ struct AnnouncementView: View {
     var announcements: [Announcement] = []
 
     var body: some View {
-            List(announcements, id: \.title) { announcement in
-                HStack(spacing: 12) {
-                    categoryIcon(for: announcement.category)
-                        .foregroundColor(categoryColor(for: announcement.category))
-                        .font(.title2)
+        List(announcements, id: \.title) { announcement in
+            HStack(spacing: 12) {
+                categoryIcon(for: announcement.category)
+                    .foregroundColor(categoryColor(for: announcement.category))
+                    .font(.title2)
 
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text(announcement.title)
-                            .font(.headline)
-                        Text(announcement.body)
-                            .font(.subheadline)
-                            .foregroundColor(.gray)
-                        Text(announcement.createdAt, style: .date)
-                            .font(.caption)
-                            .foregroundColor(.secondary)
-                    }
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(announcement.title)
+                        .font(.headline)
+                    Text(announcement.body)
+                        .font(.subheadline)
+                        .foregroundColor(.gray)
+                    Text(announcement.createdAt, style: .date)
+                        .font(.caption)
+                        .foregroundColor(.secondary)
                 }
+            }
             .padding(4)
         }
     }

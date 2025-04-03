@@ -72,7 +72,7 @@ class DoctorsHostingController: UIHostingController<DoctorListView> {
 
     private func loadDoctorsForSpecialization() {
         Task {
-            if let doctors = await DataController.shared.fetchDoctor(bySpecialization: department) {
+            if let doctors = await DataController.shared.fetchDoctor(byDepartment: department) {
                 DispatchQueue.main.async {
                     self.rootView.filteredDoctors = doctors
                 }

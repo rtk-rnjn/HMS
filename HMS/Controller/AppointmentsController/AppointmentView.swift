@@ -22,7 +22,7 @@ struct AppointmentView: View {
                 VStack(spacing: 16) {
                     Spacer()
                     Image(systemName: "calendar.badge.exclamationmark")
-                        .font(.system(size: 64))
+                        .font(.largeTitle)
                         .foregroundColor(Color("iconBlue"))
                     Text("No Appointments Found")
                         .font(.title3)

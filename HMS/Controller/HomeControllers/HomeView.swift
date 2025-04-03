@@ -12,11 +12,11 @@ struct AppointmentCard: View {
 
                 VStack(alignment: .leading, spacing: 4) {
                     Text(appointment.doctor?.fullName ?? "Unknown Doctor")
-                        .font(.system(size: 17, weight: .semibold))
+                        .font(.headline)
                         .foregroundColor(.primary)
 
                     Text(appointment.doctor?.department ?? "Department")
-                        .font(.system(size: 15, weight: .regular))
+                        .font(.subheadline)
                         .foregroundColor(.secondary)
                 }
 
@@ -24,11 +24,11 @@ struct AppointmentCard: View {
 
                 VStack(alignment: .trailing, spacing: 4) {
                     Text(formattedDate())
-                        .font(.system(size: 15, weight: .medium))
+                        .font(.subheadline)
                         .foregroundColor(.primary)
 
                     Text("at \(formattedTime())")
-                        .font(.system(size: 15, weight: .regular))
+                        .font(.subheadline)
                         .foregroundColor(.secondary)
                 }
             }
@@ -36,7 +36,7 @@ struct AppointmentCard: View {
             HStack {
                 Spacer()
                 Text(appointment.status.rawValue)
-                    .font(.system(size: 13, weight: .medium))
+                    .font(.footnote)
                     .foregroundColor(Color.blue)
                     .padding(.horizontal, 12)
                     .padding(.vertical, 4)
@@ -85,7 +85,7 @@ struct StatusTag: View {
     var body: some View {
 
         Text(status.rawValue)
-            .font(.system(size: 11, weight: .medium))
+            .font(.caption2)
             .foregroundColor(statusColor)
             .padding(.horizontal, 8)
             .padding(.vertical, 3)
@@ -113,10 +113,10 @@ struct QuickActionButton: View {
         Button(action: action) {
             VStack(spacing: 12) {
                 Image(systemName: icon)
-                    .font(.system(size: 24))
+                    .font(.title2)
                     .foregroundColor(Color("iconBlue"))
                 Text(title)
-                    .font(.system(size: 16))
+                    .font(.callout)
                     .foregroundColor(.primary)
                     .multilineTextAlignment(.center)
             }
@@ -137,16 +137,16 @@ struct LabReportCard: View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
                 Image(systemName: "doc.text")
-                    .font(.system(size: 24))
+                    .font(.title2)
                     .foregroundColor(Color("iconBlue"))
                 Spacer()
             }
 
             Text(title)
-                .font(.system(size: 18, weight: .semibold))
+                .font(.headline)
 
             Text(date)
-                .font(.system(size: 16))
+                .font(.callout)
                 .foregroundColor(.gray)
 
             HStack {
@@ -154,7 +154,7 @@ struct LabReportCard: View {
                     .fill(Color.green)
                     .frame(width: 8, height: 8)
                 Text(status)
-                    .font(.system(size: 14))
+                    .font(.footnote)
                     .foregroundColor(.gray)
             }
         }

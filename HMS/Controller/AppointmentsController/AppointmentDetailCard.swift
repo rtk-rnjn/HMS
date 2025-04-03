@@ -12,11 +12,11 @@ struct AppointmentDetailCard: View {
 
                 VStack(alignment: .leading, spacing: 4) {
                     Text(appointment.doctor?.fullName ?? "Unknown Doctor")
-                        .font(.system(size: 17, weight: .semibold))
+                        .font(.headline)
                         .foregroundColor(.primary)
 
                     Text(appointment.doctor?.department ?? "Department")
-                        .font(.system(size: 15, weight: .regular))
+                        .font(.subheadline)
                         .foregroundColor(.secondary)
                 }
 
@@ -24,11 +24,11 @@ struct AppointmentDetailCard: View {
 
                 VStack(alignment: .trailing, spacing: 4) {
                     Text(formattedDate())
-                        .font(.system(size: 15, weight: .medium))
+                        .font(.subheadline)
                         .foregroundColor(.primary)
 
                     Text("at \(formattedTime())")
-                        .font(.system(size: 15, weight: .regular))
+                        .font(.subheadline)
                         .foregroundColor(.secondary)
                 }
             }
@@ -36,7 +36,7 @@ struct AppointmentDetailCard: View {
             HStack {
                 Spacer()
                 Text(appointment.status.rawValue)
-                    .font(.system(size: 13, weight: .medium))
+                    .font(.footnote)
                     .foregroundColor(Color.blue)
                     .padding(.horizontal, 12)
                     .padding(.vertical, 4)
