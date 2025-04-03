@@ -20,7 +20,7 @@ struct OnboardingView: View {
         .init(imageName: "patientDoctorSearchImage", title: nil, description: "Match Symptoms to Specialists!"),
         .init(imageName: "patientAppointmentImage", title: nil, description: "Book an Appointment With Just A Tap!"),
         .init(imageName: "patientRecordsImage", title: nil, description: "Store and View Your Medical Records!"),
-        .init(imageName: "patientTipsImage", title: nil, description: "Stay Up-to-Date With All Alerts!")
+        .init(imageName: "patientTipsImage", title: nil, description: "Stay Informed with Health Tips & Alerts!")
         ]
     @State private var currentPageIndex: Int = 0
     @State private var isOnboardingComplete: Bool = false
