@@ -59,9 +59,9 @@ struct ImagePicker: UIViewControllerRepresentable {
 
 struct AddMedicalReportView: View {
     @Environment(\.dismiss) private var dismiss
-    @StateObject private var viewModel = AddMedicalReportViewModel()
+    @StateObject private var viewModel: AddMedicalReportViewModel = .init()
     var onAdd: (() -> Void)?
-    
+
     var body: some View {
         NavigationView {
             ScrollView {
@@ -70,7 +70,7 @@ struct AddMedicalReportView: View {
                     VStack(alignment: .leading, spacing: 8) {
                         Text("Report Type")
                             .font(.system(size: 17, weight: .semibold))
-                        
+
                         Menu {
                             ForEach(ReportType.allCases, id: \.self) { type in
                                 Button(action: {
@@ -97,7 +97,7 @@ struct AddMedicalReportView: View {
                             )
                         }
                     }
-                    
+
                     // Status Section
                     VStack(alignment: .leading, spacing: 8) {
                         HStack {
@@ -106,7 +106,7 @@ struct AddMedicalReportView: View {
                             Text("Status")
                                 .font(.system(size: 17, weight: .semibold))
                         }
-                        
+
                         Menu {
                             ForEach(ReportStatus.allCases, id: \.self) { status in
                                 Button(action: {
@@ -141,7 +141,7 @@ struct AddMedicalReportView: View {
                             )
                         }
                     }
-                    
+
                     // Description Section
                     VStack(alignment: .leading, spacing: 8) {
                         HStack {
@@ -150,7 +150,7 @@ struct AddMedicalReportView: View {
                             Text("Doctor's Notes")
                                 .font(.system(size: 17, weight: .semibold))
                         }
-                        
+
                         TextEditor(text: $viewModel.description)
                             .frame(minHeight: 100)
                             .padding(8)
@@ -161,12 +161,12 @@ struct AddMedicalReportView: View {
                                     .stroke(Color(.systemGray4), lineWidth: 1)
                             )
                     }
-                    
+
                     // Report Date Section
                     VStack(alignment: .leading, spacing: 8) {
                         Text("Report Date")
                             .font(.system(size: 17, weight: .semibold))
-                        
+
                         DatePicker("", selection: $viewModel.date, displayedComponents: [.date, .hourAndMinute])
                             .datePickerStyle(.compact)
                             .labelsHidden()
@@ -179,7 +179,7 @@ struct AddMedicalReportView: View {
                                     .stroke(Color(.systemGray4), lineWidth: 1)
                             )
                     }
-                    
+
                     // Attachments Section
                     VStack(alignment: .leading, spacing: 8) {
                         HStack {
@@ -188,7 +188,7 @@ struct AddMedicalReportView: View {
                             Text("Attachments")
                                 .font(.system(size: 17, weight: .semibold))
                         }
-                        
+
                         if let selectedImage = viewModel.selectedImage {
                             Image(uiImage: selectedImage)
                                 .resizable()
@@ -197,7 +197,7 @@ struct AddMedicalReportView: View {
                                 .frame(maxWidth: .infinity)
                                 .cornerRadius(10)
                         }
-                        
+
                         PhotosPicker(selection: $viewModel.imageSelection,
                                    matching: .images) {
                             HStack {
@@ -223,7 +223,7 @@ struct AddMedicalReportView: View {
                             )
                         }
                     }
-                    
+
                     // Submit Button
                     Button(action: {
                         Task {
@@ -261,19 +261,38 @@ struct AddMedicalReportView: View {
 
 // ViewModel
 class AddMedicalReportViewModel: ObservableObject {
+
+    // MARK: Internal
+
     @Published var selectedType: ReportType?
     @Published var description = ""
-    @Published var date = Date()
+    @Published var date: Date = .init()
     @Published var status: ReportStatus = .pending
-    @Published var imageSelection: PhotosPickerItem? = nil {
+    @Published var selectedImage: UIImage?
+
+    @Published var imageSelection: PhotosPickerItem? {
         didSet { Task { await loadImage() } }
     }
-    @Published var selectedImage: UIImage?
-    
+
     var isValid: Bool {
         selectedType != nil && !description.isEmpty
     }
-    
+
+    func submitReport() async -> Bool {
+        guard let type = selectedType?.rawValue else { return false }
+
+        let report = MedicalReport(
+            description: description,
+            date: date,
+            type: type,
+            imageData: selectedImage?.pngData()
+        )
+
+        return await DataController.shared.createMedicalReport(report)
+    }
+
+    // MARK: Private
+
     @MainActor
     private func loadImage() async {
         guard let imageSelection else { return }
@@ -285,19 +304,7 @@ class AddMedicalReportViewModel: ObservableObject {
             print("Error loading image: \(error)")
         }
     }
-    
-    func submitReport() async -> Bool {
-        guard let type = selectedType?.rawValue else { return false }
-        
-        let report = MedicalReport(
-            description: description,
-            date: date,
-            type: type,
-            imageData: selectedImage?.pngData()
-        )
-        
-        return await DataController.shared.createMedicalReport(report)
-    }
+
 }
 
 // Report Types
@@ -316,7 +323,9 @@ enum ReportStatus: String, CaseIterable {
     case pending = "Pending"
     case inProgress = "In Progress"
     case cancelled = "Cancelled"
-    
+
+    // MARK: Internal
+
     var color: Color {
         switch self {
         case .completed: return .green

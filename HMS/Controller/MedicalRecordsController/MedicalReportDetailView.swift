@@ -13,46 +13,6 @@ struct MedicalReportDetailView: View {
 
     let report: MedicalReport
 
-    @Environment(\.dismiss) private var dismiss
-    @State private var showingShareSheet = false
-    @State private var shareItems: [Any] = []
-    @State private var showingDeleteAlert = false
-    @State private var isImageLoading = true
-
-    private func prepareShareContent() -> [Any] {
-        var items: [Any] = []
-        
-        // Create text content
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .full
-        dateFormatter.timeStyle = .short
-        
-        let reportText = """
-        Medical Report
-        
-        Type: \(report.type)
-        Date: \(dateFormatter.string(from: report.date))
-        Status: Completed
-        
-        Doctor's Notes:
-        \(report.description)
-        """
-        
-        items.append(reportText)
-        
-        // Add image if available
-        if let image = report.image {
-            items.append(image)
-        }
-        
-        return items
-    }
-
-    private func deleteReport() {
-        // Implement delete logic here
-        dismiss()
-    }
-
     var headerSection: some View {
         VStack(alignment: .leading, spacing: 16) {
             HStack {
@@ -60,7 +20,7 @@ struct MedicalReportDetailView: View {
                     .font(.system(size: 28, weight: .bold))
                 Spacer()
             }
-            
+
             Text(report.date.formatted(date: .complete, time: .shortened))
                 .font(.system(size: 16))
                 .foregroundColor(.secondary)
@@ -70,7 +30,7 @@ struct MedicalReportDetailView: View {
         .background(Color.white)
         .cornerRadius(16)
     }
-    
+
     var doctorNotesSection: some View {
         Group {
             if !report.description.isEmpty {
@@ -82,7 +42,7 @@ struct MedicalReportDetailView: View {
                         Text("Doctor's Notes")
                             .font(.system(size: 20, weight: .semibold))
                     }
-                    
+
                     Text(report.description)
                         .font(.system(size: 16))
                         .foregroundColor(.secondary)
@@ -95,7 +55,7 @@ struct MedicalReportDetailView: View {
             }
         }
     }
-    
+
     var imageSection: some View {
         Group {
             if let image = report.image {
@@ -107,7 +67,7 @@ struct MedicalReportDetailView: View {
                         Text("Report Image")
                             .font(.system(size: 20, weight: .semibold))
                     }
-                    
+
                     ZStack {
                         Image(uiImage: image)
                             .resizable()
@@ -115,7 +75,7 @@ struct MedicalReportDetailView: View {
                             .frame(maxWidth: .infinity)
                             .cornerRadius(12)
                             .onAppear { isImageLoading = false }
-                        
+
                         if isImageLoading {
                             ProgressView()
                                 .progressViewStyle(CircularProgressViewStyle())
@@ -130,7 +90,7 @@ struct MedicalReportDetailView: View {
             }
         }
     }
-    
+
     var additionalInfoSection: some View {
         VStack(alignment: .leading, spacing: 16) {
             HStack {
@@ -140,7 +100,7 @@ struct MedicalReportDetailView: View {
                 Text("Additional Information")
                     .font(.system(size: 20, weight: .semibold))
             }
-            
+
             LazyVGrid(columns: [
                 GridItem(.flexible()),
                 GridItem(.flexible())
@@ -182,13 +142,56 @@ struct MedicalReportDetailView: View {
             ShareSheet(activityItems: shareItems)
         }
     }
+
+    // MARK: Private
+
+    @Environment(\.dismiss) private var dismiss
+    @State private var showingShareSheet = false
+    @State private var shareItems: [Any] = []
+    @State private var showingDeleteAlert = false
+    @State private var isImageLoading = true
+
+    private func prepareShareContent() -> [Any] {
+        var items: [Any] = []
+
+        // Create text content
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .full
+        dateFormatter.timeStyle = .short
+
+        let reportText = """
+        Medical Report
+
+        Type: \(report.type)
+        Date: \(dateFormatter.string(from: report.date))
+        Status: Completed
+
+        Doctor's Notes:
+        \(report.description)
+        """
+
+        items.append(reportText)
+
+        // Add image if available
+        if let image = report.image {
+            items.append(image)
+        }
+
+        return items
+    }
+
+    private func deleteReport() {
+        // Implement delete logic here
+        dismiss()
+    }
+
 }
 
 struct InfoCell: View {
     let title: String
     let value: String
     var color: Color = .primary
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
             Text(title)
@@ -205,14 +208,13 @@ struct InfoCell: View {
 // ShareSheet UIViewControllerRepresentable
 struct ShareSheet: UIViewControllerRepresentable {
     let activityItems: [Any]
-    
+
     func makeUIViewController(context: Context) -> UIActivityViewController {
-        let controller = UIActivityViewController(
+        return UIActivityViewController(
             activityItems: activityItems,
             applicationActivities: nil
         )
-        return controller
     }
-    
+
     func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {}
 }

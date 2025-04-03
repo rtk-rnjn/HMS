@@ -38,7 +38,7 @@ class HomeHostingController: UIHostingController<DashboardView>, UISearchBarDele
         // Configure back button to show only arrow
         navigationItem.backButtonTitle = ""
         navigationController?.navigationBar.topItem?.backButtonTitle = ""
-        
+
         // Set up the dashboard with specializations and appointments
         Task {
             await loadSpecializations()
@@ -55,7 +55,7 @@ class HomeHostingController: UIHostingController<DashboardView>, UISearchBarDele
         Task {
             if let staffs = await DataController.shared.fetchDoctor(bySpecialization: "") {
                 let specializations = staffs.map { $0.specialization }
-                rootView.specializations = specializations.map { Specialization(name: $0) }
+                rootView.departments = specializations.map { Department(name: $0) }
             }
         }
         prepareSearchController()
@@ -69,7 +69,7 @@ class HomeHostingController: UIHostingController<DashboardView>, UISearchBarDele
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "segueShowDoctorsHostingController" {
             let destination = segue.destination as? DoctorsHostingController
-            if let specialization = sender as? Specialization {
+            if let specialization = sender as? Department {
                 destination?.specialization = specialization.name
             } else if let searchText = sender as? String {
                 destination?.searchQuery = searchText
@@ -119,11 +119,11 @@ class HomeHostingController: UIHostingController<DashboardView>, UISearchBarDele
     }
 
     private func loadSpecializations() async {
-        if let staffs = await DataController.shared.fetchDoctor(bySpecialization: "") {
-            let specializations = staffs.map { $0.specialization }
-            let uniqueSpecializations = Array(Set(specializations)).sorted()
+        if let staffs = await DataController.shared.fetchDoctors() {
+            let departments = staffs.map { $0.department }
+            let uniqueDepartments = Array(Set(departments)).sorted()
             DispatchQueue.main.async {
-                self.rootView.specializations = uniqueSpecializations.map { Specialization(name: $0) }
+                self.rootView.departments = uniqueDepartments.map { Department(name: $0) }
             }
         }
     }

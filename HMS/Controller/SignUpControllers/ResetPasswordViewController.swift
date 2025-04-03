@@ -82,7 +82,7 @@ class ResetPasswordViewController: UIViewController {
             let otpSent = await DataController.shared.requestOtp(emailAddress: email)
             DispatchQueue.main.async {
                 if !otpSent {
-                    self.showAlert(error: "Error",message: "Failed to send OTP")
+                    self.showAlert(error: "Error", message: "Failed to send OTP")
                 }
             }
         }

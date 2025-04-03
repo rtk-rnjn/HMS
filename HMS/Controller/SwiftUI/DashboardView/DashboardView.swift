@@ -11,7 +11,7 @@ protocol DashboardViewDelegate: AnyObject {
     func showAppointmentDetails(_ appointment: Appointment)
 }
 
-struct Specialization: Identifiable, Hashable {
+struct Department: Identifiable, Hashable {
     let id: String = UUID().uuidString
     let name: String
     let image: String = "heart.fill"
@@ -19,10 +19,10 @@ struct Specialization: Identifiable, Hashable {
 
 struct DashboardView: View {
     weak var delegate: DashboardViewDelegate?
-    var specializations: [Specialization] = []
+    var departments: [Department] = []
 
     @State private var searchText = ""
-    @State private var selectedSpecialization: Specialization?
+    @State private var selectedDepartment: Department?
 
     var appointments: [Appointment] = []
 
@@ -32,7 +32,7 @@ struct DashboardView: View {
             VStack(alignment: .leading, spacing: 24) {
                 // Specializations Section
                 SpecializationsSection(
-                    specializations: specializations,
+                    specializations: departments,
                     onTap: { specialization in
                         if let homeController = delegate as? HomeHostingController {
                             homeController.performSegue(withIdentifier: "segueShowDoctorsHostingController", sender: specialization)
@@ -100,13 +100,13 @@ struct DashboardView: View {
         .searchable(
             text: $searchText,
             placement: .navigationBarDrawer,
-            prompt: "Search doctors or specializations"
+            prompt: "Search doctors or departments"
         )
     }
 }
 
 struct SpecializationCard: View {
-    let specialization: Specialization
+    let specialization: Department
 
     var body: some View {
         VStack {
@@ -142,8 +142,8 @@ struct SpecializationCard: View {
 }
 
 struct SpecializationsSection: View {
-    let specializations: [Specialization]
-    let onTap: (Specialization) -> Void
+    let specializations: [Department]
+    let onTap: (Department) -> Void
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
@@ -169,7 +169,7 @@ struct SpecializationsSection: View {
 }
 
 struct SpecializationDetailView: View {
-    let specialization: Specialization
+    let specialization: Department
     @State private var searchText = ""
     var staff: [Staff] = []
 
@@ -286,21 +286,22 @@ struct BookAppointmentView: View {
     // MARK: Private
 
     @Environment(\.dismiss) private var dismiss
-    @State private var selectedSpecialization: Specialization?
+    @State private var selectedSpecialization: Department?
     @State private var selectedDate: Date = .init()
-        private var canProceed: Bool {
-               selectedDate != nil
-           }
 
-           private func navigateToSearch() {
-               if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-                  let rootViewController = windowScene.windows.first?.rootViewController {
-                   
-                   let searchController = UISearchController()
-                   searchController.obscuresBackgroundDuringPresentation = false
-                   searchController.searchBar.placeholder = "Search doctors or specializations"
+    private var canProceed: Bool {
+       selectedDate != nil
+    }
 
-                   rootViewController.present(searchController, animated: true, completion: nil)
-               }
-           }
+   private func navigateToSearch() {
+       if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+          let rootViewController = windowScene.windows.first?.rootViewController {
+
+           let searchController = UISearchController()
+           searchController.obscuresBackgroundDuringPresentation = false
+           searchController.searchBar.placeholder = "Search doctors or departments"
+
+           rootViewController.present(searchController, animated: true, completion: nil)
        }
+   }
+}

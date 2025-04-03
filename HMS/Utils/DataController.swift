@@ -66,15 +66,16 @@ struct RazorpayPayload: Codable {
     var shortURL: String
 }
 
-
 struct Log: Codable, Sendable {
     enum CodingKeys: String, CodingKey {
         case message
         case createdAt = "created_at"
     }
+
     var message: String
     var createdAt: Date
 }
+
 class DataController {
 
     // MARK: Public

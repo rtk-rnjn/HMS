@@ -1,9 +1,9 @@
 import SwiftUI
 
 struct SearchView: View {
-    @State private var isSearching = false
-    @State private var searchText = ""
-    
+
+    // MARK: Internal
+
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading, spacing: 20) {
@@ -11,7 +11,7 @@ struct SearchView: View {
                     .font(.largeTitle)
                     .bold()
                     .padding(.horizontal)
-                
+
                 Button(action: {
                     isSearching = true
                 }) {
@@ -27,7 +27,7 @@ struct SearchView: View {
                     .cornerRadius(10)
                 }
                 .padding(.horizontal)
-                
+
                 // Rest of your home screen content here
                 Spacer()
             }
@@ -36,12 +36,20 @@ struct SearchView: View {
             }
         }
     }
+
+    // MARK: Private
+
+    @State private var isSearching = false
+    @State private var searchText = ""
+
 }
 
 struct SearchResultsView: View {
+
+    // MARK: Internal
+
     @Binding var searchText: String
-    @Environment(\.dismiss) private var dismiss
-    
+
     var body: some View {
         VStack {
             // Search header
@@ -50,13 +58,13 @@ struct SearchResultsView: View {
                     dismiss()
                 }
                 .padding(.leading)
-                
+
                 TextField("Search Doctors", text: $searchText)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .padding(.horizontal)
             }
             .padding(.vertical, 8)
-            
+
             // Search results
             List {
                 if searchText.isEmpty {
@@ -71,8 +79,13 @@ struct SearchResultsView: View {
         }
         .navigationBarHidden(true)
     }
+
+    // MARK: Private
+
+    @Environment(\.dismiss) private var dismiss
+
 }
 
 #Preview {
     SearchView()
-} 
+}

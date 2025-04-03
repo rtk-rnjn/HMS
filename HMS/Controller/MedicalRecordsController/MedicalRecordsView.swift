@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct MedicalRecordRow: View {
+
+    // MARK: Internal
+
     let title: String
     let date: String
     let type: String
@@ -22,7 +25,7 @@ struct MedicalRecordRow: View {
                         Circle()
                             .fill(Color.blue.opacity(0.1))
                             .frame(width: 48, height: 48)
-                        
+
                         Image(systemName: getIconName(for: type))
                             .font(.system(size: 20))
                             .foregroundColor(.blue)
@@ -86,7 +89,9 @@ struct MedicalRecordRow: View {
             .shadow(color: Color.black.opacity(0.05), radius: 8, x: 0, y: 4)
         }
     }
-    
+
+    // MARK: Private
+
     private func getIconName(for type: String) -> String {
         switch type.lowercased() {
         case _ where type.contains("lab"):
@@ -105,7 +110,7 @@ struct MedicalRecordRow: View {
             return "doc.text.fill"
         }
     }
-    
+
     private func getStatusColor(_ status: String) -> Color {
         switch status.lowercased() {
         case "completed":
@@ -126,15 +131,16 @@ struct FilterView: View {
     @Binding var startDate: Date
     @Binding var endDate: Date
     @Binding var selectedType: String?
+
     let reportTypes: [String]
-    
+
     var body: some View {
         Form {
             Section(header: Text("Date Range")) {
                 DatePicker("From", selection: $startDate, in: ...Date(), displayedComponents: .date)
                 DatePicker("To", selection: $endDate, in: ...Date(), displayedComponents: .date)
             }
-            
+
             Section(header: Text("Type")) {
                 ForEach(reportTypes, id: \.self) { type in
                     Button(action: {
@@ -152,7 +158,7 @@ struct FilterView: View {
                     .foregroundColor(.primary)
                 }
             }
-            
+
             Section {
                 Button("Reset Filters") {
                     startDate = Calendar.current.date(byAdding: .month, value: -1, to: Date()) ?? Date()
@@ -166,27 +172,16 @@ struct FilterView: View {
 }
 
 struct MedicalRecordsView: View {
-    weak var delegate: MedicalRecordsHostingController?
-    @State private var reports: [MedicalReport] = []
-    @State private var searchText = ""
-    @State private var startDate = Calendar.current.date(byAdding: .month, value: -1, to: Date()) ?? Date()
-    @State private var endDate: Date = .init()
-    @State private var selectedType: String?
-    @State private var showingFilterSheet = false
 
-    private let reportTypes = [
-        "Lab Report",
-        "Check-up Report",
-        "Vaccination Record",
-        "Surgery Report",
-        "Other"
-    ]
+    // MARK: Internal
+
+    weak var delegate: MedicalRecordsHostingController?
 
     var body: some View {
         ZStack {
             Color(.systemGroupedBackground)
                 .ignoresSafeArea()
-            
+
             VStack(spacing: 0) {
                 // Filter Section
                 VStack(spacing: 16) {
@@ -214,7 +209,7 @@ struct MedicalRecordsView: View {
                         .padding(12)
                         .background(Color.white)
                         .cornerRadius(12)
-                        
+
                         // Filter Button
                         Button(action: {
                             showingFilterSheet = true
@@ -241,7 +236,7 @@ struct MedicalRecordsView: View {
                 }
                 .padding(.vertical, 8)
                 .background(Color.white)
-                
+
                 if filteredReports.isEmpty {
                     // Enhanced empty state
                     VStack(spacing: 20) {
@@ -254,12 +249,12 @@ struct MedicalRecordsView: View {
                                     .fill(Color.gray.opacity(0.1))
                                     .frame(width: 100, height: 100)
                             )
-                        
+
                         VStack(spacing: 8) {
                             Text("No Records Found")
                                 .font(.system(size: 20, weight: .semibold))
                                 .foregroundColor(.primary)
-                            
+
                             Text("Try adjusting your search or filters")
                                 .font(.system(size: 16))
                                 .foregroundColor(.gray)
@@ -313,7 +308,24 @@ struct MedicalRecordsView: View {
             await loadReports()
         }
     }
-    
+
+    // MARK: Private
+
+    @State private var reports: [MedicalReport] = []
+    @State private var searchText = ""
+    @State private var startDate = Calendar.current.date(byAdding: .month, value: -1, to: Date()) ?? Date()
+    @State private var endDate: Date = .init()
+    @State private var selectedType: String?
+    @State private var showingFilterSheet = false
+
+    private let reportTypes = [
+        "Lab Report",
+        "Check-up Report",
+        "Vaccination Record",
+        "Surgery Report",
+        "Other"
+    ]
+
     private var filteredReports: [MedicalReport] {
         reports.filter { report in
             let matchesSearch = searchText.isEmpty ||
@@ -321,12 +333,26 @@ struct MedicalRecordsView: View {
                 report.type.localizedCaseInsensitiveContains(searchText)
 
             let matchesDate = report.date >= startDate && report.date <= endDate
-            
+
             let matchesType = selectedType == nil || report.type == selectedType
 
             return matchesSearch && matchesDate && matchesType
         }
         .sorted { $0.date > $1.date }
+    }
+
+    private var hasActiveFilters: Bool {
+        selectedType != nil ||
+        !Calendar.current.isDate(startDate, inSameDayAs: Calendar.current.date(byAdding: .month, value: -1, to: Date()) ?? Date()) ||
+        !Calendar.current.isDate(endDate, inSameDayAs: Date())
+    }
+
+    private var activeFiltersCount: String {
+        var count = 0
+        if selectedType != nil { count += 1 }
+        if !Calendar.current.isDate(startDate, inSameDayAs: Calendar.current.date(byAdding: .month, value: -1, to: Date()) ?? Date()) { count += 1 }
+        if !Calendar.current.isDate(endDate, inSameDayAs: Date()) { count += 1 }
+        return count > 0 ? "\(count)" : ""
     }
 
     private func loadReports() async {
@@ -335,27 +361,14 @@ struct MedicalRecordsView: View {
             reports = fetchedReports
         }
     }
-    
-    private var hasActiveFilters: Bool {
-        selectedType != nil || 
-        !Calendar.current.isDate(startDate, inSameDayAs: Calendar.current.date(byAdding: .month, value: -1, to: Date()) ?? Date()) ||
-        !Calendar.current.isDate(endDate, inSameDayAs: Date())
-    }
-    
-    private var activeFiltersCount: String {
-        var count = 0
-        if selectedType != nil { count += 1 }
-        if !Calendar.current.isDate(startDate, inSameDayAs: Calendar.current.date(byAdding: .month, value: -1, to: Date()) ?? Date()) { count += 1 }
-        if !Calendar.current.isDate(endDate, inSameDayAs: Date()) { count += 1 }
-        return count > 0 ? "\(count)" : ""
-    }
+
 }
 
 struct FilterChip: View {
     let title: String
     let isSelected: Bool
     let action: () -> Void
-    
+
     var body: some View {
         Button(action: action) {
             Text(title)
@@ -374,18 +387,19 @@ struct FilterChip: View {
 }
 
 struct DateFilterButton: View {
+
+    // MARK: Internal
+
     let title: String
     let date: Date
     let onDateChange: (Date) -> Void
-    
-    @State private var showingDatePicker = false
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
             Text(title)
                 .font(.system(size: 13))
                 .foregroundColor(.gray)
-            
+
             Button(action: {
                 showingDatePicker.toggle()
             }) {
@@ -393,9 +407,9 @@ struct DateFilterButton: View {
                     Text(date.formatted(.dateTime.day().month().year()))
                         .font(.system(size: 15))
                         .foregroundColor(.primary)
-                    
+
                     Spacer()
-                    
+
                     Image(systemName: "chevron.down")
                         .font(.system(size: 12, weight: .medium))
                         .foregroundColor(.gray)
@@ -413,21 +427,28 @@ struct DateFilterButton: View {
             .presentationDetents([.height(420)])
         }
     }
+
+    // MARK: Private
+
+    @State private var showingDatePicker = false
+
 }
 
 struct DatePickerView: View {
-    let selectedDate: Date
-    let onDateSelected: (Date) -> Void
-    
-    @Environment(\.dismiss) private var dismiss
-    @State private var tempDate: Date
-    
+
+    // MARK: Lifecycle
+
     init(selectedDate: Date, onDateSelected: @escaping (Date) -> Void) {
         self.selectedDate = selectedDate
         self.onDateSelected = onDateSelected
         _tempDate = State(initialValue: selectedDate)
     }
-    
+
+    // MARK: Internal
+
+    let selectedDate: Date
+    let onDateSelected: (Date) -> Void
+
     var body: some View {
         VStack(spacing: 0) {
             DatePicker(
@@ -438,15 +459,15 @@ struct DatePickerView: View {
             )
             .datePickerStyle(.graphical)
             .padding()
-            
+
             Divider()
-            
+
             HStack(spacing: 20) {
                 Button("Cancel") {
                     dismiss()
                 }
                 .foregroundColor(.red)
-                
+
                 Button("Done") {
                     onDateSelected(tempDate)
                 }
@@ -456,4 +477,10 @@ struct DatePickerView: View {
         }
         .background(Color(.systemGroupedBackground))
     }
+
+    // MARK: Private
+
+    @Environment(\.dismiss) private var dismiss
+    @State private var tempDate: Date
+
 }

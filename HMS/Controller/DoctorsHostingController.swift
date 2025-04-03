@@ -32,30 +32,8 @@ class DoctorsHostingController: UIHostingController<DoctorListView> {
             navigationItem.title = specialization
             loadDoctorsForSpecialization()
         }
-        
-        rootView.delegate = self
-    }
 
-    // MARK: Private
-    
-    private func loadDoctorsForSearch() {
-        Task {
-            if let doctors = await DataController.shared.searchDoctors(query: searchQuery) {
-                DispatchQueue.main.async {
-                    self.rootView.filteredDoctors = doctors
-                }
-            }
-        }
-    }
-    
-    private func loadDoctorsForSpecialization() {
-        Task {
-            if let doctors = await DataController.shared.fetchDoctor(bySpecialization: specialization) {
-                DispatchQueue.main.async {
-                    self.rootView.filteredDoctors = doctors
-                }
-            }
-        }
+        rootView.delegate = self
     }
 
     func doctorsComplete() {
@@ -80,4 +58,27 @@ class DoctorsHostingController: UIHostingController<DoctorListView> {
         alertController.addAction(UIAlertAction(title: "OK", style: .default))
         present(alertController, animated: true)
     }
+
+    // MARK: Private
+
+    private func loadDoctorsForSearch() {
+        Task {
+            if let doctors = await DataController.shared.searchDoctors(query: searchQuery) {
+                DispatchQueue.main.async {
+                    self.rootView.filteredDoctors = doctors
+                }
+            }
+        }
+    }
+
+    private func loadDoctorsForSpecialization() {
+        Task {
+            if let doctors = await DataController.shared.fetchDoctor(bySpecialization: specialization) {
+                DispatchQueue.main.async {
+                    self.rootView.filteredDoctors = doctors
+                }
+            }
+        }
+    }
+
 }
