@@ -106,12 +106,15 @@ struct MedicalReportDetailView: View {
             ], spacing: 16) {
                 InfoCell(title: "Report Type", value: report.type)
                 InfoCell(title: "Created", value: report.date.formatted(date: .abbreviated, time: .shortened))
-                InfoCell(title: "Status", value: "Completed", color: .green)
             }
         }
         .padding()
-        .background(Color.white)
+        .background(Color(.systemBackground))
         .cornerRadius(16)
+        .overlay(
+            RoundedRectangle(cornerRadius: 16)
+                .stroke(Color(.systemGray4), lineWidth: 1)
+        )
     }
 
     var body: some View {
@@ -162,7 +165,6 @@ struct MedicalReportDetailView: View {
 
         Type: \(report.type)
         Date: \(dateFormatter.string(from: report.date))
-        Status: Completed
 
         Doctor's Notes:
         \(report.description)
@@ -178,7 +180,6 @@ struct MedicalReportDetailView: View {
     }
 
     private func deleteReport() {
-
         dismiss()
     }
 

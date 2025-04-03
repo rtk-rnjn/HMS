@@ -3,6 +3,7 @@
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -41,6 +42,7 @@
                 <hostingController id="Inu-Os-LXN" customClass="HomeHostingController" customModule="HMS" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" title="Hello!" id="g4C-iQ-RvX">
                         <barButtonItem key="rightBarButtonItem" image="bell.fill" catalog="system" style="done" id="1Xn-rP-35n">
+                            <color key="tintColor" name="iconBlue"/>
                             <connections>
                                 <segue destination="k7h-eb-pfL" kind="show" id="Pl1-0Y-PWK"/>
                             </connections>
@@ -119,5 +121,8 @@
     <resources>
         <image name="bell.fill" catalog="system" width="123" height="128"/>
         <image name="house" catalog="system" width="128" height="104"/>
+        <namedColor name="iconBlue">
+            <color red="0.0" green="0.27099999785423279" blue="0.60000002384185791" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
     </resources>
 </document>

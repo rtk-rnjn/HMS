@@ -14,12 +14,30 @@ protocol DashboardViewDelegate: AnyObject {
 struct Department: Identifiable, Hashable {
     let id: String = UUID().uuidString
     let name: String
-    let image: String = "heart.fill"
+    let image: String
+
+    init(name: String, image: String) {
+        self.name = name
+        self.image = image
+    }
 }
 
 struct DashboardView: View {
     weak var delegate: DashboardViewDelegate?
-    var departments: [Department] = []
+    var departments: [Department] = [
+        Department(name: "Dermatology", image: "bandage"),
+        Department(name: "ENT (Ear, Nose & Throat)", image: "ear"),
+        Department(name: "Emergency & Trauma", image: "cross.case"),
+        Department(name: "Endocrinology", image: "pills"),
+        Department(name: "Cardiology", image: "heart"),
+        Department(name: "Neurology", image: "brain.head.profile"),
+        Department(name: "Orthopedics", image: "figure.walk"),
+        Department(name: "Pediatrics", image: "figure.2.and.child.holdinghands"),
+        Department(name: "Psychiatry", image: "brain"),
+        Department(name: "Ophthalmology", image: "eye"),
+        Department(name: "Dentistry", image: "mouth"),
+        Department(name: "General Surgery", image: "cross.case.fill")
+    ]
 
     @State private var searchText = ""
     @State private var selectedDepartment: Department?
@@ -45,6 +63,7 @@ struct DashboardView: View {
                         Text("Today's Appointments")
                             .font(.title2)
                             .fontWeight(.semibold)
+                            .foregroundColor(.primary)
                         Spacer()
                     }
                     .padding(.horizontal, 16)
@@ -64,15 +83,15 @@ struct DashboardView: View {
                                 .foregroundColor(Color("iconBlue"))
                             Text("No Appointments Today")
                                 .font(.headline)
-                                .foregroundColor(.gray)
+                                .foregroundColor(.primary)
                             Text("Check the Appointments tab for upcoming visits")
                                 .font(.subheadline)
-                                .foregroundColor(.gray.opacity(0.8))
+                                .foregroundColor(.secondary)
                                 .multilineTextAlignment(.center)
                         }
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 30)
-                        .background(Color.white)
+                        .background(Color(.secondarySystemGroupedBackground))
                         .cornerRadius(12)
                         .padding(.horizontal, 16)
                     } else {
@@ -105,35 +124,36 @@ struct DashboardView: View {
 
 struct DepartmentCard: View {
     let department: Department
+    @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
-        VStack {
-            Spacer()
-
+        VStack(spacing: 12) {
             Circle()
                 .fill(Color("iconBlue"))
-                .frame(width: 46, height: 46)
+                .frame(width: 52, height: 52)
                 .overlay(
                     Image(systemName: department.image)
-                        .font(.title3)
+                        .font(.system(size: 24))
                         .foregroundColor(.white)
                 )
 
-            Spacer()
-
             Text(department.name)
-                .font(.footnote)
+                .font(.system(size: 15, weight: .medium))
                 .foregroundColor(.primary)
                 .multilineTextAlignment(.center)
                 .lineLimit(2)
-                .frame(height: 32)
-                .padding(.horizontal, 4)
-                .padding(.bottom, 8)
+                .minimumScaleFactor(0.8)
+                .frame(height: 40)
+                .padding(.horizontal, 8)
         }
-        .frame(width: 105, height: 105)
+        .frame(width: 120, height: 120)
         .background(
             RoundedRectangle(cornerRadius: 16)
-                .fill(Color(.systemBackground))
+                .fill(colorScheme == .dark ? Color(.systemGray6) : Color(.systemBackground))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 16)
+                        .strokeBorder(Color(.separator), lineWidth: 0.5)
+                )
         )
     }
 }
@@ -169,12 +189,18 @@ struct SpecializationDetailView: View {
     let specialization: Department
     @State private var searchText = ""
     var staff: [Staff] = []
+    @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
-        List(staff) { doctor in
-            DoctorCard(doctor: doctor)
+        ScrollView {
+            LazyVStack(spacing: 12) {
+                ForEach(staff) { doctor in
+                    DoctorCard(doctor: doctor)
+                        .padding(.horizontal)
+                }
+            }
+            .padding(.vertical, 12)
         }
-        .listStyle(PlainListStyle())
         .background(Color(.systemGroupedBackground))
         .navigationTitle(specialization.name)
         .searchable(
@@ -185,15 +211,114 @@ struct SpecializationDetailView: View {
     }
 }
 
-struct QuickActionsSection: View {
+struct DoctorCard: View {
+    let doctor: Staff
+    @Environment(\.colorScheme) var colorScheme
+    @State private var showingBookAppointment = false
+    
+    var body: some View {
+        VStack(spacing: 0) {
+            HStack(spacing: 16) {
+                Circle()
+                    .fill(Color("iconBlue"))
+                    .frame(width: 60, height: 60)
+                    .overlay(
+                        Image(systemName: "person.circle.fill")
+                            .font(.system(size: 32))
+                            .foregroundColor(.white)
+                    )
+                
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(doctor.fullName)
+                        .font(.system(size: 17, weight: .semibold))
+                        .foregroundColor(.primary)
+                    
+                    Text(doctor.department)
+                        .font(.system(size: 15))
+                        .foregroundColor(.secondary)
+                    
+                    Text(doctor.specialization)
+                        .font(.system(size: 13))
+                        .foregroundColor(.secondary)
+                }
+                
+                Spacer()
+                
+                VStack(alignment: .trailing, spacing: 4) {
+                    Circle()
+                        .fill(doctor.onLeave ? Color.orange : Color.green)
+                        .frame(width: 10, height: 10)
+                    
+                    if doctor.onLeave {
+                        Text("On Leave")
+                            .font(.system(size: 11))
+                            .foregroundColor(.orange)
+                    }
+                }
+            }
+            .padding(.horizontal, 16)
+            .padding(.vertical, 16)
+            
+            Divider()
+                .padding(.horizontal, 16)
+            
+            HStack(spacing: 24) {
+                Button(action: {
+                    showingBookAppointment = true
+                }) {
+                    HStack {
+                        Image(systemName: "calendar.badge.plus")
+                        Text("Book Appointment")
+                    }
+                    .font(.system(size: 15, weight: .medium))
+                    .foregroundColor(Color("iconBlue"))
+                }
+                
+                Divider()
+                    .frame(height: 20)
+                
+                NavigationLink(destination: DoctorView(doctor: doctor)) {
+                    HStack {
+                        Image(systemName: "person.text.rectangle")
+                        Text("View Profile")
+                    }
+                    .font(.system(size: 15, weight: .medium))
+                    .foregroundColor(Color("iconBlue"))
+                }
+            }
+            .padding(.vertical, 12)
+        }
+        .background(
+            RoundedRectangle(cornerRadius: 16)
+                .fill(colorScheme == .dark ? Color(.systemGray6) : Color(.systemBackground))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 16)
+                        .strokeBorder(Color(.separator), lineWidth: 0.5)
+                )
+        )
+        .sheet(isPresented: $showingBookAppointment) {
+            NavigationView {
+                BookAppointmentView()
+            }
+        }
+    }
+}
 
+struct QuickActionsSection: View {
     weak var delegate: DashboardViewDelegate?
+    @Environment(\.colorScheme) var colorScheme
+    @State private var showingEmergencyAlert = false
+    private let emergencyNumbers = [
+        ("Ambulance", "102"),
+        ("Medical Emergency", "108")
+    ]
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             Text("Quick Actions")
                 .font(.title2)
                 .fontWeight(.semibold)
+                .foregroundColor(.primary)
                 .padding(.horizontal)
 
             LazyVGrid(
@@ -204,31 +329,94 @@ struct QuickActionsSection: View {
                 spacing: 16
             ) {
                 QuickActionButton(
-                    icon: "calendar.badge.plus",
+                    icon: "creditcard.fill",
                     title: "Billing",
-                    color: .unselectedBlue,
+                    subtitle: "View & pay bills",
+                    color: Color("iconBlue"),
                     action: {
                         delegate?.customPerformSegue(withIdentifier: "segueShowBillingHostingController")
                     }
                 )
                 QuickActionButton(
-                    icon: "folder.fill", title: "Emergency",
-                    color: .unselectedBlue,
+                    icon: "cross.case.fill",
+                    title: "Emergency",
+                    subtitle: "Get immediate help",
+                    color: Color("iconBlue"),
                     action: {
-
-                        UIApplication.shared.open(URL(string: "tel://9119701017")!)
+                        showingEmergencyAlert = true
                     }
                 )
             }
             .padding(.horizontal)
         }
+        .alert("Emergency Services", isPresented: $showingEmergencyAlert) {
+            ForEach(emergencyNumbers, id: \.0) { name, number in
+                Button("\(name) (\(number))", role: .destructive) {
+                    if let url = URL(string: "tel://\(number)") {
+                        UIApplication.shared.open(url)
+                    }
+                }
+            }
+            Button("Cancel", role: .cancel) { }
+        } message: {
+            Text("Select emergency service to call")
+        }
     }
+}
 
-    // MARK: Private
-
-    @State private var showingBookAppointment = false
-    @State private var showingMedicalRecords = false
-
+struct QuickActionButton: View {
+    let icon: String
+    let title: String
+    let subtitle: String
+    let color: Color
+    let action: () -> Void
+    
+    @Environment(\.colorScheme) var colorScheme
+    @State private var isPressed = false
+    
+    var body: some View {
+        Button(action: {
+            withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) {
+                isPressed = true
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) {
+                    isPressed = false
+                }
+                action()
+            }
+        }) {
+            VStack(alignment: .leading, spacing: 12) {
+                Image(systemName: icon)
+                    .font(.system(size: 24, weight: .medium))
+                    .foregroundColor(color)
+                    .frame(width: 32, height: 32)
+                
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(title)
+                        .font(.system(size: 17, weight: .semibold))
+                        .foregroundColor(.primary)
+                    
+                    Text(subtitle)
+                        .font(.system(size: 13))
+                        .foregroundColor(.secondary)
+                }
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.horizontal, 16)
+            .padding(.vertical, 16)
+            .background(
+                RoundedRectangle(cornerRadius: 16)
+                    .fill(colorScheme == .dark ? Color(.systemGray6) : Color(.systemBackground))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 16)
+                            .strokeBorder(Color(.separator), lineWidth: 0.5)
+                    )
+            )
+            .scaleEffect(isPressed ? 0.97 : 1.0)
+        }
+        .buttonStyle(PlainButtonStyle())
+    }
 }
 
 struct BookAppointmentView: View {
@@ -298,4 +486,166 @@ struct BookAppointmentView: View {
            rootViewController.present(searchController, animated: true, completion: nil)
        }
    }
+}
+
+// MARK: - Previews
+struct DashboardView_Previews: PreviewProvider {
+    static var previews: some View {
+        NavigationView {
+            DashboardView(
+                departments: sampleDepartments,
+                appointments: sampleAppointments
+            )
+        }
+        .preferredColorScheme(.light)
+        
+        NavigationView {
+            DashboardView(
+                departments: sampleDepartments,
+                appointments: sampleAppointments
+            )
+        }
+        .preferredColorScheme(.dark)
+    }
+    
+    // Sample Data
+    static var sampleDepartments: [Department] = [
+        Department(name: "Dermatology", image: "bandage"),
+        Department(name: "ENT (Ear, Nose & Throat)", image: "ear"),
+        Department(name: "Emergency & Trauma", image: "cross.case"),
+        Department(name: "Cardiology", image: "heart")
+    ]
+    
+    static var sampleAppointments: [Appointment] = {
+        let calendar = Calendar.current
+        let today = Date()
+        
+        let doctor1 = Staff(
+            firstName: "John",
+            lastName: "Smith",
+            emailAddress: "john.smith@hospital.com",
+            dateOfBirth: calendar.date(byAdding: .year, value: -35, to: today) ?? today,
+            password: "password123",
+            contactNumber: "+1234567890",
+            specialization: "Heart Specialist",
+            department: "Cardiology",
+            onLeave: false,
+            licenseId: "LIC123456"
+        )
+        
+        let doctor2 = Staff(
+            firstName: "Sarah",
+            lastName: "Johnson",
+            emailAddress: "sarah.johnson@hospital.com",
+            dateOfBirth: calendar.date(byAdding: .year, value: -30, to: today) ?? today,
+            password: "password123",
+            contactNumber: "+1234567891",
+            specialization: "Skin Specialist",
+            department: "Dermatology",
+            onLeave: true,
+            licenseId: "LIC123457"
+        )
+
+        let appointment1 = Appointment(
+            id: "1",
+            patientId: "p1",
+            doctorId: "d1",
+            doctor: doctor1,
+            startDate: calendar.date(byAdding: .hour, value: 2, to: today) ?? today,
+            endDate: calendar.date(byAdding: .hour, value: 3, to: today) ?? today,
+            status: .confirmed
+        )
+        
+        let appointment2 = Appointment(
+            id: "2",
+            patientId: "p1",
+            doctorId: "d2",
+            doctor: doctor2,
+            startDate: calendar.date(byAdding: .hour, value: 4, to: today) ?? today,
+            endDate: calendar.date(byAdding: .hour, value: 5, to: today) ?? today,
+            status: .confirmed
+        )
+        
+        return [appointment1, appointment2]
+    }()
+}
+
+struct DoctorCard_Previews: PreviewProvider {
+    static var previews: some View {
+        VStack {
+            DoctorCard(doctor: sampleDoctor)
+                .padding()
+            
+            DoctorCard(doctor: sampleDoctorOnLeave)
+                .padding()
+        }
+        .background(Color(.systemGroupedBackground))
+        .previewLayout(.sizeThatFits)
+        
+        VStack {
+            DoctorCard(doctor: sampleDoctor)
+                .padding()
+            
+            DoctorCard(doctor: sampleDoctorOnLeave)
+                .padding()
+        }
+        .background(Color(.systemGroupedBackground))
+        .preferredColorScheme(.dark)
+        .previewLayout(.sizeThatFits)
+    }
+    
+    static var sampleDoctor: Staff = {
+        let calendar = Calendar.current
+        let today = Date()
+        
+        return Staff(
+            firstName: "Rajesh",
+            lastName: "Kumar",
+            emailAddress: "dr.rajesh.kumar@hospital.com",
+            dateOfBirth: calendar.date(byAdding: .year, value: -35, to: today) ?? today,
+            password: "password123",
+            contactNumber: "+919876543210",
+            specialization: "Heart Specialist",
+            department: "Cardiology",
+            onLeave: false,
+            licenseId: "MCI123456"
+        )
+    }()
+    
+    static var sampleDoctorOnLeave: Staff = {
+        let calendar = Calendar.current
+        let today = Date()
+        
+        return Staff(
+            firstName: "Priya",
+            lastName: "Sharma",
+            emailAddress: "dr.priya.sharma@hospital.com",
+            dateOfBirth: calendar.date(byAdding: .year, value: -30, to: today) ?? today,
+            password: "password123",
+            contactNumber: "+919876543211",
+            specialization: "Skin Specialist",
+            department: "Dermatology",
+            onLeave: true,
+            licenseId: "MCI123457"
+        )
+    }()
+}
+
+struct QuickActionsSection_Previews: PreviewProvider {
+    static var previews: some View {
+        VStack {
+            QuickActionsSection()
+                .padding()
+        }
+        .background(Color(.systemGroupedBackground))
+        .previewLayout(.sizeThatFits)
+        
+        VStack {
+            QuickActionsSection()
+                .padding()
+        }
+        .background(Color(.systemGroupedBackground))
+        .preferredColorScheme(.dark)
+        .previewLayout(.sizeThatFits)
+    }
 }

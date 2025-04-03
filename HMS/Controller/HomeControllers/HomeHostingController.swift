@@ -106,7 +106,25 @@ class HomeHostingController: UIHostingController<DashboardView>, UISearchBarDele
             let departments = staffs.map { $0.department }
             let uniqueDepartments = Array(Set(departments)).sorted()
             DispatchQueue.main.async {
-                self.rootView.departments = uniqueDepartments.map { Department(name: $0) }
+                self.rootView.departments = uniqueDepartments.map { department in
+                    let image: String
+                    switch department.lowercased() {
+                        case let d where d.contains("dermatology"): image = "bandage"
+                        case let d where d.contains("ent"): image = "ear"
+                        case let d where d.contains("emergency"): image = "cross.case"
+                        case let d where d.contains("endocrinology"): image = "pills"
+                        case let d where d.contains("cardiology"): image = "heart"
+                        case let d where d.contains("neurology"): image = "brain.head.profile"
+                        case let d where d.contains("orthopedics"): image = "figure.walk"
+                        case let d where d.contains("pediatrics"): image = "figure.2.and.child.holdinghands"
+                        case let d where d.contains("psychiatry"): image = "brain"
+                        case let d where d.contains("ophthalmology"): image = "eye"
+                        case let d where d.contains("dentistry"): image = "mouth"
+                        case let d where d.contains("surgery"): image = "cross.case.fill"
+                        default: image = "stethoscope"
+                    }
+                    return Department(name: department, image: image)
+                }
             }
         }
     }
