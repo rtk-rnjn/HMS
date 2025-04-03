@@ -15,6 +15,7 @@ struct MedicalReport: Codable, Identifiable {
         case date
         case type
         case imageData = "image_data"
+        case status
     }
 
     var id: String = UUID().uuidString
@@ -22,6 +23,7 @@ struct MedicalReport: Codable, Identifiable {
     var date: Date
     var type: String
     var imageData: Data?
+    var status: String?
 
     var image: UIImage? {
         guard let data = imageData else { return nil }
