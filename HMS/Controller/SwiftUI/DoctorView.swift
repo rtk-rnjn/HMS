@@ -48,7 +48,7 @@ struct DoctorView: View {
             if !bookedTime.contains(currentSlot) {
                 availableSlots.append(currentSlot)
             }
-            currentSlot = calendar.date(byAdding: .minute, value: 60, to: currentSlot) ?? currentSlot
+            currentSlot = calendar.date(byAdding: .minute, value: 30, to: currentSlot) ?? currentSlot
         }
 
         return availableSlots
@@ -60,7 +60,7 @@ struct DoctorView: View {
     var dates: [Date] {
         let calendar = Calendar.current
         let today = calendar.startOfDay(for: Date())
-        return (1..<15).compactMap { day in
+        return (0..<14).compactMap { day in
             calendar.date(byAdding: .day, value: day, to: today)
         }
     }

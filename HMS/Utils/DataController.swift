@@ -66,6 +66,15 @@ struct RazorpayPayload: Codable {
     var shortURL: String
 }
 
+
+struct Log: Codable, Sendable {
+    enum CodingKeys: String, CodingKey {
+        case message
+        case createdAt = "created_at"
+    }
+    var message: String
+    var createdAt: Date
+}
 class DataController {
 
     // MARK: Public
@@ -187,8 +196,20 @@ class DataController {
     }
 
     func bookAppointment(_ appointment: Appointment) async -> Bool {
+
+        if patient == nil {
+            let loggedIn = await autoLogin()
+            if !loggedIn {
+                fatalError()
+            }
+        }
+
+        guard let patient else {
+            fatalError()
+        }
+
         var thisAppointment = appointment
-        thisAppointment.patientId = patient?.id ?? ""
+        thisAppointment.patientId = patient.id
 
         guard let appointmentData = thisAppointment.toData() else {
             fatalError("Could not book appointment")
@@ -301,6 +322,9 @@ class DataController {
 
         return await MiddlewareManager.shared.get(url: "/reviews/\(id)")
     }
+
+
+
 
     // MARK: Private
 
