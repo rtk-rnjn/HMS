@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UIKit
 
 class HomeHostingController: UIHostingController<DashboardView>, UISearchBarDelegate, UISearchResultsUpdating, DashboardViewDelegate {
 
@@ -45,7 +46,6 @@ class HomeHostingController: UIHostingController<DashboardView>, UISearchBarDele
         super.viewWillAppear(animated)
 
         navigationItem.title = "Home"
-
         rootView.delegate = self
 
         Task {
@@ -63,12 +63,24 @@ class HomeHostingController: UIHostingController<DashboardView>, UISearchBarDele
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "segueShowDoctorsHostingController", let specialization = sender as? Specialization {
+        if segue.identifier == "segueShowDoctorsHostingController" {
             let destination = segue.destination as? DoctorsHostingController
-            destination?.specialization = specialization.name
+            if let specialization = sender as? Specialization {
+                destination?.specialization = specialization.name
+            } else if let searchText = sender as? String {
+                destination?.searchQuery = searchText
+                destination?.isSearchMode = true
+            }
         } else if segue.identifier == "segueShowAppointmentsViewController" {
             // No need to pass any data as the appointments view controller will fetch its own data
         }
+    }
+
+    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
+        // Push the search view controller onto the navigation stack
+        let searchVC = SearchViewController()
+        navigationController?.pushViewController(searchVC, animated: true)
+        return false // Prevent the search bar from becoming first responder
     }
 
     func updateSearchResults(for searchController: UISearchController) {}
@@ -94,6 +106,9 @@ class HomeHostingController: UIHostingController<DashboardView>, UISearchBarDele
         searchController.searchBar.delegate = self
         searchController.searchResultsUpdater = self
         searchController.searchBar.placeholder = "Search Doctors"
+        searchController.hidesNavigationBarDuringPresentation = false
+        searchController.automaticallyShowsSearchResultsController = false
+        searchController.showsSearchResultsController = false
 
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
@@ -115,5 +130,4 @@ class HomeHostingController: UIHostingController<DashboardView>, UISearchBarDele
             self.rootView.appointments = appointments
         }
     }
-
 }

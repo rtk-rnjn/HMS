@@ -58,7 +58,7 @@
         <!--Doctors Hosting Controller-->
         <scene sceneID="9vS-UE-q7l">
             <objects>
-                <hostingController id="wZq-M3-X0a" customClass="DoctorsHostingController" customModule="HMS" customModuleProvider="target" sceneMemberID="viewController">
+                <hostingController storyboardIdentifier="DoctorsHostingController" id="wZq-M3-X0a" customClass="DoctorsHostingController" customModule="HMS" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="h2q-xK-MHv"/>
                 </hostingController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VX3-ta-x6E" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
