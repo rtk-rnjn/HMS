@@ -298,6 +298,18 @@ class DataController {
         return await MiddlewareManager.shared.get(url: "/patient/\(patient.id)/announcements")
     }
 
+    func fetchMyAnnouncements() async -> [Announcement]? {
+        if patient == nil {
+            guard await autoLogin() else { fatalError() }
+        }
+
+        guard let patient else {
+            fatalError("Patient is nil")
+        }
+
+        return await MiddlewareManager.shared.get(url: "/patient/\(patient.id)/my-announcements")
+    }
+
     func fetchMedicalReports() async -> [MedicalReport] {
         guard let id = UserDefaults.standard.string(forKey: "patientId") else {
             return []
