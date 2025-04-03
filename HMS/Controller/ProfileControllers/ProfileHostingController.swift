@@ -1,20 +1,13 @@
-//
-
-//
-
-//
-
 import SwiftUI
+import UIKit
 
-class ProfileHostingController: UIHostingController<PatientProfileView> {
+class ProfileHostingController: UIHostingController<ProfileDetailView> {
 
-    // MARK: Lifecycle
-
-    required init?(coder: NSCoder) {
-        super.init(coder: coder, rootView: PatientProfileView(patient: DataController.shared.patient))
+    @MainActor required dynamic init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder, rootView: ProfileDetailView(delegate: nil))
+        self.rootView.delegate = self
+        self.rootView.patient = DataController.shared.patient
     }
-
-    // MARK: Internal
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,6 +18,12 @@ class ProfileHostingController: UIHostingController<PatientProfileView> {
         }
 
         navigationItem.title = "Profile"
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        // Update patient data when view appears
+        self.rootView.patient = DataController.shared.patient
     }
 
     func profileComplete() {
@@ -43,5 +42,9 @@ class ProfileHostingController: UIHostingController<PatientProfileView> {
 
         let alert = Utils.getAlert(title: "Logout", message: "Are you sure you want to logout?", actions: [logout, cancel])
         present(alert, animated: true)
+    }
+    
+    func showChangePassword() {
+        performSegue(withIdentifier: "segueShowChangePasswordTableViewController", sender: nil)
     }
 }
