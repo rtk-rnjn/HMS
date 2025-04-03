@@ -91,16 +91,8 @@ struct DoctorView: View {
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 100, height: 100)
-                                .foregroundColor(Color(UIColor.systemGray4))
+                                .foregroundColor(Color("iconBlue"))
 
-                            Circle()
-                                .fill(Color.blue)
-                                .frame(width: 32, height: 32)
-                                .overlay(
-                                    Image(systemName: "camera.fill")
-                                        .foregroundColor(.white)
-                                        .font(.system(size: 16))
-                                )
                         }
                         .padding(.bottom, 4)
 
@@ -124,7 +116,7 @@ struct DoctorView: View {
                         VStack(spacing: 8) {
                             Image(systemName: "person.3.fill")
                                 .font(.system(size: 24))
-                                .foregroundColor(.blue)
+                                .foregroundColor(Color("iconBlue"))
                             Text("0")
                                 .font(.title3)
                                 .fontWeight(.bold)
@@ -139,7 +131,7 @@ struct DoctorView: View {
                         VStack(spacing: 8) {
                             Image(systemName: "clock.fill")
                                 .font(.system(size: 24))
-                                .foregroundColor(.blue)
+                                .foregroundColor(Color("iconBlue"))
                             Text("\(doctor.yearOfExperience) yrs")
                                 .font(.title3)
                                 .fontWeight(.bold)
@@ -154,7 +146,7 @@ struct DoctorView: View {
                         VStack(spacing: 8) {
                             Image(systemName: "star.fill")
                                 .font(.system(size: 24))
-                                .foregroundColor(.blue)
+                                .foregroundColor(Color("iconBlue"))
                             Text("4.8")
                                 .font(.title3)
                                 .fontWeight(.bold)

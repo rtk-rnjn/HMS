@@ -140,7 +140,7 @@ struct LabReportCard: View {
             HStack {
                 Image(systemName: "doc.text")
                     .font(.system(size: 24))
-                    .foregroundColor(.blue)
+                    .foregroundColor(Color("iconBlue"))
                 Spacer()
             }
 

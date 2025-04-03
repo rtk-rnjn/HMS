@@ -62,7 +62,7 @@ struct DashboardView: View {
                         VStack(spacing: 12) {
                             Image(systemName: "calendar.badge.exclamationmark")
                                 .font(.system(size: 40))
-                                .foregroundColor(.gray)
+                                .foregroundColor(Color("iconBlue"))
                             Text("No Appointments Today")
                                 .font(.headline)
                                 .foregroundColor(.gray)
