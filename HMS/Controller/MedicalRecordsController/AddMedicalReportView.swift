@@ -109,7 +109,7 @@ struct AddMedicalReportView: View {
                                 VStack(alignment: .leading) {
                                     Text("Upload files")
                                         .foregroundColor(.blue)
-                                    Text("PDF, JPG, PNG up to 10MB")
+                                    Text("JPG or PNG")
                                         .font(.caption)
                                         .foregroundColor(.secondary)
                                 }

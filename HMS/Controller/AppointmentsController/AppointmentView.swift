@@ -27,10 +27,10 @@ struct AppointmentView: View {
                     Text("No Appointments Found")
                         .font(.title3)
                         .fontWeight(.semibold)
-                        .foregroundColor(.gray)
+                        .foregroundColor(Color("iconBlue"))
                     Text("Your scheduled appointments will appear here")
                         .font(.body)
-                        .foregroundColor(.gray)
+                        .foregroundColor(.unselectedBlue)
                         .multilineTextAlignment(.center)
                     Spacer()
                 }
