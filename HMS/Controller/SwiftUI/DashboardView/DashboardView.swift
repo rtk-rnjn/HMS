@@ -164,7 +164,7 @@ struct SpecializationsSection: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("Specializations")
+            Text("Departments")
                 .font(.title2)
                 .fontWeight(.semibold)
                 .padding(.horizontal)

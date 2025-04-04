@@ -32,6 +32,8 @@ class AppointmentHostingController: UIHostingController<AppointmentView>, UISear
 
         rootView.delegate = self
         navigationItem.title = "My Appointments"
+        navigationItem.largeTitleDisplayMode = .automatic
+           navigationController?.navigationBar.prefersLargeTitles = true
 
         prepareSearchController()
         loadAppointments()

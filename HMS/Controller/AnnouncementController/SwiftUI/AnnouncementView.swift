@@ -49,10 +49,10 @@ struct AnnouncementView: View {
 
     private func categoryColor(for category: AnnouncementCategory) -> Color {
         switch category {
-        case .general: return .blue
-        case .emergency: return .red
-        case .appointment: return .green
-        case .holiday: return .orange
+        case .general: return .primaryBlue
+        case .emergency: return .airleblue
+        case .appointment: return .secondaryBlue
+        case .holiday: return .successBlue
         }
     }
 }
