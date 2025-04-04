@@ -14,14 +14,22 @@ class DoctorSearchHostigController: UIHostingController<DoctorListView>, UISearc
 
         let workItem = DispatchWorkItem {
             DispatchQueue.main.async {
+                var filteredResults: [Staff] = []
+
                 if searchText.isEmpty {
-                    self.rootView.filteredDoctors = staffs
+                    filteredResults = staffs
                 } else {
-                    self.rootView.filteredDoctors = staffs.filter {
+                    filteredResults = staffs.filter {
                         $0.fullName.lowercased().contains(searchText.lowercased()) ||
                         $0.department.lowercased().contains(searchText.lowercased()) ||
                         $0.specialization.lowercased().contains(searchText.lowercased())
                     }
+                }
+
+                if let starStaff = self.starStaff, filteredResults.contains(where: { $0.id == starStaff.id }) == false {
+                    self.rootView.filteredDoctors = [starStaff] + filteredResults
+                } else {
+                    self.rootView.filteredDoctors = filteredResults
                 }
             }
         }
@@ -44,8 +52,13 @@ class DoctorSearchHostigController: UIHostingController<DoctorListView>, UISearc
 
         Task {
             staffs = await DataController.shared.fetchDoctors()
+            starStaff = await DataController.shared.fetchDoctor(bySymptom: "") // Fetch based on symptoms
             DispatchQueue.main.async {
-                self.rootView.filteredDoctors = self.staffs ?? []
+                if let starStaff = self.starStaff {
+                    self.rootView.filteredDoctors = [starStaff] + (self.staffs?.filter { $0.id != starStaff.id } ?? [])
+                } else {
+                    self.rootView.filteredDoctors = self.staffs ?? []
+                }
             }
         }
 
