@@ -98,7 +98,9 @@ struct StatusTag: View {
     private var statusColor: Color {
         switch status {
         case .confirmed: return Color("successBlue")
-        case .completed: return Color("errorBlue")
+        case .completed: return Color("secondaryBlue")
+        case .cancelled: return Color("errorBlue")
+        case .onGoing:   return Color("primaryBlue")
         }
     }
 }

@@ -526,7 +526,7 @@ struct DashboardView_Previews: PreviewProvider {
             doctor: doctor1,
             startDate: calendar.date(byAdding: .hour, value: 2, to: today) ?? today,
             endDate: calendar.date(byAdding: .hour, value: 3, to: today) ?? today,
-            status: .confirmed
+            _status: .confirmed
         )
 
         let appointment2 = Appointment(
@@ -536,7 +536,7 @@ struct DashboardView_Previews: PreviewProvider {
             doctor: doctor2,
             startDate: calendar.date(byAdding: .hour, value: 4, to: today) ?? today,
             endDate: calendar.date(byAdding: .hour, value: 5, to: today) ?? today,
-            status: .confirmed
+            _status: .confirmed
         )
 
         return [appointment1, appointment2]
