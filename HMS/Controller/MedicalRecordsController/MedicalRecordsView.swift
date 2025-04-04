@@ -276,16 +276,16 @@ struct MedicalRecordsView: View {
             .presentationDetents([.medium])
         }
         .task {
-            await loadReports()
+            delegate?.loadReports()
         }
         .refreshable {
-            await loadReports()
+            delegate?.loadReports()
         }
     }
 
     // MARK: Private
 
-    @State private var reports: [MedicalReport] = []
+    var reports: [MedicalReport] = []
     @State private var searchText = ""
     @State private var startDate = Calendar.current.date(byAdding: .month, value: -1, to: Date()) ?? Date()
     @State private var endDate: Date = .init()
@@ -330,22 +330,7 @@ struct MedicalRecordsView: View {
     }
 
     private func loadReports() async {
-        let controller: DataController
-        #if DEBUG
-        if ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1",
-           let mockController = _mockDataController {
-            controller = mockController
-        } else {
-            controller = DataController.shared
-        }
-        #else
-        controller = DataController.shared
-        #endif
-        
-        let fetchedReports = await controller.fetchMedicalReports()
-        withAnimation {
-            reports = fetchedReports
-        }
+        delegate?.loadReports()
     }
 
     @Environment(\.mockDataController) private var _mockDataController

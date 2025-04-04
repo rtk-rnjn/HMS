@@ -263,19 +263,6 @@ struct DoctorCard: View {
                 .padding(.horizontal, 16)
             
             HStack(spacing: 24) {
-                Button(action: {
-                    showingBookAppointment = true
-                }) {
-                    HStack {
-                        Image(systemName: "calendar.badge.plus")
-                        Text("Book Appointment")
-                    }
-                    .font(.system(size: 15, weight: .medium))
-                    .foregroundColor(Color("iconBlue"))
-                }
-                
-                Divider()
-                    .frame(height: 20)
                 
                 NavigationLink(destination: DoctorView(doctor: doctor)) {
                     HStack {

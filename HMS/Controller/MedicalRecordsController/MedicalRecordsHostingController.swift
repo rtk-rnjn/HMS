@@ -21,6 +21,22 @@ class MedicalRecordsHostingController: UIHostingController<MedicalRecordsView> {
     override func viewDidLoad() {
         super.viewDidLoad()
         rootView.delegate = self
+
+
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        loadReports()
+    }
+
+    func loadReports() {
+        Task {
+            reports = await DataController.shared.fetchMedicalReports()
+            DispatchQueue.main.async {
+                self.rootView.reports = self.reports
+            }
+        }
+    }
 }
