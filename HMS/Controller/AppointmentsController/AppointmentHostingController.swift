@@ -44,7 +44,20 @@ class AppointmentHostingController: UIHostingController<AppointmentView>, UISear
         )
     }
 
-    func updateSearchResults(for searchController: UISearchController) {}
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let searchText = searchController.searchBar.text else {
+            return
+        }
+
+        if searchText.isEmpty || searchText == "" {
+            self.rootView.appointments = appointments
+            return
+        }
+
+        self.rootView.appointments = appointments.filter {
+            $0.doctor?.fullName.lowercased().contains(searchText.lowercased()) ?? true
+        }
+    }
 
     func showAppointmentDetails(_ appointment: Appointment) {
         let detailView = AppointmentDetailView(appointment: appointment, delegate: self)
@@ -64,17 +77,20 @@ class AppointmentHostingController: UIHostingController<AppointmentView>, UISear
         }
     }
 
+    var appointments: [Appointment] = []
+
     private func loadAppointments() {
         Task {
-            let appointments = await DataController.shared.fetchAppointments()
+            appointments = await DataController.shared.fetchAppointments()
             DispatchQueue.main.async {
-            self.rootView.appointments = appointments
+                self.rootView.appointments = self.appointments
             }
         }
     }
 
     private func prepareSearchController() {
         searchController.searchResultsUpdater = self
+        searchController.searchBar.delegate = self
         searchController.searchBar.placeholder = "Search Appointments"
 
         navigationItem.searchController = searchController
