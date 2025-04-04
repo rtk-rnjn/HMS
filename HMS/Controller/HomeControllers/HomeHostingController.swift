@@ -68,7 +68,6 @@ class HomeHostingController: UIHostingController<DashboardView>, UISearchBarDele
     }
 
     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
-        let searchVC = SearchViewController()
         performSegue(withIdentifier: "segueShowDoctorSearchHostigController", sender: nil)
         return false
     }

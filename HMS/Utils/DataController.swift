@@ -274,10 +274,6 @@ class DataController {
     }
 
     func cancelAppointment(_ appointment: Appointment) async -> Bool {
-        if appointment.startDate.timeIntervalSinceNow < 24 * 60 * 60 {
-            return false
-        }
-
         return await MiddlewareManager.shared.delete(url: "/appointment/\(appointment.id)/cancel", body: nil)
     }
 

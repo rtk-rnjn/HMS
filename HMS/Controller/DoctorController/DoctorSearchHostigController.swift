@@ -1,13 +1,8 @@
-//
-//  DoctorSearchHostigController.swift
-//  HMS
-//
-//  Created by RITIK RANJAN on 04/04/25.
-//
-
 import SwiftUI
 
 class DoctorSearchHostigController: UIHostingController<DoctorListView>, UISearchResultsUpdating, UISearchBarDelegate {
+    private var searchWorkItem: DispatchWorkItem?
+
     func updateSearchResults(for searchController: UISearchController) {
         let searchText = searchController.searchBar.text ?? ""
 
@@ -15,18 +10,24 @@ class DoctorSearchHostigController: UIHostingController<DoctorListView>, UISearc
             return
         }
 
-        if searchText.isEmpty || searchText ==  "" {
-            self.rootView.filteredDoctors = staffs
-            return
+        searchWorkItem?.cancel() // Cancel previous work item if any
+
+        let workItem = DispatchWorkItem {
+            DispatchQueue.main.async {
+                if searchText.isEmpty {
+                    self.rootView.filteredDoctors = staffs
+                } else {
+                    self.rootView.filteredDoctors = staffs.filter {
+                        $0.fullName.lowercased().contains(searchText.lowercased()) ||
+                        $0.department.lowercased().contains(searchText.lowercased()) ||
+                        $0.specialization.lowercased().contains(searchText.lowercased())
+                    }
+                }
+            }
         }
-        self.rootView.filteredDoctors = staffs.filter {
-            $0.fullName.lowercased().contains(searchText.lowercased()) ||
-            $0.department.lowercased().contains(searchText.lowercased()) ||
-            $0.specialization.lowercased().contains(searchText.lowercased())
-        }
-//        Task {
-//            self.starStaff = await DataController.shared.fetchDoctor(bySymptom: searchText)
-//        }
+
+        searchWorkItem = workItem
+        DispatchQueue.global().asyncAfter(deadline: .now() + 0.3, execute: workItem) // Debounce delay of 300ms
     }
 
     var staffs: [Staff]? = []
