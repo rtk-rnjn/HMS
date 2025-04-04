@@ -49,7 +49,7 @@ struct MedicalProfileView: View {
                                 }
                             }
                         }
-                        
+
                         Button(action: {
                             selectedBloodGroup = .unknown
                         }) {

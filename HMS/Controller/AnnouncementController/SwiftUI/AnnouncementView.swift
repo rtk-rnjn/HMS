@@ -48,7 +48,7 @@ struct AnnouncementView: View {
     private var groupedAnnouncements: [String: [Announcement]] {
         let calendar = Calendar.current
         let now = Date()
-        
+
         return Dictionary(grouping: announcements) { announcement in
             if calendar.isDateInToday(announcement.createdAt) {
                 return "Today"
@@ -83,18 +83,6 @@ struct AnnouncementView: View {
 
 // MARK: - Previews
 struct AnnouncementView_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationView {
-            AnnouncementView(announcements: sampleAnnouncements)
-                .preferredColorScheme(.light)
-        }
-        
-        NavigationView {
-            AnnouncementView(announcements: sampleAnnouncements)
-                .preferredColorScheme(.dark)
-        }
-    }
-    
     static var sampleAnnouncements: [Announcement] = [
         // Today
         Announcement(
@@ -131,4 +119,17 @@ struct AnnouncementView_Previews: PreviewProvider {
             category: .general
         )
     ]
+
+    static var previews: some View {
+        NavigationView {
+            AnnouncementView(announcements: sampleAnnouncements)
+                .preferredColorScheme(.light)
+        }
+
+        NavigationView {
+            AnnouncementView(announcements: sampleAnnouncements)
+                .preferredColorScheme(.dark)
+        }
+    }
+
 }

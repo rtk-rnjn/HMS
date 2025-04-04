@@ -22,7 +22,6 @@ class MedicalRecordsHostingController: UIHostingController<MedicalRecordsView> {
         super.viewDidLoad()
         rootView.delegate = self
 
-
     }
 
     override func viewWillAppear(_ animated: Bool) {

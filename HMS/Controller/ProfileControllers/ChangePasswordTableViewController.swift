@@ -76,7 +76,7 @@ class ChangePasswordTableViewController: UITableViewController {
 
         Task {
             let changed = await DataController.shared.changePassword(oldPassword: oldPassword, newPassword: newPassword)
-            
+
             await MainActor.run {
                 // Dismiss loading indicator
                 loadingAlert.dismiss(animated: true) {

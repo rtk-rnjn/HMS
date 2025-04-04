@@ -8,9 +8,6 @@ import SwiftUI
 import UIKit
 
 class HomeHostingController: UIHostingController<DashboardView>, UISearchBarDelegate, UISearchResultsUpdating, DashboardViewDelegate {
-    func customPerformSegue(withIdentifier id: String) {
-        performSegue(withIdentifier: id, sender: nil)
-    }
 
     // MARK: Lifecycle
 
@@ -65,6 +62,10 @@ class HomeHostingController: UIHostingController<DashboardView>, UISearchBarDele
                 destination?.isSearchMode = true
             }
         } else if segue.identifier == "segueShowAppointmentsViewController" {}
+    }
+
+    func customPerformSegue(withIdentifier id: String) {
+        performSegue(withIdentifier: id, sender: nil)
     }
 
     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {

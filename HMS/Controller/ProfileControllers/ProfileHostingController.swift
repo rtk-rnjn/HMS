@@ -3,11 +3,15 @@ import UIKit
 
 class ProfileHostingController: UIHostingController<ProfileDetailView> {
 
+    // MARK: Lifecycle
+
     @MainActor required dynamic init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder, rootView: ProfileDetailView(delegate: nil))
-        self.rootView.delegate = self
-        self.rootView.patient = DataController.shared.patient
+        rootView.delegate = self
+        rootView.patient = DataController.shared.patient
     }
+
+    // MARK: Internal
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,7 +27,7 @@ class ProfileHostingController: UIHostingController<ProfileDetailView> {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // Update patient data when view appears
-        self.rootView.patient = DataController.shared.patient
+        rootView.patient = DataController.shared.patient
     }
 
     func profileComplete() {
@@ -43,7 +47,7 @@ class ProfileHostingController: UIHostingController<ProfileDetailView> {
         let alert = Utils.getAlert(title: "Logout", message: "Are you sure you want to logout?", actions: [logout, cancel])
         present(alert, animated: true)
     }
-    
+
     func showChangePassword() {
         performSegue(withIdentifier: "segueShowChangePasswordTableViewController", sender: nil)
     }

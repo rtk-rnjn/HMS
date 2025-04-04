@@ -9,7 +9,7 @@ struct ProfileDetailView: View {
     @State private var isEditing = false
     @State private var editedFullName = ""
     @State private var editedEmail = ""
-    @State private var editedDateOfBirth = Date()
+    @State private var editedDateOfBirth: Date = .init()
     @State private var selectedGender = "Male"
     @State private var selectedBloodGroup = "A+"
     @State private var editedHeight = ""
@@ -17,14 +17,14 @@ struct ProfileDetailView: View {
     @State private var showAlert = false
     @State private var alertMessage = ""
     var delegate: ProfileHostingController?
-    
+
     var body: some View {
         List {
             // Profile Image Section
             Section {
                 VStack(spacing: 8) {
                     ZStack(alignment: .bottomTrailing) {
-                        if let selectedImage = selectedImage {
+                        if let selectedImage {
                             Image(uiImage: selectedImage)
                                 .resizable()
                                 .aspectRatio(contentMode: .fill)
@@ -38,7 +38,7 @@ struct ProfileDetailView: View {
                                 .clipShape(Circle())
                                 .foregroundColor(Color(.systemGray4))
                         }
-                        
+
                         Button(action: {
                             showingImagePicker = true
                         }) {
@@ -50,7 +50,7 @@ struct ProfileDetailView: View {
                                 .foregroundColor(.blue)
                         }
                     }
-                    
+
                     Text(patient?.fullName ?? "")
                         .font(.title2)
                         .fontWeight(.medium)
@@ -61,7 +61,7 @@ struct ProfileDetailView: View {
                 .listRowBackground(Color(.systemGroupedBackground))
             }
             .listRowInsets(EdgeInsets(top: 16, leading: 0, bottom: 16, trailing: 0))
-            
+
             // Personal Information Section
             Section {
                 if isEditing {
@@ -103,7 +103,7 @@ struct ProfileDetailView: View {
                 .padding(.bottom, 8)
             }
             .listSectionSpacing(24)
-            
+
             // Health Information Section
             Section {
                 if isEditing {
@@ -136,7 +136,7 @@ struct ProfileDetailView: View {
                 .padding(.bottom, 8)
             }
             .listSectionSpacing(24)
-            
+
             // Account Section
             Section {
                 Button(action: {
@@ -153,7 +153,7 @@ struct ProfileDetailView: View {
                             .foregroundColor(Color(.systemGray))
                     }
                 }
-                
+
                 Button(action: {
                     delegate?.logout()
                 }) {
@@ -201,9 +201,9 @@ struct ProfileDetailView: View {
             }
         }
     }
-    
+
     private func initializeEditingValues() {
-        guard let patient = patient else { return }
+        guard let patient else { return }
         editedFullName = patient.fullName ?? ""
         editedEmail = patient.emailAddress ?? ""
         editedDateOfBirth = patient.dateOfBirth
@@ -212,7 +212,7 @@ struct ProfileDetailView: View {
         editedHeight = "\(patient.height)"
         editedWeight = "\(patient.weight)"
     }
-    
+
     private func saveChanges() {
         Task {
             do {
@@ -226,7 +226,7 @@ struct ProfileDetailView: View {
                     "height": Int(editedHeight) ?? 0,
                     "weight": Int(editedWeight) ?? 0
                 ]
-                
+
                 // Call API to update patient
                 if let success = try? await DataController.shared.updatePatient(with: updatedValues) {
                     if success {
@@ -243,12 +243,12 @@ struct ProfileDetailView: View {
             }
         }
     }
-    
+
     private func formatDate(_ date: Date?) -> String {
-        guard let date = date else { return "-" }
+        guard let date else { return "-" }
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
         formatter.timeStyle = .none
         return formatter.string(from: date)
     }
-} 
+}

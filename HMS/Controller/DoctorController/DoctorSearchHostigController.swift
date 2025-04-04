@@ -1,7 +1,37 @@
 import SwiftUI
 
 class DoctorSearchHostigController: UIHostingController<DoctorListView>, UISearchResultsUpdating, UISearchBarDelegate {
-    private var searchWorkItem: DispatchWorkItem?
+
+    // MARK: Lifecycle
+
+    required init?(coder: NSCoder) {
+        super.init(coder: coder, rootView: DoctorListView())
+    }
+
+    // MARK: Internal
+
+    var staffs: [Staff]? = []
+    var starStaff: Staff?
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        prepareSearchController()
+
+        Task {
+            staffs = await DataController.shared.fetchDoctors()
+            starStaff = await DataController.shared.fetchDoctor(bySymptom: "") // Fetch based on symptoms
+            DispatchQueue.main.async {
+                if let starStaff = self.starStaff {
+                    self.rootView.filteredDoctors = [starStaff] + (self.staffs?.filter { $0.id != starStaff.id } ?? [])
+                } else {
+                    self.rootView.filteredDoctors = self.staffs ?? []
+                }
+            }
+        }
+
+        rootView.delegate = self
+    }
 
     func updateSearchResults(for searchController: UISearchController) {
         let searchText = searchController.searchBar.text ?? ""
@@ -42,32 +72,9 @@ class DoctorSearchHostigController: UIHostingController<DoctorListView>, UISearc
         DispatchQueue.global().asyncAfter(deadline: .now() + 0.3, execute: workItem) // Debounce delay of 300ms
     }
 
-    var staffs: [Staff]? = []
-    var starStaff: Staff?
+    // MARK: Private
 
-    required init?(coder: NSCoder) {
-        super.init(coder: coder, rootView: DoctorListView())
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        prepareSearchController()
-
-        Task {
-            staffs = await DataController.shared.fetchDoctors()
-            starStaff = await DataController.shared.fetchDoctor(bySymptom: "") // Fetch based on symptoms
-            DispatchQueue.main.async {
-                if let starStaff = self.starStaff {
-                    self.rootView.filteredDoctors = [starStaff] + (self.staffs?.filter { $0.id != starStaff.id } ?? [])
-                } else {
-                    self.rootView.filteredDoctors = self.staffs ?? []
-                }
-            }
-        }
-
-        self.rootView.delegate = self
-    }
+    private var searchWorkItem: DispatchWorkItem?
 
     private var searchController: UISearchController = .init()
 

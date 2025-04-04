@@ -1,16 +1,21 @@
 import SwiftUI
 
 struct InfoRowView: View {
-    let title: String
-    let value: String
-    let icon: String
-    
+
+    // MARK: Lifecycle
+
     init(title: String, value: String, icon: String = "circle.fill") {
         self.title = title
         self.value = value
         self.icon = icon
     }
-    
+
+    // MARK: Internal
+
+    let title: String
+    let value: String
+    let icon: String
+
     var body: some View {
         HStack(spacing: 12) {
             Image(systemName: icon)
@@ -31,4 +36,4 @@ struct InfoRowView: View {
 #Preview {
     InfoRowView(title: "Sample", value: "Value", icon: "person.fill")
         .padding()
-} 
+}

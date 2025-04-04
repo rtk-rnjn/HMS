@@ -38,10 +38,6 @@ class SignInViewController: UIViewController {
         view.addGestureRecognizer(tapGesture)
     }
 
-    @objc private func dismissKeyboard() {
-        view.endEditing(true)
-    }
-
     @IBAction func textFieldEditingChanged(_ sender: UITextField) {
         signInButton.isEnabled = isValidEmail && isPasswordFilled
     }
@@ -82,6 +78,10 @@ class SignInViewController: UIViewController {
     }
 
     // MARK: Private
+
+    @objc private func dismissKeyboard() {
+        view.endEditing(true)
+    }
 
     private func showAlert(message: String) {
         let alert = Utils.getAlert(title: "Error", message: message)

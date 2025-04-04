@@ -27,6 +27,8 @@ class AppointmentHostingController: UIHostingController<AppointmentView>, UISear
 
     var searchController: UISearchController = .init()
 
+    var appointments: [Appointment] = []
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -52,11 +54,11 @@ class AppointmentHostingController: UIHostingController<AppointmentView>, UISear
         }
 
         if searchText.isEmpty || searchText == "" {
-            self.rootView.appointments = appointments
+            rootView.appointments = appointments
             return
         }
 
-        self.rootView.appointments = appointments.filter {
+        rootView.appointments = appointments.filter {
             $0.doctor?.fullName.lowercased().contains(searchText.lowercased()) ?? true
         }
     }
@@ -78,8 +80,6 @@ class AppointmentHostingController: UIHostingController<AppointmentView>, UISear
             showAppointmentDetails(appointment)
         }
     }
-
-    var appointments: [Appointment] = []
 
     private func loadAppointments() {
         Task {

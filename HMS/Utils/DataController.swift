@@ -278,7 +278,6 @@ class DataController {
         return appointments
     }
 
-
     func fetchAppointments(ofDoctor staff: Staff) async -> [Appointment] {
         let appointments: [Appointment]? = await MiddlewareManager.shared.get(url: "/appointments/\(staff.id)")
         guard let appointments else {
@@ -384,7 +383,7 @@ class DataController {
         guard let id = UserDefaults.standard.string(forKey: "patientId") else {
             return false
         }
-        
+
         // Convert the values to proper types
         var updatedPatient = Patient(
             firstName: (values["fullName"] as? String)?.components(separatedBy: " ").first ?? "",
@@ -398,18 +397,18 @@ class DataController {
             weight: values["weight"] as? Int ?? 0
         )
         updatedPatient.id = id
-        
+
         guard let patientData = updatedPatient.toData() else {
             return false
         }
 
         let response: ServerResponse? = await MiddlewareManager.shared.patch(url: "/patient/\(id)/update", body: patientData)
         let success = response?.success ?? false
-        
+
         if success {
-            self.patient = updatedPatient
+            patient = updatedPatient
         }
-        
+
         return success
     }
 

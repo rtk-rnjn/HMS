@@ -12,14 +12,20 @@ protocol DashboardViewDelegate: AnyObject {
 }
 
 struct Department: Identifiable, Hashable {
-    let id: String = UUID().uuidString
-    let name: String
-    let image: String
+
+    // MARK: Lifecycle
 
     init(name: String, image: String) {
         self.name = name
         self.image = image
     }
+
+    // MARK: Internal
+
+    let id: String = UUID().uuidString
+    let name: String
+    let image: String
+
 }
 
 struct DashboardView: View {
@@ -215,7 +221,7 @@ struct DoctorCard: View {
     let doctor: Staff
     @Environment(\.colorScheme) var colorScheme
     @State private var showingBookAppointment = false
-    
+
     var body: some View {
         VStack(spacing: 0) {
             HStack(spacing: 16) {
@@ -227,28 +233,28 @@ struct DoctorCard: View {
                             .font(.system(size: 32))
                             .foregroundColor(.white)
                     )
-                
+
                 VStack(alignment: .leading, spacing: 4) {
                     Text(doctor.fullName)
                         .font(.system(size: 17, weight: .semibold))
                         .foregroundColor(.primary)
-                    
+
                     Text(doctor.department)
                         .font(.system(size: 15))
                         .foregroundColor(.secondary)
-                    
+
                     Text(doctor.specialization)
                         .font(.system(size: 13))
                         .foregroundColor(.secondary)
                 }
-                
+
                 Spacer()
-                
+
                 VStack(alignment: .trailing, spacing: 4) {
                     Circle()
                         .fill(doctor.onLeave ? Color.orange : Color.green)
                         .frame(width: 10, height: 10)
-                    
+
                     if doctor.onLeave {
                         Text("On Leave")
                             .font(.system(size: 11))
@@ -258,12 +264,12 @@ struct DoctorCard: View {
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 16)
-            
+
             Divider()
                 .padding(.horizontal, 16)
-            
+
             HStack(spacing: 24) {
-                
+
                 NavigationLink(destination: DoctorView(doctor: doctor)) {
                     HStack {
                         Image(systemName: "person.text.rectangle")
@@ -344,7 +350,7 @@ struct QuickActionsSection: View {
                     }
                 }
             }
-            Button("Cancel", role: .cancel) { }
+            Button("Cancel", role: .cancel) {}
         } message: {
             Text("Select emergency service to call")
         }
@@ -357,10 +363,10 @@ struct QuickActionButton: View {
     let subtitle: String
     let color: Color
     let action: () -> Void
-    
+
     @Environment(\.colorScheme) var colorScheme
     @State private var isPressed = false
-    
+
     var body: some View {
         Button(action: {
             withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) {
@@ -378,12 +384,12 @@ struct QuickActionButton: View {
                     .font(.system(size: 24, weight: .medium))
                     .foregroundColor(color)
                     .frame(width: 32, height: 32)
-                
+
                 VStack(alignment: .leading, spacing: 4) {
                     Text(title)
                         .font(.system(size: 17, weight: .semibold))
                         .foregroundColor(.primary)
-                    
+
                     Text(subtitle)
                         .font(.system(size: 13))
                         .foregroundColor(.secondary)
@@ -477,24 +483,6 @@ struct BookAppointmentView: View {
 
 // MARK: - Previews
 struct DashboardView_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationView {
-            DashboardView(
-                departments: sampleDepartments,
-                appointments: sampleAppointments
-            )
-        }
-        .preferredColorScheme(.light)
-        
-        NavigationView {
-            DashboardView(
-                departments: sampleDepartments,
-                appointments: sampleAppointments
-            )
-        }
-        .preferredColorScheme(.dark)
-    }
-    
     // Sample Data
     static var sampleDepartments: [Department] = [
         Department(name: "Dermatology", image: "bandage"),
@@ -502,11 +490,11 @@ struct DashboardView_Previews: PreviewProvider {
         Department(name: "Emergency & Trauma", image: "cross.case"),
         Department(name: "Cardiology", image: "heart")
     ]
-    
+
     static var sampleAppointments: [Appointment] = {
         let calendar = Calendar.current
         let today = Date()
-        
+
         let doctor1 = Staff(
             firstName: "John",
             lastName: "Smith",
@@ -519,7 +507,7 @@ struct DashboardView_Previews: PreviewProvider {
             onLeave: false,
             licenseId: "LIC123456"
         )
-        
+
         let doctor2 = Staff(
             firstName: "Sarah",
             lastName: "Johnson",
@@ -542,7 +530,7 @@ struct DashboardView_Previews: PreviewProvider {
             endDate: calendar.date(byAdding: .hour, value: 3, to: today) ?? today,
             status: .confirmed
         )
-        
+
         let appointment2 = Appointment(
             id: "2",
             patientId: "p1",
@@ -552,39 +540,35 @@ struct DashboardView_Previews: PreviewProvider {
             endDate: calendar.date(byAdding: .hour, value: 5, to: today) ?? today,
             status: .confirmed
         )
-        
+
         return [appointment1, appointment2]
     }()
+
+    static var previews: some View {
+        NavigationView {
+            DashboardView(
+                departments: sampleDepartments,
+                appointments: sampleAppointments
+            )
+        }
+        .preferredColorScheme(.light)
+
+        NavigationView {
+            DashboardView(
+                departments: sampleDepartments,
+                appointments: sampleAppointments
+            )
+        }
+        .preferredColorScheme(.dark)
+    }
+
 }
 
 struct DoctorCard_Previews: PreviewProvider {
-    static var previews: some View {
-        VStack {
-            DoctorCard(doctor: sampleDoctor)
-                .padding()
-            
-            DoctorCard(doctor: sampleDoctorOnLeave)
-                .padding()
-        }
-        .background(Color(.systemGroupedBackground))
-        .previewLayout(.sizeThatFits)
-        
-        VStack {
-            DoctorCard(doctor: sampleDoctor)
-                .padding()
-            
-            DoctorCard(doctor: sampleDoctorOnLeave)
-                .padding()
-        }
-        .background(Color(.systemGroupedBackground))
-        .preferredColorScheme(.dark)
-        .previewLayout(.sizeThatFits)
-    }
-    
     static var sampleDoctor: Staff = {
         let calendar = Calendar.current
         let today = Date()
-        
+
         return Staff(
             firstName: "Rajesh",
             lastName: "Kumar",
@@ -598,11 +582,11 @@ struct DoctorCard_Previews: PreviewProvider {
             licenseId: "MCI123456"
         )
     }()
-    
+
     static var sampleDoctorOnLeave: Staff = {
         let calendar = Calendar.current
         let today = Date()
-        
+
         return Staff(
             firstName: "Priya",
             lastName: "Sharma",
@@ -616,6 +600,30 @@ struct DoctorCard_Previews: PreviewProvider {
             licenseId: "MCI123457"
         )
     }()
+
+    static var previews: some View {
+        VStack {
+            DoctorCard(doctor: sampleDoctor)
+                .padding()
+
+            DoctorCard(doctor: sampleDoctorOnLeave)
+                .padding()
+        }
+        .background(Color(.systemGroupedBackground))
+        .previewLayout(.sizeThatFits)
+
+        VStack {
+            DoctorCard(doctor: sampleDoctor)
+                .padding()
+
+            DoctorCard(doctor: sampleDoctorOnLeave)
+                .padding()
+        }
+        .background(Color(.systemGroupedBackground))
+        .preferredColorScheme(.dark)
+        .previewLayout(.sizeThatFits)
+    }
+
 }
 
 struct QuickActionsSection_Previews: PreviewProvider {
@@ -626,7 +634,7 @@ struct QuickActionsSection_Previews: PreviewProvider {
         }
         .background(Color(.systemGroupedBackground))
         .previewLayout(.sizeThatFits)
-        
+
         VStack {
             QuickActionsSection()
                 .padding()

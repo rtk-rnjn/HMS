@@ -5,7 +5,6 @@
 //  Created by RITIK RANJAN on 03/04/25.
 //
 
-
 import Foundation
 
 struct RazorpayPaymentlinkResponse: Codable, Sendable, Identifiable, Hashable {
@@ -60,4 +59,3 @@ struct RazorpayPayment: Codable, Sendable, Identifiable, Hashable {
     var method: String = "card"
     var status: String = "captured"
 }
-

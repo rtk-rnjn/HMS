@@ -8,6 +8,9 @@
 import SwiftUI
 
 class BillingHostingController: UIHostingController<BillingView> {
+
+    // MARK: Lifecycle
+
     required init?(coder: NSCoder) {
         let billingView = BillingView()
         super.init(coder: coder, rootView: billingView)
@@ -18,8 +21,9 @@ class BillingHostingController: UIHostingController<BillingView> {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.rootView.delegate = self
+        rootView.delegate = self
     }
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 

@@ -218,7 +218,6 @@ struct MedicalRecordsView: View {
                             .font(.largeTitle)
                             .foregroundColor(Color(.iconBlue))
                             .padding()
-                          
 
                         VStack(spacing: 8) {
                             Text("No Records Found")
@@ -462,7 +461,7 @@ struct MedicalRecordsView_Previews: PreviewProvider {
         }
         .preferredColorScheme(.light)
         .environment(\.mockDataController, MockDataController())
-        
+
         NavigationView {
             MedicalRecordsView()
         }
