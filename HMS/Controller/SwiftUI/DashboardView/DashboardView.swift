@@ -252,13 +252,13 @@ struct DoctorCard: View {
 
                 VStack(alignment: .trailing, spacing: 4) {
                     Circle()
-                        .fill(doctor.onLeave ? Color.orange : Color.green)
+                        .fill(doctor.onLeave ? Color("unselectedBlue") : Color("primaryBlue"))
                         .frame(width: 10, height: 10)
 
                     if doctor.onLeave {
                         Text("On Leave")
                             .font(.system(size: 11))
-                            .foregroundColor(.orange)
+                            .foregroundColor(Color("errorBlue"))
                     }
                 }
             }
@@ -322,19 +322,19 @@ struct QuickActionsSection: View {
                 spacing: 16
             ) {
                 QuickActionButton(
-                    icon: "creditcard.fill",
+                    icon: "creditcard",
                     title: "Billing",
-                    subtitle: "View & pay bills",
-                    color: Color("iconBlue"),
+                    subtitle: "View bills",
+                    color: Color("primaryBlue"),
                     action: {
                         delegate?.customPerformSegue(withIdentifier: "segueShowBillingHostingController")
                     }
                 )
                 QuickActionButton(
-                    icon: "cross.case.fill",
+                    icon: "phone.connection",
                     title: "Emergency",
-                    subtitle: "Get immediate help",
-                    color: Color("iconBlue"),
+                    subtitle: "Call national helpline",
+                    color: Color("primaryBlue"),
                     action: {
                         showingEmergencyAlert = true
                     }
@@ -464,9 +464,7 @@ struct BookAppointmentView: View {
     @State private var selectedSpecialization: Department?
     @State private var selectedDate: Date = .init()
 
-    private var canProceed: Bool {
-       selectedDate != nil
-    }
+    private var canProceed: Bool = true
 
    private func navigateToSearch() {
        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,

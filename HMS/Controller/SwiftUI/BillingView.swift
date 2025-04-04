@@ -85,7 +85,7 @@ struct BillingView: View {
                 title: "Total Refunds",
                 amount: totalRefunds,
                 icon: "arrow.counterclockwise.circle.fill",
-                color: .red
+                color: Color("errorBlue")
             )
         }
         .padding(.horizontal)
@@ -164,7 +164,7 @@ struct InvoiceCard: View {
 
                 Text(invoice.payments.first?.status == "captured" ? "Completed" : "Refunded")
                     .font(.subheadline)
-                    .foregroundColor(invoice.payments.first?.status == "captured" ? .green : .red)
+                    .foregroundColor(invoice.payments.first?.status == "captured" ? Color("successBlue") : Color("errorBlue"))
             }
         }
         .padding()

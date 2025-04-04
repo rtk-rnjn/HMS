@@ -97,8 +97,8 @@ struct StatusTag: View {
 
     private var statusColor: Color {
         switch status {
-        case .confirmed: return .green
-        case .completed: return .blue
+        case .confirmed: return Color("successBlue")
+        case .completed: return Color("errorBlue")
         }
     }
 }
@@ -126,7 +126,7 @@ struct LabReportCard: View {
 
             HStack {
                 Circle()
-                    .fill(Color.green)
+                    .fill(Color("errorBlue"))
                     .frame(width: 8, height: 8)
                 Text(status)
                     .font(.footnote)

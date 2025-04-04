@@ -75,21 +75,6 @@ struct AppointmentDetailView: View {
                                 .foregroundColor(Color(UIColor.systemGray))
                         }
                         Spacer()
-                        Divider()
-                            .frame(height: 40)
-                        Spacer()
-                        VStack(spacing: 8) {
-                            Image(systemName: "star.fill")
-                                .font(.title2)
-                                .foregroundColor(customBlue)
-                            Text("4.8")
-                                .font(.title3)
-                                .fontWeight(.bold)
-                            Text("Rating")
-                                .font(.subheadline)
-                                .foregroundColor(Color(UIColor.systemGray))
-                        }
-                        Spacer()
                     }
                     .padding(.vertical, 20)
                     .background(Color.white)
@@ -136,7 +121,7 @@ struct AppointmentDetailView: View {
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(Color.red)
+                        .background(Color("errorBlue"))
                         .cornerRadius(12)
                 }
                 .padding(.horizontal)

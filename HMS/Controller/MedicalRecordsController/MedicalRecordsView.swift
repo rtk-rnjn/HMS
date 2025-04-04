@@ -136,7 +136,7 @@ struct FilterView: View {
                     endDate = Date()
                     selectedType = nil
                 }
-                .foregroundColor(.red)
+                .foregroundColor(Color("errorBlue"))
             }
         }
     }
@@ -434,7 +434,7 @@ struct DatePickerView: View {
                 Button("Cancel") {
                     dismiss()
                 }
-                .foregroundColor(.red)
+                .foregroundColor(Color("errorBlue"))
 
                 Button("Done") {
                     onDateSelected(tempDate)

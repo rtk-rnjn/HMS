@@ -28,5 +28,4 @@ enum AnnouncementCategory: String, Codable, CaseIterable {
     case general = "General"
     case emergency = "Emergency"
     case appointment = "Appointment"
-    case holiday = "Holiday"
 }

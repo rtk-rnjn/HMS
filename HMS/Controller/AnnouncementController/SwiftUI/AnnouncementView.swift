@@ -67,7 +67,6 @@ struct AnnouncementView: View {
         case .general: return Image(systemName: "megaphone.fill")
         case .emergency: return Image(systemName: "exclamationmark.triangle.fill")
         case .appointment: return Image(systemName: "calendar.badge.clock")
-        case .holiday: return Image(systemName: "gift.fill")
         }
     }
 
@@ -76,7 +75,6 @@ struct AnnouncementView: View {
         case .general: return .primaryBlue
         case .emergency: return .airleblue
         case .appointment: return .secondaryBlue
-        case .holiday: return .successBlue
         }
     }
 }
@@ -103,13 +101,6 @@ struct AnnouncementView_Previews: PreviewProvider {
             body: "Dr. Sharma's appointment for tomorrow has been moved to 3 PM",
             createdAt: Calendar.current.date(byAdding: .day, value: -1, to: Date()) ?? Date(),
             category: .appointment
-        ),
-        // This Week
-        Announcement(
-            title: "Diwali Holiday Notice",
-            body: "Hospital will operate with emergency services only on Diwali (14th Nov)",
-            createdAt: Calendar.current.date(byAdding: .day, value: -3, to: Date()) ?? Date(),
-            category: .holiday
         ),
         // Earlier
         Announcement(

@@ -160,9 +160,9 @@ struct ProfileDetailView: View {
                     HStack {
                         Image(systemName: "rectangle.portrait.and.arrow.right")
                             .frame(width: 24)
-                            .foregroundColor(.red)
+                            .foregroundColor(Color("errorBlue"))
                         Text("Logout")
-                            .foregroundColor(.red)
+                            .foregroundColor(Color("errorBlue"))
                         Spacer()
                     }
                 }
@@ -205,7 +205,7 @@ struct ProfileDetailView: View {
     private func initializeEditingValues() {
         guard let patient else { return }
         editedFullName = patient.fullName ?? ""
-        editedEmail = patient.emailAddress ?? ""
+        editedEmail = patient.emailAddress
         editedDateOfBirth = patient.dateOfBirth
         selectedGender = patient.gender.rawValue
         selectedBloodGroup = patient.bloodGroup.rawValue

@@ -142,9 +142,9 @@ struct PaymentStatusCard: View {
 
     private var statusColor: Color {
         if invoice.payments.first?.status == "captured" {
-            return .green
+            return Color("successBlue")
         } else if invoice.payments.first?.status == "refunded" {
-            return .red
+            return Color("errorBlue")
         }
         return .gray
     }

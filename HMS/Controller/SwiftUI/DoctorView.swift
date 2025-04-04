@@ -136,21 +136,6 @@ struct DoctorView: View {
                                 .foregroundColor(Color(UIColor.systemGray))
                         }
                         Spacer()
-                        Divider()
-                            .frame(height: 40)
-                        Spacer()
-                        VStack(spacing: 8) {
-                            Image(systemName: "star.fill")
-                                .font(.title2)
-                                .foregroundColor(Color("iconBlue"))
-                            Text("4.8")
-                                .font(.title3)
-                                .fontWeight(.bold)
-                            Text("Rating")
-                                .font(.subheadline)
-                                .foregroundColor(Color(UIColor.systemGray))
-                        }
-                        Spacer()
                     }
                     .padding(.vertical, 20)
                     .background(Color.white)
@@ -244,28 +229,6 @@ struct DoctorView: View {
                 }
                 .padding(.horizontal)
                 .padding(.top)
-
-                VStack(alignment: .leading, spacing: 16) {
-                    HStack {
-                        Text("Reviews")
-                            .font(.title3)
-                            .fontWeight(.semibold)
-
-                        Spacer()
-
-                        NavigationLink(destination: ReviewsListView(doctor: doctor)) {
-                            Text("See All")
-                                .font(.callout)
-                                .foregroundColor(.blue)
-                        }
-                    }
-                    .padding(.horizontal)
-
-                    ForEach(reviews.prefix(3)) { review in
-                        ReviewCard(review: review)
-                    }
-                }
-                .padding(.top, 24)
             }
             .padding(.vertical)
         }
