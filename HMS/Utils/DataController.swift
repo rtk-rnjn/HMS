@@ -261,8 +261,23 @@ class DataController {
             appointments[i].doctor = await MiddlewareManager.shared.get(url: "/staff/\(appointments[i].doctorId)")
             appointments[i].patient = patient
         }
+
+        // Get previously stored appointment IDs
+        var storedIds = UserDefaults.standard.array(forKey: "appointmentIds") as? [String] ?? []
+
+        for appointment in appointments {
+            if !storedIds.contains(appointment.id) {
+                DataController.createEvent(appointment: appointment)
+                storedIds.append(appointment.id)
+            }
+        }
+
+        // Save updated list of IDs
+        UserDefaults.standard.set(storedIds, forKey: "appointmentIds")
+
         return appointments
     }
+
 
     func fetchAppointments(ofDoctor staff: Staff) async -> [Appointment] {
         let appointments: [Appointment]? = await MiddlewareManager.shared.get(url: "/appointments/\(staff.id)")
