@@ -13,23 +13,27 @@ class DoctorSearchHostigController: UIHostingController<DoctorListView>, UISearc
         searchWorkItem?.cancel() // Cancel previous work item if any
 
         let workItem = DispatchWorkItem {
-            DispatchQueue.main.async {
-                var filteredResults: [Staff] = []
+            Task {
+                let updatedStarStaff = await DataController.shared.fetchDoctor(bySymptom: searchText)
 
-                if searchText.isEmpty {
-                    filteredResults = staffs
-                } else {
-                    filteredResults = staffs.filter {
-                        $0.fullName.lowercased().contains(searchText.lowercased()) ||
-                        $0.department.lowercased().contains(searchText.lowercased()) ||
-                        $0.specialization.lowercased().contains(searchText.lowercased())
+                DispatchQueue.main.async {
+                    var filteredResults: [Staff] = []
+
+                    if searchText.isEmpty {
+                        filteredResults = staffs
+                    } else {
+                        filteredResults = staffs.filter {
+                            $0.fullName.lowercased().contains(searchText.lowercased()) ||
+                            $0.department.lowercased().contains(searchText.lowercased()) ||
+                            $0.specialization.lowercased().contains(searchText.lowercased())
+                        }
                     }
-                }
 
-                if let starStaff = self.starStaff, filteredResults.contains(where: { $0.id == starStaff.id }) == false {
-                    self.rootView.filteredDoctors = [starStaff] + filteredResults
-                } else {
-                    self.rootView.filteredDoctors = filteredResults
+                    if let updatedStarStaff, !filteredResults.contains(where: { $0.id == updatedStarStaff.id }) {
+                        self.rootView.filteredDoctors = [updatedStarStaff] + filteredResults
+                    } else {
+                        self.rootView.filteredDoctors = filteredResults
+                    }
                 }
             }
         }
