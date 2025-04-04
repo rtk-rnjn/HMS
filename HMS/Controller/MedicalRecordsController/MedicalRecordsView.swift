@@ -190,7 +190,7 @@ struct MedicalRecordsView: View {
                         }) {
                             Image(systemName: "line.3.horizontal.decrease.circle")
                                 .font(.title2)
-                                .foregroundColor(hasActiveFilters ? .blue : .gray)
+                                .foregroundColor(hasActiveFilters ? Color("selectedBlue") : Color("unselectedBlue"))
                                 .overlay(
                                     Group {
                                         if !activeFiltersCount.isEmpty {
@@ -216,22 +216,19 @@ struct MedicalRecordsView: View {
                     VStack(spacing: 20) {
                         Image(systemName: "doc.text.magnifyingglass")
                             .font(.largeTitle)
-                            .foregroundColor(Color(.systemGray))
+                            .foregroundColor(Color(.iconBlue))
                             .padding()
-                            .background(
-                                Circle()
-                                    .fill(Color(.systemGray6))
-                                    .frame(width: 100, height: 100)
-                            )
+                          
 
                         VStack(spacing: 8) {
                             Text("No Records Found")
                                 .font(.title3)
-                                .foregroundColor(.primary)
+                                .fontWeight(.semibold)
+                                .foregroundColor(.iconBlue)
 
                             Text("Try adjusting your search or filters")
-                                .font(.callout)
-                                .foregroundColor(Color(.systemGray))
+                                .font(.body)
+                                .foregroundColor(.unselectedBlue)
                                 .multilineTextAlignment(.center)
                         }
                     }
