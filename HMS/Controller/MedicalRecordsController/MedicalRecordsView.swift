@@ -211,8 +211,19 @@ struct MedicalRecordsView: View {
                 .padding(.vertical, 8)
                 .background(Color(.systemBackground))
 
-                if filteredReports.isEmpty {
-
+                if isLoading {
+                    VStack {
+                        Spacer()
+                        ProgressView()
+                            .scaleEffect(1.5)
+                            .padding()
+                        Text("Loading medical records...")
+                            .foregroundColor(.gray)
+                        Spacer()
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .background(Color(.systemGroupedBackground))
+                } else if filteredReports.isEmpty {
                     VStack(spacing: 20) {
                         Image(systemName: "doc.text.magnifyingglass")
                             .font(.largeTitle)
@@ -235,7 +246,6 @@ struct MedicalRecordsView: View {
                     .background(Color(.systemBackground))
                     .transition(.opacity)
                 } else {
-
                     ScrollView {
                         LazyVStack(spacing: 16) {
                             ForEach(filteredReports) { report in
@@ -247,6 +257,9 @@ struct MedicalRecordsView: View {
                         .padding(.vertical, 16)
                     }
                     .background(Color(.systemBackground))
+                    .refreshable {
+                        await loadReports()
+                    }
                 }
             }
         }
@@ -272,21 +285,33 @@ struct MedicalRecordsView: View {
             .presentationDetents([.medium])
         }
         .task {
-            delegate?.loadReports()
+            await loadReports()
         }
-        .refreshable {
-            delegate?.loadReports()
+        .onAppear {
+            // Set up notification observer for report additions
+            setupNotificationObserver()
+            
+            // Force refresh reports from UserDefaults when view appears
+            Task {
+                reports = loadReportsFromUserDefaults()
+            }
+        }
+        .onDisappear {
+            // Remove notification observer when view disappears
+            NotificationCenter.default.removeObserver(notificationToken as Any)
         }
     }
 
     // MARK: Private
 
-    var reports: [MedicalReport] = []
+    @State var reports: [MedicalReport] = []
     @State private var searchText = ""
     @State private var startDate = Calendar.current.date(byAdding: .month, value: -1, to: Date()) ?? Date()
     @State private var endDate: Date = .init()
     @State private var selectedType: String?
     @State private var showingFilterSheet = false
+    @State private var isLoading = false
+    @State private var notificationToken: NSObjectProtocol?
 
     private let reportTypes = [
         "Lab Report",
@@ -326,7 +351,122 @@ struct MedicalRecordsView: View {
     }
 
     private func loadReports() async {
-        delegate?.loadReports()
+        isLoading = true
+        
+        // Load reports from UserDefaults instead of backend
+        reports = loadReportsFromUserDefaults()
+        
+        // Only try to fetch from backend if UserDefaults is empty
+        if reports.isEmpty {
+            if let newReports = await delegate?.fetchReports() {
+                reports = newReports
+                saveReportsToUserDefaults(reports)
+            }
+        }
+        
+        isLoading = false
+    }
+    
+    private func setupNotificationObserver() {
+        // Remove any existing observer
+        if let token = notificationToken {
+            NotificationCenter.default.removeObserver(token)
+        }
+        
+        // Create a new observer without using weak self (MedicalRecordsView is a struct)
+        notificationToken = NotificationCenter.default.addObserver(
+            forName: NSNotification.Name("MedicalReportAdded"),
+            object: nil,
+            queue: .main
+        ) { notification in
+            // Process notification and update reports immediately
+            if let reportData = notification.userInfo?["report"] as? [String: Any],
+               let id = reportData["id"] as? String,
+               let description = reportData["description"] as? String,
+               let type = reportData["type"] as? String,
+               let date = reportData["date"] as? Date {
+                
+                // Create temporary report from notification data
+                let tempReport = MedicalReport(
+                    id: id,
+                    description: description,
+                    date: date,
+                    type: type,
+                    imageData: nil,
+                    status: "Completed"
+                )
+                
+                // Update reports collection immediately on main thread
+                // We're already on main thread from notification center, but being explicit
+                DispatchQueue.main.async {
+                    print("Notification received - updating reports collection with: \(tempReport.id)")
+                    
+                    // Only add if it doesn't already exist
+                    if !self.reports.contains(where: { $0.id == tempReport.id }) {
+                        // Create a new array and insert at beginning for better SwiftUI state handling
+                        var updatedReports = self.reports
+                        updatedReports.insert(tempReport, at: 0)
+                        
+                        // Trigger UI update with animation
+                        withAnimation(.spring()) {
+                            self.reports = updatedReports
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    // Helper to save reports to UserDefaults
+    private func saveReportsToUserDefaults(_ reports: [MedicalReport]) {
+        let encoder = JSONEncoder()
+        encoder.dateEncodingStrategy = .iso8601
+        
+        do {
+            let data = try encoder.encode(reports)
+            UserDefaults.standard.set(data, forKey: "MedicalReportsCache")
+        } catch {
+            print("Failed to save reports to UserDefaults: \(error)")
+        }
+    }
+    
+    // Helper to load reports from UserDefaults
+    private func loadReportsFromUserDefaults() -> [MedicalReport] {
+        guard let data = UserDefaults.standard.data(forKey: "MedicalReportsCache") else {
+            return []
+        }
+        
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        
+        do {
+            let reports = try decoder.decode([MedicalReport].self, from: data)
+            return reports
+        } catch {
+            print("Failed to load reports from UserDefaults: \(error)")
+            return []
+        }
+    }
+    
+    // Helper to merge new reports with existing ones
+    private func mergeAndUpdateReports(_ newReports: [MedicalReport]) {
+        // Create a set of existing IDs for quick lookup
+        let existingIds = Set(reports.map { $0.id })
+        
+        // Add any reports that don't already exist locally
+        var updatedReports = reports
+        for report in newReports {
+            if !existingIds.contains(report.id) {
+                updatedReports.append(report)
+            }
+        }
+        
+        // Sort by date
+        updatedReports.sort { $0.date > $1.date }
+        
+        // Update reports and save to UserDefaults
+        reports = updatedReports
+        saveReportsToUserDefaults(updatedReports)
     }
 
     @Environment(\.mockDataController) private var _mockDataController
