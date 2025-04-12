@@ -207,7 +207,7 @@ struct DoctorView: View {
                             doctorId: doctor.id,
                             doctor: doctor,
                             startDate: startDate,
-                            endDate: startDate.addingTimeInterval(60 * 60)
+                            endDate: startDate.addingTimeInterval(60 * 60), _status: .cancelled
                         )
 
                         let shortURL = await DataController.shared.razorpayBookAppointment(appointment)
