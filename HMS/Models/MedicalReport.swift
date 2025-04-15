@@ -7,7 +7,7 @@
 import Foundation
 import UIKit
 
-struct MedicalReport: Codable, Identifiable {
+struct MedicalReport: Codable, Identifiable, Equatable {
     enum CodingKeys: String, CodingKey {
         case id = "_id"
         case description
@@ -27,5 +27,14 @@ struct MedicalReport: Codable, Identifiable {
     var image: UIImage? {
         guard let data = imageData else { return nil }
         return UIImage(data: data)
+    }
+    
+    // Implement Equatable
+    static func == (lhs: MedicalReport, rhs: MedicalReport) -> Bool {
+        return lhs.id == rhs.id &&
+               lhs.description == rhs.description &&
+               lhs.date == rhs.date &&
+               lhs.type == rhs.type &&
+               lhs.status == rhs.status
     }
 }

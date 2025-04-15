@@ -12,7 +12,6 @@ struct DoctorView: View {
     @State private var selectedDate: Date = Calendar.current.startOfDay(for: Date())
     @State private var selectedTimeSlot: Date = .init()
     @State private var showingBookingSuccess = false
-    @State private var reviews: [Review] = []
     @Environment(\.presentationMode) var presentationMode
 
     let now: Date = .init()
@@ -207,7 +206,8 @@ struct DoctorView: View {
                             doctorId: doctor.id,
                             doctor: doctor,
                             startDate: startDate,
-                            endDate: startDate.addingTimeInterval(60 * 60), _status: .cancelled
+                            endDate: startDate.addingTimeInterval(60 * 60),
+                            _status: .confirmed
                         )
 
                         let shortURL = await DataController.shared.razorpayBookAppointment(appointment)
@@ -284,44 +284,5 @@ struct DoctorView: View {
             day: dateComponents.day,
             hour: timeComponents.hour
         ))
-    }
-}
-
-struct ReviewCard: View {
-    let review: Review
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            HStack {
-
-                VStack(alignment: .leading, spacing: 4) {
-                    Text(review.patientId)
-                        .font(.callout)
-
-                    Text(review.createdAt.formatted(date: .numeric, time: .omitted))
-                        .font(.footnote)
-                        .foregroundColor(.secondary)
-                }
-
-                Spacer()
-
-                HStack(spacing: 4) {
-                    Text(String(format: "%.1f", review.stars))
-                        .font(.callout)
-                    Image(systemName: "star.fill")
-                        .foregroundColor(.yellow)
-                }
-            }
-
-            Text(review.review)
-                .font(.subheadline)
-                .foregroundColor(.secondary)
-                .lineLimit(3)
-        }
-        .padding()
-        .background(Color.white)
-        .cornerRadius(12)
-        .shadow(color: Color.black.opacity(0.05), radius: 8, x: 0, y: 2)
-        .padding(.horizontal)
     }
 }
